@@ -5,7 +5,7 @@
 ## Login   <wilmot_g@epitech.net>
 ##
 ## Started on  Mon May 16 23:28:34 2016 guillaume wilmot
-## Last update Mon May 16 23:33:32 2016 guillaume wilmot
+## Last update Mon May 16 23:36:49 2016 guillaume wilmot
 ##
 
 SRCCOM	= create_socket.c	\
@@ -33,15 +33,15 @@ NAMECLI = client
 
 OBJSER	= serv/obj/
 SRCSERD	= serv/src/
-INCSER	= -I serv/inc/
+INCS	= -I serv/inc/
 
 OBJCLI	= cli/obj/
 SRCCLID	= cli/src/
-INCCLI	= -I cli/inc/
+INCS	+= -I cli/inc/
 
 OBJCOM	= common/obj/
 SRCCOMD	= common/src/
-INCCOM	= -I common/inc/
+INCS	+= -I common/inc/
 
 COMOBJ	= common/obj
 SEROBJ	= serv/obj
@@ -51,15 +51,15 @@ CFLAGS	= -W -Wall -Wextra -Werror
 
 $(OBJSER)%.o: $(SRCSERD)%.c
 	@mkdir -p $(SEROBJ)
-	$(CC) $(CFLAGS) $(INCSER) -o $@ -c $<
+	$(CC) $(CFLAGS) $(INCS) -o $@ -c $<
 
 $(OBJCLI)%.o: $(SRCCLID)%.c
 	@mkdir -p $(CLIOBJ)
-	$(CC) $(CFLAGS) $(INCCLI) -o $@ -c $<
+	$(CC) $(CFLAGS) $(INCS) -o $@ -c $<
 
 $(OBJCOM)%.o: $(SRCCOMD)%.c
 	@mkdir -p $(COMOBJ)
-	$(CC) $(CFLAGS) $(INCCOM) -o $@ -c $<
+	$(CC) $(CFLAGS) $(INCS) -o $@ -c $<
 
 all:
 	@make --no-print-directory $(NAMESER)
