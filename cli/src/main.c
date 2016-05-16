@@ -5,10 +5,53 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 11:36:21 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 16 16:36:08 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 16 23:29:29 2016 Nyrandone Noboud-Inpeng
 */
+
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "client.h"
+
+static void		init_code(char **code)
+{
+  code[0] = "/server";
+  code[1] = "/nick";
+  code[2] = "/list";
+  code[3] = "/join";
+  code[4] = "/part";
+  code[5] = "/users";
+  code[6] = "/msg";
+  code[7] = "/sendfile";
+  code[8] = "/accept_file";
+  code[9] = NULL;
+}
+
+static void		init_ptrfunc(int (**func)(void))
+{
+  func[0] = &server;
+  func[1] = &nick;
+  func[2] = &list;
+  func[3] = &join;
+  func[4] = &part;
+  func[5] = &users;
+  func[6] = &msg;
+  func[7] = &sendfile;
+  func[8] = &acceptfile;
+  func[9] = NULL;
+}
 
 int		main()
 {
+  char		*code[10];
+  int		(*func[10])(void);
+  char		*buffer;
+
+  init_code(code);
+  init_ptrfunc(func);
+  while ((buffer = get_next_line(0)))
+    {
+      buffer ? free(buffer) : 0;
+    }
   return (0);
 }

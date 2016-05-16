@@ -5,7 +5,7 @@
 ## Login   <noboud_n@epitech.net>
 ##
 ## Started on  Mon Feb 23 11:58:39 2015 Nyrandone Noboud-Inpeng
-## Last update Mon May 16 19:30:33 2016 Nyrandone Noboud-Inpeng
+## Last update Mon May 16 23:30:50 2016 Nyrandone Noboud-Inpeng
 ##
 
 SRCSER	= channels.c	\
@@ -13,14 +13,24 @@ SRCSER	= channels.c	\
 	  management.c	\
 	  users.c
 
-SRCCLI	= main.c
+SRCCLI	= acceptfile.c		\
+	  get_next_line.c	\
+	  join.c		\
+	  list.c		\
+	  main.c		\
+	  msg.c			\
+	  nick.c		\
+	  part.c		\
+	  sendfile.c		\
+	  server.c		\
+	  users.c
 
 OBJS	= $(addprefix $(OBJSER), $(SRCSER:.c=.o))
 OBJC	= $(addprefix $(OBJCLI), $(SRCCLI:.c=.o))
 
 RM	= rm -f
 
-CC	= cc
+CC	= cc -g
 
 NAMESER	= server
 NAMECLI = client
