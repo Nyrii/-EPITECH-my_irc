@@ -5,10 +5,12 @@
 ## Login   <noboud_n@epitech.net>
 ##
 ## Started on  Mon Feb 23 11:58:39 2015 Nyrandone Noboud-Inpeng
-## Last update Mon May 16 11:40:23 2016 Nyrandone Noboud-Inpeng
+## Last update Mon May 16 19:08:23 2016 Nyrandone Noboud-Inpeng
 ##
 
-SRCSER	= main.c
+SRCSER	= channels.c	\
+	  main.c	\
+	  management.c
 
 SRCCLI	= main.c
 

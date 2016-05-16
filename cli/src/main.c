@@ -5,10 +5,10 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 11:36:21 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 16 11:36:34 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 16 16:36:08 2016 Nyrandone Noboud-Inpeng
 */
 
-int	main()
+int		main()
 {
   return (0);
 }
