@@ -5,10 +5,14 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:23:39 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 16 23:23:43 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 16 23:58:28 2016 Nyrandone Noboud-Inpeng
 */
 
-int		users()
+#include "socket.h"
+
+int		users(char *command, t_socket *socket)
 {
+  (void)command;
+  (void)socket;
   return (0);
 }

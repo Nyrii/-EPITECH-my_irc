@@ -5,13 +5,15 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 11:36:21 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 16 23:29:29 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 16 23:58:52 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "client.h"
+#include "socket.h"
 
 static void		init_code(char **code)
 {
@@ -27,7 +29,7 @@ static void		init_code(char **code)
   code[9] = NULL;
 }
 
-static void		init_ptrfunc(int (**func)(void))
+static void		init_ptrfunc(int (**func)(char *, t_socket *))
 {
   func[0] = &server;
   func[1] = &nick;
@@ -44,13 +46,28 @@ static void		init_ptrfunc(int (**func)(void))
 int		main()
 {
   char		*code[10];
-  int		(*func[10])(void);
+  int		(*func[10])(char *, t_socket *);
   char		*buffer;
+  char		*command;
+  t_socket	*socket;
+  int		i;
 
   init_code(code);
   init_ptrfunc(func);
+  socket = NULL;
+  i = 0;
   while ((buffer = get_next_line(0)))
     {
+      i = 0;
+      command = strtok(buffer, " ");
+      while (code[i] != NULL)
+	{
+	  if (!strcmp(code[i], command))
+	    {
+	      if (func[i](strtok(NULL, ""), socket) == -1)
+		return (-1);
+	    }
+	}
       buffer ? free(buffer) : 0;
     }
   return (0);
