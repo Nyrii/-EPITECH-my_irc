@@ -1,22 +1,28 @@
 ##
-## Makefile for minitalk in /media/blinux/noboud_n/rendu/PSU_2014_minitalk
+## Makefile for myirc in /home/wilmot_g/Rendu/PSU_2015_myirc
 ##
-## Made by Nyrandone Noboud-Inpeng
-## Login   <noboud_n@epitech.net>
+## Made by guillaume wilmot
+## Login   <wilmot_g@epitech.net>
 ##
-## Started on  Mon Feb 23 11:58:39 2015 Nyrandone Noboud-Inpeng
-## Last update Mon May 16 19:30:33 2016 Nyrandone Noboud-Inpeng
+## Started on  Mon May 16 23:28:34 2016 guillaume wilmot
+## Last update Mon May 16 23:33:32 2016 guillaume wilmot
 ##
 
-SRCSER	= channels.c	\
-	  main.c	\
-	  management.c	\
+SRCCOM	= create_socket.c	\
+	  errors.c		\
+	  sockets.c
+
+SRCSER	= channels.c		\
+	  main.c		\
+	  management.c		\
 	  users.c
 
 SRCCLI	= main.c
 
-OBJS	= $(addprefix $(OBJSER), $(SRCSER:.c=.o))
-OBJC	= $(addprefix $(OBJCLI), $(SRCCLI:.c=.o))
+OBJS	=  $(addprefix $(OBJSER), $(SRCSER:.c=.o))
+OBJC	=  $(addprefix $(OBJCLI), $(SRCCLI:.c=.o))
+OBJS	+= $(addprefix $(OBJCOM), $(SRCCOM:.c=.o))
+OBJC	+= $(addprefix $(OBJCOM), $(SRCCOM:.c=.o))
 
 RM	= rm -f
 
@@ -33,6 +39,11 @@ OBJCLI	= cli/obj/
 SRCCLID	= cli/src/
 INCCLI	= -I cli/inc/
 
+OBJCOM	= common/obj/
+SRCCOMD	= common/src/
+INCCOM	= -I common/inc/
+
+COMOBJ	= common/obj
 SEROBJ	= serv/obj
 CLIOBJ	= cli/obj
 
@@ -45,6 +56,10 @@ $(OBJSER)%.o: $(SRCSERD)%.c
 $(OBJCLI)%.o: $(SRCCLID)%.c
 	@mkdir -p $(CLIOBJ)
 	$(CC) $(CFLAGS) $(INCCLI) -o $@ -c $<
+
+$(OBJCOM)%.o: $(SRCCOMD)%.c
+	@mkdir -p $(COMOBJ)
+	$(CC) $(CFLAGS) $(INCCOM) -o $@ -c $<
 
 all:
 	@make --no-print-directory $(NAMESER)

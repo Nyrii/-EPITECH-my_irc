@@ -5,13 +5,13 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May  2 11:06:34 2016 guillaume wilmot
-** Last update Thu May  5 23:58:17 2016 guillaume wilmot
+** Last update Mon May 16 23:32:48 2016 guillaume wilmot
 */
 
 #include <unistd.h>
 #include <stdlib.h>
-#include "server.h"
 #include "errors.h"
+#include "socket.h"
 
 int			connect_socket(t_socket *this)
 {
