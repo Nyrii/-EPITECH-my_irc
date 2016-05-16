@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 11:36:21 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 16 23:58:52 2016 Nyrandone Noboud-Inpeng
+** Last update Tue May 17 00:53:25 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <fcntl.h>
@@ -54,18 +54,18 @@ int		main()
 
   init_code(code);
   init_ptrfunc(func);
-  socket = NULL;
-  i = 0;
+  if ((socket = create_socket()) == NULL)
+    return (-1);
   while ((buffer = get_next_line(0)))
     {
-      i = 0;
+      i = -1;
       command = strtok(buffer, " ");
-      while (code[i] != NULL)
+      while (code[++i] != NULL)
 	{
 	  if (!strcmp(code[i], command))
 	    {
 	      if (func[i](strtok(NULL, ""), socket) == -1)
-		return (-1);
+		return (socket->fd != -1 ? close_socket(socket) : -1);
 	    }
 	}
       buffer ? free(buffer) : 0;
