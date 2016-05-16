@@ -5,12 +5,14 @@
 ## Login   <wilmot_g@epitech.net>
 ##
 ## Started on  Mon May 16 23:28:34 2016 guillaume wilmot
-## Last update Mon May 16 23:39:29 2016 guillaume wilmot
+## Last update Tue May 17 01:14:37 2016 guillaume wilmot
 ##
 
-SRCCOM	= create_socket.c	\
+SRCCOM	= create_list.c		\
+	  create_socket.c	\
 	  errors.c		\
 	  get_next_line.c	\
+	  list.c		\
 	  sockets.c
 
 SRCSER	= channels.c		\
