@@ -5,14 +5,19 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:22:48 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 16 23:58:21 2016 Nyrandone Noboud-Inpeng
+** Last update Tue May 17 01:08:15 2016 Nyrandone Noboud-Inpeng
 */
 
+#include <string.h>
+#include <unistd.h>
 #include "socket.h"
+#include "errors.h"
 
 int		nick(char *command, t_socket *socket)
 {
-  (void)command;
-  (void)socket;
+  if (socket->fd == -1)
+    return (puterr_int(ERR_FD, -2));
+  if (write(socket->fd, command, strlen(command)) == -1)
+    return (puterr_int(ERR_WRITE, -1));
   return (0);
 }
