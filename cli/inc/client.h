@@ -5,11 +5,13 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:24:52 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 16 23:28:14 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 16 23:54:38 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef CLIENT_H_
 # define CLIENT_H_
+
+# include "socket.h"
 
 /*
 ** get_next_line.c
@@ -19,46 +21,46 @@ char		*get_next_line(const int);
 /*
 ** acceptfile.c
 */
-int		acceptfile();
+int		acceptfile(char *, t_socket *);
 
 /*
 ** join.c
 */
-int		join();
+int		join(char *, t_socket *);
 
 /*
 ** list.c
 */
-int		list();
+int		list(char *, t_socket *);
 
 /*
 ** msg.c
 */
-int		msg();
+int		msg(char *, t_socket *);
 
 /*
 ** nick.c
 */
-int		nick();
+int		nick(char *, t_socket *);
 
 /*
 ** part.c
 */
-int		part();
+int		part(char *, t_socket *);
 
 /*
 ** sendfile.c
 */
-int		sendfile();
+int		sendfile(char *, t_socket *);
 
 /*
 ** server.c
 */
-int		server();
+int		server(char *, t_socket *);
 
 /*
 ** users.c
 */
-int		users();
+int		users(char *, t_socket *);
 
 #endif /* !CLIENT_H_ */

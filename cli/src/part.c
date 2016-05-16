@@ -5,10 +5,19 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:23:30 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 16 23:23:33 2016 Nyrandone Noboud-Inpeng
+** Last update Tue May 17 01:11:44 2016 Nyrandone Noboud-Inpeng
 */
 
-int		part()
+#include <string.h>
+#include <unistd.h>
+#include "socket.h"
+#include "errors.h"
+
+int		part(char *command, t_socket *socket)
 {
+  if (socket->fd == -1)
+    return (puterr_int(ERR_FD, -2));
+  if (write(socket->fd, command, strlen(command)) == -1)
+    return (puterr_int(ERR_WRITE, -1));
   return (0);
 }

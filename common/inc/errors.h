@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May  2 11:18:44 2016 guillaume wilmot
-** Last update Fri May  6 13:15:21 2016 guillaume wilmot
+** Last update Tue May 17 01:08:08 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef ERRORS_H_
@@ -28,6 +28,7 @@
 # define ERR_STAT		"Error: stat failed\n"
 # define ERR_SENDFILE		"Error: sendfile failed\n"
 # define ERR_MEMSET		"Error: memset failed\n"
+# define ERR_FD			"Error: aborted an action. (fd not set)\n"
 
 int		puterr_int(const char *, int);
 void		*puterr(const char *, void *);
