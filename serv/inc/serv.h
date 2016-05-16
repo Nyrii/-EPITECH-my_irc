@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 16 19:18:12 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 16 19:36:32 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -44,5 +44,6 @@ int			removeUserFromChannel(t_channel *, const char *);
 ** users.c
 */
 void			removeUser(t_users *, const char *);
+void			freeUsers(t_users *);
 
 #endif /* SERV_H_ */
