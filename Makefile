@@ -5,11 +5,12 @@
 ## Login   <wilmot_g@epitech.net>
 ##
 ## Started on  Mon May 16 23:28:34 2016 guillaume wilmot
-## Last update Mon May 16 23:36:49 2016 guillaume wilmot
+## Last update Mon May 16 23:39:29 2016 guillaume wilmot
 ##
 
 SRCCOM	= create_socket.c	\
 	  errors.c		\
+	  get_next_line.c	\
 	  sockets.c
 
 SRCSER	= channels.c		\
@@ -17,7 +18,16 @@ SRCSER	= channels.c		\
 	  management.c		\
 	  users.c
 
-SRCCLI	= main.c
+SRCCLI	= acceptfile.c		\
+	  join.c		\
+	  list.c		\
+	  main.c		\
+	  msg.c			\
+	  nick.c		\
+	  part.c		\
+	  sendfile.c		\
+	  server.c		\
+	  users.c
 
 OBJS	=  $(addprefix $(OBJSER), $(SRCSER:.c=.o))
 OBJC	=  $(addprefix $(OBJCLI), $(SRCCLI:.c=.o))
@@ -26,7 +36,7 @@ OBJC	+= $(addprefix $(OBJCOM), $(SRCCOM:.c=.o))
 
 RM	= rm -f
 
-CC	= cc
+CC	= cc -g
 
 NAMESER	= server
 NAMECLI = client
