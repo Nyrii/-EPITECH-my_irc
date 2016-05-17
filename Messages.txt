@@ -1,0 +1,64 @@
+ERR_UNKNOWNCOMMAND "421 <command> :Unknown command\r\n"
+ERR_NEEDMOREPARAMS "461 <command> :Not enough parameters\r\n"
+
+
+
+SERVER:
+ERR_NOSUCHSERVER "402 <server name> :No such server"
+
+
+
+NICKNAME :
+ERR_NICKNAMEINUSE "433 <nick> :Nickname is already in use\r\n"
+ERR_ERRONEUSNICKNAME "432 <nick> :Erroneus nickname\r\n"
+RPL_NONE "300 Command okay\r\n"
+
+
+
+LIST:
+RPL_LISTSTART "321 Channel : Users Name\r\n"
+RPL_LIST "322 <channel> <# visible> :<topic>\r\n"
+RPL_LISTEND "323 :End of /LIST\r\n"
+ERR_NOSUCHCHANNEL "403 <channel name> :No such channel\r\n"
+004 Channels have not been created yet //TMP
+005 Channel does not exist // TMP
+006 Channel have been listed // TMP*
+*TMP: where are the errors messages for LIST ?
+
+
+
+JOIN:
+ERR_USERONCHANNEL "443 <user> <channel> :is already on channel\r\n"
+// ELLE EST OU LA REPONSE SI JAMAIS IL A JOIN UN CHANNEL PUTAIN
+007 Channel created // TMP
+008 Channel could not be created // TMP
+
+
+
+USERS:
+RPL_USERSSTART "392 :UserID Terminal Host\r\n"
+
+RPL_USERS "393 :%-8s %-9s %-8s\r\n"
+OR
+RPL_NOUSERS "395 :Nobody logged in\r\n"
+
+RPL_ENDOFUSERS "394 :End of users\r\n"
+
+
+MSG (for all):
+// Quel message si le message a ete transmis ? si le message n'a pas pu etre transmis ?
+
+PRIVMSG:
+ERR_NOSUCHNICK "401 <nickname> :No such nick/channel\r\n"
+ERR_NONICKNAMEGIVEN "431 :No nickname given\r\n" // left the argument
+// Quel message si le message a ete transmis ?
+
+MSG (to a channel):
+ERR_NOSUCHCHANNEL "403 <channel name> :No such channel\r\n"
+// Quel message si le message a ete transmis ?
+
+SENDFILE:
+// ?? n'existe pas
+
+ACCEPTFILE:
+// ?? n'existe pas
