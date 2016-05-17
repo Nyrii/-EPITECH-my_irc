@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:22:26 2016 Nyrandone Noboud-Inpeng
-** Last update Tue May 17 00:51:05 2016 Nyrandone Noboud-Inpeng
+** Last update Tue May 17 09:31:54 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
@@ -32,5 +32,6 @@ int		server(char *command, t_socket *socket)
       return (-1);
   if (connect_socket(socket) == -1)
     return (-2);
+  printf("Connected to %s:%d\n", ip, port == NULL ? 6667 : atoi(port));
   return (0);
 }

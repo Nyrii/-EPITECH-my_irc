@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May  2 13:54:29 2016 guillaume wilmot
-** Last update Wed May  4 13:50:45 2016 guillaume wilmot
+** Last update Tue May 17 09:26:23 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -35,6 +35,7 @@ int			close_socket(t_socket *this)
 {
   if (close(this->fd) == -1)
     return (puterr_int(ERR_CLOSE, -1));
+  this->fd = -1;
   return (0);
 }
 
