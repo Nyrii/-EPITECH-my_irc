@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:40:24 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 16 18:44:43 2016 Nyrandone Noboud-Inpeng
+** Last update Wed May 18 13:22:15 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -29,7 +29,6 @@ t_channel		*createNewChannel(const char *name)
     }
   newChannel->users = NULL;
   newChannel->name = name;
-  newChannel->next = NULL;
   return (newChannel);
 }
 

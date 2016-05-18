@@ -5,25 +5,25 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 16 19:36:32 2016 Nyrandone Noboud-Inpeng
+** Last update Wed May 18 13:20:54 2016 guillaume wilmot
 */
 
 #ifndef SERV_H_
 # define SERV_H_
+
+# include "list.h"
 
 typedef struct		s_users
 {
   int			fd;
   char			*name;
   char			*channelname;
-  struct s_users	*next;
 }			t_users;
 
 typedef struct		s_channel
 {
   const char		*name;
-  t_users		*users;
-  struct s_channel	*next;
+  t_list		*users;
 }			t_channel;
 
 /*

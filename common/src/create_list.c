@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May 16 23:49:10 2016 guillaume wilmot
-** Last update Wed May 18 12:38:45 2016 guillaume wilmot
+** Last update Wed May 18 19:53:17 2016 guillaume wilmot
 */
 
 #include <unistd.h>
@@ -15,6 +15,7 @@
 
 t_list		*create_list(void *struc, t_list *old)
 {
+  static int	i = 0;
   t_list	*list;
 
   if (!(list = malloc(sizeof(*list))) ||
@@ -29,13 +30,16 @@ t_list		*create_list(void *struc, t_list *old)
   list->next = NULL;
   list->prev = NULL;
   list->push_back = &push_back_list;
+  list->push_front = &push_front_list;
+  list->pop_back = &pop_back_list;
+  list->pop_front = &pop_front_list;
   list->insert_at = &insert_at_list;
   list->make_circular = &make_circular_list;
   list->destroy = &destroy_list;
   list->get_nth = &get_nth_list;
   list->delete_nth = &delete_nth_list;
   list->get_size = &get_size_list;
-  return (list);
+  return (list->id = i++, list);
 }
 
 void		destroy_list(t_list *this)
@@ -63,21 +67,14 @@ void		destroy_list(t_list *this)
 t_list		*delete_nth_list(t_list *this, unsigned int n)
 {
   t_list	*tmp;
-  t_list	*ret;
   unsigned int	i;
 
   if (!this || !(tmp = *this->first))
     return (NULL);
   if (!n)
-    {
-      tmp->next ? tmp->next->prev = tmp->prev : 0;
-      tmp->prev ? tmp->prev->next = tmp->next : 0;
-      *this->first = tmp->next;
-      ret = *this->first;
-      free(tmp->struc);
-      free(tmp);
-      return ((*ret->size)--, ret);
-    }
+    return (pop_front_list(this));
+  if (n >= *this->size)
+    return (pop_back_list(this));
   i = -1;
   while (tmp && ++i < n)
     if (!(tmp = tmp->next))
