@@ -5,7 +5,7 @@
 ## Login   <wilmot_g@epitech.net>
 ##
 ## Started on  Mon May 16 23:28:34 2016 guillaume wilmot
-## Last update Wed May 18 11:30:23 2016 Nyrandone Noboud-Inpeng
+## Last update Wed May 18 18:19:27 2016 Nyrandone Noboud-Inpeng
 ##
 
 SRCCOM	= create_list.c		\
@@ -15,9 +15,16 @@ SRCCOM	= create_list.c		\
 	  list.c		\
 	  sockets.c
 
-SRCSER	= channels.c		\
+SRCSER	= acceptfile.c		\
+	  functionptr.c		\
+	  join.c		\
+	  list.c		\
 	  main.c		\
-	  management.c		\
+	  msg.c			\
+	  nick.c		\
+	  part.c		\
+	  sendfile.c		\
+	  server_sockets.c	\
 	  users.c
 
 SRCCLI	= acceptfile.c		\
