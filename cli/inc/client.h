@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:24:52 2016 Nyrandone Noboud-Inpeng
-** Last update Wed May 18 14:30:34 2016 Nyrandone Noboud-Inpeng
+** Last update Wed May 18 20:12:01 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef CLIENT_H_
@@ -26,7 +26,7 @@ typedef struct		s_data
 /*
 ** acceptfile.c
 */
-int		acceptfile(char *, t_socket *);
+int		accept_file(char *, t_socket *);
 
 /*
 ** circularbuffer.c
@@ -67,7 +67,7 @@ int		part(char *, t_socket *);
 /*
 ** sendfile.c
 */
-int		sendfile(char *, t_socket *);
+int		send_file(char *, t_socket *);
 
 /*
 ** server.c

@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:23:30 2016 Nyrandone Noboud-Inpeng
-** Last update Tue May 17 09:36:04 2016 Nyrandone Noboud-Inpeng
+** Last update Wed May 18 20:11:19 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <string.h>
@@ -15,9 +15,7 @@
 
 int		part(char *command, t_socket *socket)
 {
-  if (socket->fd == -1)
-    return (puterr_int(ERR_FD, -2));
-  if (write(socket->fd, command, sizeof(command)) == -1)
-    return (puterr_int(ERR_WRITE, -2));
+  (void)command;
+  (void)socket;
   return (0);
 }

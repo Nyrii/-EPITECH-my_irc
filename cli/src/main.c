@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 11:36:21 2016 Nyrandone Noboud-Inpeng
-** Last update Wed May 18 14:33:39 2016 Nyrandone Noboud-Inpeng
+** Last update Wed May 18 20:12:33 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <fcntl.h>
@@ -27,7 +27,7 @@ void		init_code(char **code)
   code[4] = "/part";
   code[5] = "/users";
   code[6] = "/msg";
-  code[7] = "/sendfile";
+  code[7] = "/send_file";
   code[8] = "/accept_file";
   code[9] = NULL;
 }
@@ -41,8 +41,8 @@ void		init_ptrfunc(int (**func)(char *, t_socket *))
   func[4] = &part;
   func[5] = &users;
   func[6] = &msg;
-  func[7] = &sendfile;
-  func[8] = &acceptfile;
+  func[7] = &send_file;
+  func[8] = &accept_file;
   func[9] = NULL;
 }
 

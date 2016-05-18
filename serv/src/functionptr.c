@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 16:26:39 2016 Nyrandone Noboud-Inpeng
-** Last update Wed May 18 18:42:59 2016 Nyrandone Noboud-Inpeng
+** Last update Wed May 18 20:09:30 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -36,8 +36,8 @@ static void		init_ptrfunc(int (**func)(int, char *,
   func[3] = &part;
   func[4] = &users;
   func[5] = &msg;
-  func[6] = &sendfile;
-  func[7] = &acceptfile;
+  func[6] = &send_file;
+  func[7] = &accept_file;
   func[8] = NULL;
 }
 
@@ -58,7 +58,8 @@ int			process(t_processdata *pdata, t_socket *socket,
     {
       if (!strcmp(code[i], function_to_call))
 	{
-	  if ((func[i](pdata->fd, strtok(pdata->command, ""), channels, users)) == -1)
+	  if ((func[i](pdata->fd, strtok(pdata->command, "\r\n"),
+		       channels, users)) == -1)
 	    return (socket->fd != -1 ? close_socket(socket) : -1);
 	}
     }

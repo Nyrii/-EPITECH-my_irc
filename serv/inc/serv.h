@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Wed May 18 18:39:31 2016 Nyrandone Noboud-Inpeng
+** Last update Wed May 18 20:09:16 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -37,7 +37,7 @@ typedef struct		s_udata
 /*
 ** acceptfile.c
 */
-int		acceptfile(int, char *, t_list *, t_list *);
+int		accept_file(int, char *, t_list *, t_list *);
 
 /*
 ** join.c
@@ -67,7 +67,7 @@ int		part(int, char *, t_list *, t_list *);
 /*
 ** sendfile.c
 */
-int		sendfile(int, char *, t_list *, t_list *);
+int		send_file(int, char *, t_list *, t_list *);
 
 /*
 ** server.c
