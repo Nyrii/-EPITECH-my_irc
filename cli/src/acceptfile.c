@@ -5,12 +5,12 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:24:15 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 16 23:55:53 2016 Nyrandone Noboud-Inpeng
+** Last update Wed May 18 20:10:30 2016 Nyrandone Noboud-Inpeng
 */
 
 #include "socket.h"
 
-int		acceptfile(char *command, t_socket *socket)
+int		accept_file(char *command, t_socket *socket)
 {
   (void)command;
   (void)socket;

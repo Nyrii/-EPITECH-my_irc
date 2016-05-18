@@ -5,7 +5,7 @@
 ## Login   <wilmot_g@epitech.net>
 ##
 ## Started on  Mon May 16 23:28:34 2016 guillaume wilmot
-## Last update Wed May 18 19:31:52 2016 guillaume wilmot
+## Last update Wed May 18 20:25:13 2016 guillaume wilmot
 ##
 
 SRCCOM	= create_list.c		\
@@ -20,9 +20,20 @@ SRCCOM	= create_list.c		\
 # management.c		\
 # users.c
 
-SRCSER	= main.c		\
+SRCSER	= acceptfile.c		\
+	  functionptr.c		\
+	  join.c		\
+	  list.c		\
+	  main.c		\
+	  msg.c			\
+	  nick.c		\
+	  part.c		\
+	  sendfile.c		\
+	  server_sockets.c	\
+	  users.c
 
 SRCCLI	= acceptfile.c		\
+	  circularbuffer.c	\
 	  join.c		\
 	  list.c		\
 	  main.c		\

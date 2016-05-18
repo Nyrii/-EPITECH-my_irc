@@ -5,45 +5,78 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Wed May 18 13:20:54 2016 guillaume wilmot
+** Last update Wed May 18 20:20:44 2016 guillaume wilmot
 */
 
 #ifndef SERV_H_
 # define SERV_H_
 
+# define UNUSED __attribute__((unused))
+
 # include "list.h"
 
-typedef struct		s_users
+typedef struct		s_processdata
 {
   int			fd;
-  char			*name;
-  char			*channelname;
-}			t_users;
+  char			*command;
+}			t_processdata;
 
-typedef struct		s_channel
+typedef struct		s_cdata
 {
   const char		*name;
   t_list		*users;
-}			t_channel;
+}			t_cdata;
+
+typedef struct		s_udata
+{
+  int			fd;
+  char			*name;
+  char			*current_channel;
+}			t_udata;
 
 /*
-** channels.c
+** acceptfile.c
 */
-t_channel		*createNewChannel(const char *);
-int			addChannel(t_channel *, t_channel *);
-void			freeChannel(t_channel *, const char *);
-void			freeChannels(t_channel *);
+int		accept_file(int, char *, t_list *, t_list *);
 
 /*
-** management.c
+** join.c
 */
-int			addUserToChannel(t_channel *, t_users *);
-int			removeUserFromChannel(t_channel *, const char *);
+int		join(int, char *, t_list *, t_list *);
+
+/*
+** list.c
+*/
+int		list(int, char *, t_list *, t_list *);
+
+/*
+** msg.c
+*/
+int		msg(int, char *, t_list *, t_list *);
+
+/*
+** nick.c
+*/
+int		nick(int, char *, t_list *, t_list *);
+
+/*
+** part.c
+*/
+int		part(int, char *, t_list *, t_list *);
+
+/*
+** sendfile.c
+*/
+int		send_file(int, char *, t_list *, t_list *);
+
+/*
+** server.c
+*/
+int		server(int, char *, t_list *, t_list *);
 
 /*
 ** users.c
 */
-void			removeUser(t_users *, const char *);
-void			freeUsers(t_users *);
+int		users(int, char *, t_list *, t_list *);
 
 #endif /* SERV_H_ */

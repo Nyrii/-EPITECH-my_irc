@@ -5,12 +5,12 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:24:02 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 16 23:58:24 2016 Nyrandone Noboud-Inpeng
+** Last update Wed May 18 20:10:27 2016 Nyrandone Noboud-Inpeng
 */
 
 #include "socket.h"
 
-int		sendfile(char *command, t_socket *socket)
+int		send_file(char *command, t_socket *socket)
 {
   (void)command;
   (void)socket;
