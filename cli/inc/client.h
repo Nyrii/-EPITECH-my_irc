@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:24:52 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 16 23:54:38 2016 Nyrandone Noboud-Inpeng
+** Last update Wed May 18 14:30:34 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef CLIENT_H_
@@ -13,15 +13,31 @@
 
 # include "socket.h"
 
-/*
-** get_next_line.c
-*/
-char		*get_next_line(const int);
+# define PACKETSIZE 128 /* A check, au moins 128 */
+# define BUFSIZE ((PACKETSIZE - 33) * 100)
+
+typedef struct		s_data
+{
+  char			size;
+  char			name[32];
+  char			message[PACKETSIZE - 33];
+}			t_data;
 
 /*
 ** acceptfile.c
 */
 int		acceptfile(char *, t_socket *);
+
+/*
+** circularbuffer.c
+*/
+// t_circular	*createFirstNode(char *);
+// int		circularInsert(t_circular *, char *);
+
+/*
+** get_next_line.c
+*/
+char		*get_next_line(const int);
 
 /*
 ** join.c
