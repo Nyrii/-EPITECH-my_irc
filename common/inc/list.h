@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May 16 23:51:11 2016 guillaume wilmot
-** Last update Wed May 18 11:45:27 2016 guillaume wilmot
+** Last update Wed May 18 12:38:38 2016 guillaume wilmot
 */
 
 #ifndef LIST_H_
@@ -19,7 +19,6 @@ typedef struct		s_list
   struct s_list		*prev;
   void			*struc;
   unsigned int		*size;
-  unsigned int		id;
   struct s_list		*(*get_nth)(struct s_list *, unsigned int);
   struct s_list		*(*delete_nth)(struct s_list *, unsigned int);
   struct s_list		*(*insert_at)(struct s_list *, unsigned int, void *);

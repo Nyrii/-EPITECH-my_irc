@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May 16 23:49:10 2016 guillaume wilmot
-** Last update Wed May 18 11:50:04 2016 guillaume wilmot
+** Last update Wed May 18 12:38:45 2016 guillaume wilmot
 */
 
 #include <unistd.h>
@@ -28,7 +28,6 @@ t_list		*create_list(void *struc, t_list *old)
   list->struc = struc;
   list->next = NULL;
   list->prev = NULL;
-  list->id = old ? (*old->last)->id + 1 : 0;
   list->push_back = &push_back_list;
   list->insert_at = &insert_at_list;
   list->make_circular = &make_circular_list;
