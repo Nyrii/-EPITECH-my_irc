@@ -5,13 +5,15 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 11:36:21 2016 Nyrandone Noboud-Inpeng
-** Last update Tue May 17 00:53:25 2016 Nyrandone Noboud-Inpeng
+** Last update Tue May 17 20:14:39 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include "errors.h"
 #include "client.h"
 #include "socket.h"
 
@@ -47,28 +49,55 @@ int		main()
 {
   char		*code[10];
   int		(*func[10])(char *, t_socket *);
-  char		*buffer;
-  char		*command;
+  char		buffer[4096];
+  // char		*command;
   t_socket	*socket;
-  int		i;
+  // int		i;
+  // int		ret;
+  fd_set	readf;
 
   init_code(code);
   init_ptrfunc(func);
   if ((socket = create_socket()) == NULL)
     return (-1);
-  while ((buffer = get_next_line(0)))
+  while (1)
     {
-      i = -1;
-      command = strtok(buffer, " ");
-      while (code[++i] != NULL)
+      FD_ZERO(&readf);
+      if (socket->fd != -1)
+	FD_SET(socket->fd, &readf);
+      FD_SET(0, &readf);
+      if (select(socket->fd != -1 ? socket->fd + 1 : 1,
+		 &readf, NULL, NULL, NULL) == -1)
+	return (puterr_int("Error: select failed.\n", -1));
+      if (FD_ISSET(socket->fd, &readf))
 	{
-	  if (!strcmp(code[i], command))
-	    {
-	      if (func[i](strtok(NULL, ""), socket) == -1)
-		return (socket->fd != -1 ? close_socket(socket) : -1);
-	    }
 	}
-      buffer ? free(buffer) : 0;
+      else if (FD_ISSET(0, &readf))
+	{
+	  read(0, buffer, 4096);
+	  printf("waiting...\n");
+	}
     }
+  // while ((buffer = get_next_line(0)))
+  //   {
+  //     ret = 9999;
+  //     i = -1;
+  //     if ((command = strtok(buffer, " ")) == NULL)
+  // uterr_int(ERR_SYNTAX, -1);
+  //     else
+  //
+  //  while (code[++i] != NULL)
+  //    {
+  //      if (!strcmp(code[i], command))
+  // {
+  //   if ((ret = func[i](strtok(buffer, ""), socket)) == -1)
+  //     return (socket->fd != -1 ? close_socket(socket) : -1);
+  // }
+  //    }
+  //  if (ret == 9999)
+  //    puterr_int(ERR_SYNTAX, -1);
+  //
+  //     buffer ? free(buffer) : 0;
+  //   }
   return (0);
 }
