@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:41:38 2016 guillaume wilmot
-** Last update Thu May 19 04:00:26 2016 guillaume wilmot
+** Last update Thu May 19 10:40:50 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -27,7 +27,7 @@ static int	get_line_buff(t_buff *buff)
 	ok = 2;
       if (buff->buff[buff->start] == '\n' && ok)
 	ok = 3;
-      buff->start = buff->start >= PACKETSIZE * 2 ? 0 : buff->start + 1;
+      buff->start = buff->start + 1 >= PACKETSIZE * 2 ? 0 : buff->start + 1;
       buff->end--;
       if (ok == 3)
 	{
@@ -35,7 +35,7 @@ static int	get_line_buff(t_buff *buff)
 	  return (0);
 	}
     }
-  buff->start = buff->start >= PACKETSIZE * 2 ? 0 : buff->start;
+  /* buff->start = buff->start >= PACKETSIZE * 2 ? 0 : buff->start; */
   return (-1);
 }
 

@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 11:35:58 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 04:03:06 2016 guillaume wilmot
+** Last update Thu May 19 12:01:38 2016 guillaume wilmot
 */
 
 #include <string.h>
@@ -39,5 +39,4 @@ int			main()
     return (-1);
   core(socket, NULL, NULL);
   return (0);
-
 }
