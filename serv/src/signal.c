@@ -5,13 +5,13 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:12:34 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 02:14:06 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 02:49:29 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
-#include "socket.h"
+#include "serv.h"
 
 t_socket		*saveSocket(t_socket *server)
 {
@@ -22,14 +22,26 @@ t_socket		*saveSocket(t_socket *server)
   return (tmp);
 }
 
+t_list			*saveUsers(t_list *users)
+{
+  static t_list		*tmp = NULL;
+
+  if (users != NULL)
+    tmp = users;
+  return (tmp);
+}
+
+t_list			*saveChannels(t_list *channels)
+{
+  static t_list		*tmp = NULL;
+
+  if (channels != NULL)
+    tmp = channels;
+  return (tmp);
+}
+
 void			clean_socket()
 {
-  t_socket		*tmp;
-
-  if ((tmp = saveSocket(NULL)) != NULL)
-    {
-      if (tmp->fd != -1 && close(tmp->fd) == -1)
-	fprintf(stderr, "Error: cannot close the server file descriptor.\n");
-    }
+  closeAndFree(saveSocket(NULL), saveUsers(NULL), saveChannels(NULL), 0);
   exit(0);
 }

@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 18:02:07 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 02:15:23 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 02:57:18 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -21,7 +21,8 @@ t_socket	*initServerSocket()
   istrue = 1;
   if ((socket = create_socket()) == NULL
       || socket->init(socket, 6667, "TCP", INADDR_ANY) == -1
-      || setsockopt(socket->fd, SOL_SOCKET, SO_REUSEADDR, &istrue, sizeof(int)) == -1
+      || setsockopt(socket->fd, SOL_SOCKET, SO_REUSEADDR,
+		    &istrue, sizeof(int)) == -1
       || socket->bind(socket) == -1
       || socket->listen(socket) == -1)
     return (NULL);
@@ -63,8 +64,8 @@ int		setSelectFd(t_socket *socket, t_list *users, fd_set *readf)
   return (0);
 }
 
-int		close_all_sockets(t_socket *socket,
-				  t_list *users, int ret_value)
+int		closeAndFree(t_socket *socket, t_list *users,
+			     t_list *channels, int ret_value)
 {
   t_list	*tmp;
 
@@ -83,5 +84,8 @@ int		close_all_sockets(t_socket *socket,
 	}
       tmp = tmp->next;
     }
+  users ? users->destroy(users) : 0;
+  channels ? channels->destroy(channels) : 0;
+  socket ? free(socket) : 0;
   return (ret_value);
 }

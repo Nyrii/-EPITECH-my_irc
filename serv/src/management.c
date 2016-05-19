@@ -5,16 +5,10 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 18:44:58 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 02:26:11 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 02:28:16 2016 Nyrandone Noboud-Inpeng
 */
 
-#include <sys/types.h>
-#include <ifaddrs.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
 #include <stdlib.h>
-#include <string.h>
 #include "serv.h"
 #include "errors.h"
 

@@ -5,11 +5,12 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 02:24:14 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 03:02:34 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "serv.h"
 #include "socket.h"
 #include "errors.h"
@@ -28,7 +29,7 @@ static void		init_code(char **code)
 }
 
 static void		init_ptrfunc(int (**func)(int, char *,
-					  t_list *, t_list *))
+					  t_list **, t_list *))
 {
   func[0] = &nick;
   func[1] = &list;
@@ -42,10 +43,10 @@ static void		init_ptrfunc(int (**func)(int, char *,
 }
 
 int			process(t_processdata *pdata, t_socket *socket,
-				t_list *channels, t_list *users)
+				t_list **channels, t_list *users)
 {
   char			*code[9];
-  int			(*func[9])(int, char *, t_list *, t_list *);
+  int			(*func[9])(int, char *, t_list **, t_list *);
   int			i;
   char			*function_to_call;
 
@@ -67,7 +68,7 @@ int			process(t_processdata *pdata, t_socket *socket,
 }
 
 int			checkAndProcess(fd_set *readf, t_socket *socket,
-					t_list *channels, t_list *users)
+					t_list **channels, t_list *users)
 {
   t_list		*tmp;
   t_processdata		pdata;
@@ -83,4 +84,39 @@ int			checkAndProcess(fd_set *readf, t_socket *socket,
       tmp = tmp->next;
     }
   return (0);
+}
+
+int			core(t_socket *socket, t_list *channels, t_list *users)
+{
+  fd_set		readf;
+  struct timeval	tv;
+
+  while (1)
+    {
+      tv.tv_sec = 5;
+      tv.tv_usec = 0;
+      FD_ZERO(&readf);
+      setSelectFd(socket, users, &readf);
+      if (select(getHigherFd(socket, users) + 1,
+		 &readf, NULL, NULL, &tv) == -1)
+	return (puterr_int("Error: select failed.\n", -1));
+      if (FD_ISSET(socket->fd, &readf))
+	{
+	  if ((users = addNewUser(socket, users)) == NULL)
+	    return (closeAndFree(socket, users, channels, -1));
+	  saveUsers(users);
+	  /**/
+	  t_list	*tmp = users;
+
+	  while (tmp != NULL)
+	    {
+	      printf("tmp->fd = %d\n", ((t_udata *)(tmp->struc))->fd);
+	      tmp = tmp->next;
+	    }
+	  /**/
+	}
+      if (checkAndProcess(&readf, socket, &channels, users) == -1)
+	return (closeAndFree(socket, users, channels, -1));
+      saveChannels(channels);
+    }
 }
