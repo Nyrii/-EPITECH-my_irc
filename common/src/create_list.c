@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May 16 23:49:10 2016 guillaume wilmot
-** Last update Wed May 18 19:53:17 2016 guillaume wilmot
+** Last update Thu May 19 02:55:59 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <unistd.h>
@@ -60,6 +60,7 @@ void		destroy_list(t_list *this)
       i = 1;
       tmp = this;
       this = this->next;
+      free(tmp->struc);
       free(tmp);
     }
 }

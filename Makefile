@@ -5,7 +5,7 @@
 ## Login   <wilmot_g@epitech.net>
 ##
 ## Started on  Mon May 16 23:28:34 2016 guillaume wilmot
-## Last update Thu May 19 01:39:38 2016 guillaume wilmot
+## Last update Thu May 19 04:03:28 2016 guillaume wilmot
 ##
 
 SRCCOM	= circular_buffer.c	\
@@ -17,20 +17,18 @@ SRCCOM	= circular_buffer.c	\
 	  pop_push.c		\
 	  sockets.c
 
-# channels.c		\
-# management.c		\
-# users.c
-
 SRCSER	= acceptfile.c		\
-	  functionptr.c		\
 	  join.c		\
 	  list.c		\
 	  main.c		\
+	  management.c		\
 	  msg.c			\
 	  nick.c		\
 	  part.c		\
+	  process.c		\
 	  sendfile.c		\
 	  server_sockets.c	\
+	  signal.c		\
 	  users.c
 
 SRCCLI	= acceptfile.c		\
