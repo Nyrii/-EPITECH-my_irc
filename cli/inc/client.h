@@ -5,23 +5,13 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:24:52 2016 Nyrandone Noboud-Inpeng
-** Last update Wed May 18 20:12:01 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 00:47:53 2016 guillaume wilmot
 */
 
 #ifndef CLIENT_H_
 # define CLIENT_H_
 
 # include "socket.h"
-
-# define PACKETSIZE 128 /* A check, au moins 128 */
-# define BUFSIZE ((PACKETSIZE - 33) * 100)
-
-typedef struct		s_data
-{
-  char			size;
-  char			name[32];
-  char			message[PACKETSIZE - 33];
-}			t_data;
 
 /*
 ** acceptfile.c

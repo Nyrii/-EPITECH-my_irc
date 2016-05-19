@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 11:36:21 2016 Nyrandone Noboud-Inpeng
-** Last update Wed May 18 20:25:32 2016 guillaume wilmot
+** Last update Thu May 19 01:43:41 2016 guillaume wilmot
 */
 
 #include <fcntl.h>
@@ -106,29 +106,29 @@ int		main()
   //     buffer ? free(buffer) : 0;
   //   }
 
-  t_list	*tmp;
-  t_data	data;
-  int		i;
+  /* t_list	*tmp; */
+  /* t_data	data; */
+  /* int		i; */
 
-  if (memset(&data, 0, PACKETSIZE) == NULL)
-    return (puterr_int(ERR_MEMSET, -1));
+  /* if (memset(&data, 0, PACKETSIZE) == NULL) */
+  /*   return (puterr_int(ERR_MEMSET, -1)); */
 
-  i = 0;
-  if ((tmp = create_list(&data, NULL)) == NULL)
-    return (-1);
-  while (i < BUFSIZE - 1)
-    {
-      if (push_back_list(tmp, &data) == NULL)
-	return (-1);
-      ++i;
-    }
-  while (tmp != NULL)
-    {
+  /* i = 0; */
+  /* if ((tmp = create_list(&data, NULL)) == NULL) */
+  /*   return (-1); */
+  /* while (i < BUFSIZE - 1) */
+  /*   { */
+  /*     if (push_back_list(tmp, &data) == NULL) */
+  /* 	return (-1); */
+  /*     ++i; */
+  /*   } */
+  /* while (tmp != NULL) */
+  /*   { */
       // printf("tmp->isFree = %d\n", ((t_data *)(tmp->struc))->is_free);
       // printf("tmp->message = %s\n", ((t_data *)(tmp->struc))->message);
-      printf("\n");
-      tmp = tmp->next;
-    }
+    /*   printf("\n"); */
+    /*   tmp = tmp->next; */
+    /* } */
 
   return (0);
 }

@@ -5,10 +5,11 @@
 ## Login   <wilmot_g@epitech.net>
 ##
 ## Started on  Mon May 16 23:28:34 2016 guillaume wilmot
-## Last update Wed May 18 20:25:13 2016 guillaume wilmot
+## Last update Thu May 19 01:39:38 2016 guillaume wilmot
 ##
 
-SRCCOM	= create_list.c		\
+SRCCOM	= circular_buffer.c	\
+	  create_list.c		\
 	  create_socket.c	\
 	  errors.c		\
 	  get_next_line.c	\
