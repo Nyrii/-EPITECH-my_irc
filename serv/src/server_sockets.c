@@ -5,13 +5,21 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 18:02:07 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 02:57:18 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 17:07:00 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include "serv.h"
 #include "errors.h"
+
+int		answerClient(int fd, const char *answer, int ret_value)
+{
+  if (write(fd, answer, strlen(answer)) == -1)
+    return (-1);
+  return (ret_value);
+}
 
 t_socket	*initServerSocket()
 {
