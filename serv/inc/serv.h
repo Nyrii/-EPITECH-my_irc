@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 21:39:45 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 23:02:55 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -118,9 +118,7 @@ int		server(const int, char *, t_list **, t_list *);
 ** server_sockets.c
 */
 int		answerClient(int, const char *, int);
-t_socket	*initServerSocket();
-int		getHigherFd(t_socket *, t_list *);
-int		setSelectFd(t_socket *, t_list *, fd_set *);
+t_socket	*initServerSocket(const int);
 int		closeAndFree(t_socket *, t_list *, t_list *, int);
 
 /*

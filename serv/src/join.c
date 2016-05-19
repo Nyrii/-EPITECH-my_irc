@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:43:49 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 21:44:45 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 22:35:33 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
@@ -24,8 +24,7 @@ t_list		*createFirstChannel(const int fd, char *command, t_list *users)
 
   if ((newUser = getUser(users, fd)) == NULL)
     return (puterr(ERR_UNKNOWNUSER, NULL));
-  if ((udata = malloc(sizeof(t_udata))) == NULL
-	    || (cdata = malloc(sizeof(t_cdata))) == NULL)
+  if ((cdata = malloc(sizeof(t_cdata))) == NULL)
     return (puterr(ERR_MALLOC, NULL));
   udata = ((t_udata *)newUser->struc);
   if ((cdata->users = create_list(udata, NULL)) == NULL)
@@ -97,6 +96,7 @@ int		join(const int fd, char *command,
     return (answerClient(fd, buffer, -2));
   if (editChannels(fd, command, channel, users) == -1)
     return (-1);
+  saveChannels(*channel);
 
   /**/
   t_list *tmp;
