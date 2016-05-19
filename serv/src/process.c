@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 23:05:33 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 23:15:11 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -58,16 +58,17 @@ static int		checkAndProcess(fd_set *readf, t_list **channels,
 {
   t_list		*tmp;
   t_processdata		pdata;
+  int			fd;
 
   tmp = users;
   while (tmp != NULL)
     {
-      if (FD_ISSET(((t_udata *)(tmp->struc))->fd, readf))
+      fd = ((t_udata *)(tmp->struc))->fd;
+      if (FD_ISSET(fd, readf))
 	{
-	  pdata.command = get_cmd_buff(((t_udata *)(tmp->struc))->fd,
-				       &((t_udata *)(tmp->struc))->buff);
+	  pdata.command = get_cmd_buff(fd, &((t_udata *)(tmp->struc))->buff);
 	  replaceEndOfString(&pdata.command);
-	  pdata.fd = ((t_udata *)(tmp->struc))->fd;
+	  pdata.fd = fd;
 	  if (process(&pdata, channels, users) == -1)
 	    return (-1);
 	}
@@ -80,6 +81,7 @@ static int		setSelectFd(t_socket *socket, t_list *users, fd_set *readf)
 {
   t_list		*tmp;
   int			higher_fd;
+  int			fd;
 
   tmp = users;
   higher_fd = 0;
@@ -91,9 +93,10 @@ static int		setSelectFd(t_socket *socket, t_list *users, fd_set *readf)
     {
       if (((t_udata *)(tmp->struc))->fd != -1)
 	{
-	  if (((t_udata *)(tmp->struc))->fd > higher_fd)
-	    higher_fd = ((t_udata *)(tmp->struc))->fd;
-	  FD_SET(((t_udata *)(tmp->struc))->fd, readf);
+	  fd = ((t_udata *)(tmp->struc))->fd;
+	  if (fd > higher_fd)
+	    higher_fd = fd;
+	  FD_SET(fd, readf);
 	}
       tmp = tmp->next;
     }
@@ -108,10 +111,10 @@ int			core(t_socket *socket, t_list *channels, t_list *users)
 
   while (1)
     {
-      users = saveUsers(NULL);
-      channels = saveChannels(NULL);
       tv.tv_sec = 5;
       tv.tv_usec = 0;
+      users = saveUsers(NULL);
+      channels = saveChannels(NULL);
       FD_ZERO(&readf);
       higher_fd = setSelectFd(socket, users, &readf);
       if (select(higher_fd + 1, &readf, NULL, NULL, &tv) == -1)
