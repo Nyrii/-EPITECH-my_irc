@@ -5,82 +5,56 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 11:35:58 2016 Nyrandone Noboud-Inpeng
-** Last update Wed May 18 12:39:13 2016 guillaume wilmot
+** Last update Thu May 19 02:21:58 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <signal.h>
 #include "errors.h"
 #include "serv.h"
 #include "list.h"
 
 int			main()
 {
-  /* int			i; */
-  /* t_list		*list; */
+  // char			buffer[4096];
+  t_list		*channels;
+  t_list		*users;
+  t_socket		*socket;
+  fd_set		readf;
 
-  /* if (!(list = create_list(NULL, NULL))) */
-  /*   return (-1); */
-  /* list->push_back(list, NULL); */
-  /* list->push_back(list, NULL); */
-  /* list->push_back(list, NULL); */
-  /* list->push_back(list, NULL); */
-  /* printf("Size : %d\n", list->get_size(list)); */
-  /* list->push_back(list, NULL); */
-  /* printf("Size : %d\n", list->get_size(list)); */
-  /* for (i = 0; i < list->get_size(list); i++) */
-  /*   printf("id : %d\n", list->get_nth(list, i) ? (int)list->get_nth(list, i)->id : -1); */
-  /* list->make_circular(list); */
-  /* puts("Making it circular"); */
-  /* for (i = 0; i < list->get_size(list) * 2; i++) */
-  /*   printf("id : %d\n", list->get_nth(list, i) ? (int)list->get_nth(list, i)->id : -1); */
-  /* puts("delete first"); */
-  /* if (!(list = list->delete_nth(list, 0))) */
-  /*   return (puterr_int("Error\n", -1)); */
-  /* printf("Size : %d\n", list->get_size(list)); */
-  /* for (i = 0; i < list->get_size(list); i++) */
-  /*   printf("id : %d\n", list->get_nth(list, i) ? (int)list->get_nth(list, i)->id : -1); */
-  /* puts("delete second"); */
-  /* if (!(list = list->delete_nth(list, 1))) */
-  /*   return (puterr_int("Error\n", -1)); */
-  /* printf("Size : %d\n", list->get_size(list)); */
-  /* for (i = 0; i < list->get_size(list); i++) */
-  /*   printf("id : %d\n", list->get_nth(list, i) ? (int)list->get_nth(list, i)->id : -1); */
-  /* puts("insert at 0"); */
-  /* if (!(list = list->insert_at(list, 0, NULL))) */
-  /*   return (puterr_int("Error\n", -1)); */
-  /* printf("Size : %d\n", list->get_size(list)); */
-  /* for (i = 0; i < list->get_size(list); i++) */
-  /*   printf("id : %d\n", list->get_nth(list, i) ? (int)list->get_nth(list, i)->id : -1); */
-  /* puts("insert at 1"); */
-  /* if (!(list = list->insert_at(list, 1, NULL))) */
-  /*   return (puterr_int("Error\n", -1)); */
-  /* printf("Size : %d\n", list->get_size(list)); */
-  /* for (i = 0; i < list->get_size(list); i++) */
-  /*   printf("id : %d\n", list->get_nth(list, i) ? (int)list->get_nth(list, i)->id : -1); */
-  /* list->destroy(list); */
-  /* t_channel		*chan; */
-  /* t_channel		*tmp; */
+  channels = NULL;
+  users = NULL;
+  signal(SIGINT, clean_socket);
+  if ((socket = initServerSocket()) == NULL)
+    return (-1);
+  (void)channels;
+  while (1)
+    {
+      FD_ZERO(&readf);
+      setSelectFd(socket, users, &readf);
+      if (select(getHigherFd(socket, users) + 1,
+		 &readf, NULL, NULL, NULL) == -1)
+	return (puterr_int("Error: select failed.\n", -1));
+      if (FD_ISSET(socket->fd, &readf))
+	{
+	  if ((users = addNewUser(socket, users)) == NULL)
+	    return (close_all_sockets(socket, users, -1));
+	  /**/
+	  t_list	*tmp = users;
 
-  /* if ((chan = createNewChannel("A")) == NULL) */
-  /*   return (-1); */
-  /* addChannel(chan, createNewChannel("B")); */
-  /* addChannel(chan, createNewChannel("C")); */
-  /* tmp = chan; */
-  /* while (tmp != NULL) */
-  /*   { */
-  /*     printf("name : %s\n", tmp->name); */
-  /*     tmp = tmp->next; */
-  /*   } */
-  /* tmp = chan; */
-  /* tmp = tmp->next; */
-  /* freeChannel(chan, "C"); */
-  /* printf(" ----------- \n"); */
-  /* tmp = chan; */
-  /* while (tmp != NULL) */
-  /*   { */
-  /*     printf("name : %s\n", tmp->name); */
-  /*     tmp = tmp->next; */
-  /*   } */
-  /* freeChannels(chan); */
+	  while (tmp != NULL)
+	    {
+	      printf("tmp->fd = %d\n", ((t_udata *)(tmp->struc))->fd);
+	      tmp = tmp->next;
+	    }
+	  /**/
+	}
+      if (checkAndProcess(&readf, socket, channels, users) == -1)
+	return (-1);
+    }
   return (0);
 }

@@ -1,11 +1,11 @@
 /*
-** functionptr.c for functionptr in /Users/noboud_n/Documents/Share/PSU_2015_myirc/serv/src/
+** process.c for process in /Users/noboud_n/Documents/Share/PSU_2015_myirc/serv/src/
 **
 ** Made by Nyrandone Noboud-Inpeng
 ** Login   <noboud_n@epitech.eu>
 **
-** Started on  Wed May 18 16:26:39 2016 Nyrandone Noboud-Inpeng
-** Last update Wed May 18 20:09:30 2016 Nyrandone Noboud-Inpeng
+** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 02:24:14 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -63,7 +63,24 @@ int			process(t_processdata *pdata, t_socket *socket,
 	    return (socket->fd != -1 ? close_socket(socket) : -1);
 	}
     }
+  return (0);
+}
+
+int			checkAndProcess(fd_set *readf, t_socket *socket,
+					t_list *channels, t_list *users)
+{
+  t_list		*tmp;
+  t_processdata		pdata;
+
   (void)channels;
-  (void)users;
+  (void)socket;
+  (void)pdata;
+  tmp = users;
+  while (tmp != NULL)
+    {
+      if (FD_ISSET(((t_udata *)(tmp->struc))->fd, readf))
+	{}
+      tmp = tmp->next;
+    }
   return (0);
 }
