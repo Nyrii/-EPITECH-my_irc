@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:42:04 2016 guillaume wilmot
-** Last update Thu May 19 03:21:37 2016 guillaume wilmot
+** Last update Thu May 19 15:37:30 2016 guillaume wilmot
 */
 
 #ifndef CIRCULAR_BUFFER_H_
@@ -24,5 +24,6 @@ typedef struct		s_buff
 }			t_buff;
 
 char			*get_cmd_buff(int, t_buff *);
+int			send_msg(int, char *);
 
 #endif /* !CIRCULAR_BUFFER_H_ */

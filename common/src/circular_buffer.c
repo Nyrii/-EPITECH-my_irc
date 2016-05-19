@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:41:38 2016 guillaume wilmot
-** Last update Thu May 19 10:40:50 2016 guillaume wilmot
+** Last update Thu May 19 15:57:52 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -35,7 +35,6 @@ static int	get_line_buff(t_buff *buff)
 	  return (0);
 	}
     }
-  /* buff->start = buff->start >= PACKETSIZE * 2 ? 0 : buff->start; */
   return (-1);
 }
 
@@ -64,4 +63,22 @@ char		*get_cmd_buff(int fd, t_buff *buff)
       cmd = get_line_buff(buff);
     }
   return (buff->cmd);
+}
+
+int		send_msg(int fd, char *str)
+{
+  unsigned int	i;
+  unsigned int	len;
+  int		ret;
+
+  i = 0;
+  len = strlen(str);
+  while (i < len)
+    {
+      if ((ret = write(fd, &str[i], PACKETSIZE / 10 > len - i ?
+		       len - i : PACKETSIZE / 10)) == -1)
+	return (-1);
+      i += ret;
+    }
+  return (0);
 }
