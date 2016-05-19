@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 11:36:21 2016 Nyrandone Noboud-Inpeng
-** Last update Wed May 18 20:12:33 2016 Nyrandone Noboud-Inpeng
+** Last update Wed May 18 20:25:32 2016 guillaume wilmot
 */
 
 #include <fcntl.h>
@@ -118,7 +118,7 @@ int		main()
     return (-1);
   while (i < BUFSIZE - 1)
     {
-      if (push_back_list(tmp, &data) == -1)
+      if (push_back_list(tmp, &data) == NULL)
 	return (-1);
       ++i;
     }

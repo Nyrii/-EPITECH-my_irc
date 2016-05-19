@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 18:44:58 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 02:11:07 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 02:26:11 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <sys/types.h>
@@ -30,7 +30,7 @@ t_list		*addNewUser(t_socket *serv, t_list *users)
   data->current_channel = NULL;
   if (users == NULL)
     users = create_list(data, NULL);
-  else if ((users)->push_back(users, data) == -1)
+  else if ((users)->push_back(users, data) == NULL)
     return (puterr("Error: push back of users failed.\n", NULL));
   if (users == NULL)
     return (puterr("Error: list of users NULL.\n", NULL));

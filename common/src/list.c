@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May 16 23:49:10 2016 guillaume wilmot
-** Last update Wed May 18 11:47:19 2016 guillaume wilmot
+** Last update Wed May 18 19:40:45 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -27,19 +27,6 @@ t_list		*get_nth_list(t_list *this, unsigned int n)
   return (tmp);
 }
 
-int		push_back_list(t_list *this, void *struc)
-{
-  t_list	*elem;
-
-  if (!this || !this->last || !(elem = create_list(struc, this)))
-    return (-1);
-  elem->prev = (*this->last);
-  (*this->last)->next = elem;
-  *this->last = elem;
-  (*this->size)++;
-  return (0);
-}
-
 int		make_circular_list(t_list *this)
 {
   if (!this || !*this->first || !this->last)
@@ -55,17 +42,14 @@ t_list		*insert_at_list(t_list *this, unsigned int n, void *struc)
   t_list	*tmp;
   unsigned int	i;
 
-  if (!this || !(tmp = *this->first) || !(elem = create_list(struc, this)))
+  if (!this || !(tmp = *this->first))
     return (NULL);
   if (!n)
-    {
-      elem->next = *this->first;
-      elem->prev = (*this->first)->prev;
-      (*this->first)->prev ? (*this->first)->prev->next = elem : 0;
-      (*this->first)->prev = elem;
-      (*this->first) = elem;
-      return ((*this->size)++, elem);
-    }
+    return (push_front_list(this, struc));
+  if (n >= *this->size)
+    return (push_back_list(this, struc));
+  if (!(elem = create_list(struc, this)))
+    return (NULL);
   i = -1;
   while (tmp && ++i < n - 1)
     if (!(tmp = tmp->next))
