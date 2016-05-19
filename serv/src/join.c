@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:43:49 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 19:16:47 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 21:44:45 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
@@ -58,32 +58,29 @@ int		addUserToChannel(const int fd, t_list *users,
   else if (((t_cdata *)(current_channel->struc))->users->push_back
 	   (((t_cdata *)(current_channel->struc))->users, udata) == NULL)
     return (puterr_int("Error: push back of users failed.\n", -1));
-
-  return (0);
+  return (joinSucceed(fd, current_channel));
 }
 
-int		newChannel(const int fd, char *command,
+int		editChannels(const int fd, char *command,
 			   t_list **channel, t_list *users)
 {
-  (void)fd;
-  (void)command;
-  (void)channel;
-  (void)users;
   t_list	*tmp;
 
   if (*channel == NULL)
     {
       if ((*channel = createFirstChannel(fd, command, users)) == NULL)
 	return (-1);
-      return (0);
+      return (joinSucceed(fd, *channel));
     }
   else if ((tmp = searchChannelByName(*channel, command)) != NULL
-	   && searchChannelByUserFd(*channel, fd) == -1)
+	   && searchChannelByUserFd(tmp, fd) == -1)
+    return (addUserToChannel(fd, users, tmp));
+  else if (*channel != NULL
+	   && (tmp = searchChannelByName(*channel, command)) == NULL)
     {
-      return (addUserToChannel(fd, users, tmp));
-      // Envoyer le message à tous les clients qu'un nouveau client a join
+      return (0);
     }
-  return (0);
+  return (alreadyInChannel(fd, searchChannelByName(*channel, command)));
 }
 
 int		join(const int fd, char *command,
@@ -98,7 +95,7 @@ int		join(const int fd, char *command,
     return (puterr_int("Error: snprintf failed.\n", -1));
   if (command == NULL)
     return (answerClient(fd, buffer, -2));
-  if (newChannel(fd, command, channel, users) == -1)
+  if (editChannels(fd, command, channel, users) == -1)
     return (-1);
 
   /**/

@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 19:19:43 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 21:39:45 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -55,6 +55,12 @@ void		init_ptrfunc(int (**)(const int, char *,
 int		join(const int, char *, t_list **, t_list *);
 
 /*
+** join_messages.c
+*/
+int		joinSucceed(const int, t_list *);
+int		alreadyInChannel(const int, t_list *);
+
+/*
 ** list.c
 */
 int		list(const int, char *, t_list **, t_list *);
@@ -87,10 +93,16 @@ int		part(const int, char *, t_list **, t_list *);
 int		core(t_socket *, t_list *, t_list *);
 
 /*
-** search.c
+** search_channel.c
 */
 t_list		*searchChannelByName(t_list *, const char *);
 int		searchChannelByUserFd(t_list *, const int);
+
+/*
+** search_user.c
+*/
+t_list		*getUser(t_list *, const int);
+char		*getUserName(t_list *, const int);
 
 /*
 ** sendfile.c

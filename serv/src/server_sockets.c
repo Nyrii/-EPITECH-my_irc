@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 18:02:07 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 17:07:00 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 21:47:09 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -17,7 +17,7 @@
 int		answerClient(int fd, const char *answer, int ret_value)
 {
   if (write(fd, answer, strlen(answer)) == -1)
-    return (-1);
+    return (puterr_int("Error: could not write to client(s).\n", -1));
   return (ret_value);
 }
 
@@ -56,6 +56,7 @@ int		getHigherFd(t_socket *socket, t_list *users)
   return (higher_fd);
 }
 
+#include <stdio.h>
 int		setSelectFd(t_socket *socket, t_list *users, fd_set *readf)
 {
   t_list	*tmp;

@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 19:24:09 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 21:49:12 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -53,15 +53,12 @@ int			process(t_processdata *pdata,
   return (0);
 }
 
-int			checkAndProcess(fd_set *readf, t_socket *socket,
-					t_list **channels, t_list *users)
+int			checkAndProcess(fd_set *readf, t_list **channels,
+					t_list *users)
 {
   t_list		*tmp;
   t_processdata		pdata;
 
-  (void)channels;
-  (void)socket;
-  (void)pdata;
   tmp = users;
   while (tmp != NULL)
     {
@@ -71,7 +68,8 @@ int			checkAndProcess(fd_set *readf, t_socket *socket,
 				       &((t_udata *)(tmp->struc))->buff);
 	  replaceEndOfString(&pdata.command);
 	  pdata.fd = ((t_udata *)(tmp->struc))->fd;
-	  process(&pdata, channels, users);
+	  if (process(&pdata, channels, users) == -1)
+	    return (-1);
 	}
       tmp = tmp->next;
     }
@@ -98,7 +96,7 @@ int			core(t_socket *socket, t_list *channels, t_list *users)
 	    return (closeAndFree(socket, users, channels, -1));
 	  saveUsers(users);
 	}
-      if (checkAndProcess(&readf, socket, &channels, users) == -1)
+      if (checkAndProcess(&readf, &channels, users) == -1)
 	return (closeAndFree(socket, users, channels, -1));
       saveChannels(channels);
     }

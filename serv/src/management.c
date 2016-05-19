@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 18:44:58 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 19:19:51 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 21:31:57 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -13,34 +13,6 @@
 #include "circular_buffer.h"
 #include "serv.h"
 #include "errors.h"
-
-t_list		*getUser(t_list *users, const int fd)
-{
-  t_list	*tmp;
-
-  tmp = users;
-  while (tmp != NULL)
-    {
-      if (((t_udata *)(tmp->struc))->fd == fd)
-	return (tmp);
-      tmp = tmp->next;
-    }
-  return (NULL);
-}
-
-char		*getUserName(t_list *users, const int fd)
-{
-  t_list	*tmp;
-
-  tmp = users;
-  while (tmp != NULL)
-    {
-      if (((t_udata *)(tmp->struc))->fd == fd)
-	return (((t_udata *)(tmp->struc))->name);
-      tmp = tmp->next;
-    }
-  return (NULL);
-}
 
 t_list		*addNewUser(t_socket *serv, t_list *users)
 {
@@ -57,8 +29,8 @@ t_list		*addNewUser(t_socket *serv, t_list *users)
   if (users == NULL)
     users = create_list(data, NULL);
   else if ((users)->push_back(users, data) == NULL)
-    return (puterr("Error: push back of users failed.\n", NULL));
+    return (puterr(ERR_PUSHBACKUSER, NULL));
   if (users == NULL)
-    return (puterr("Error: list of users NULL.\n", NULL));
+    return (puterr(ERR_LISTNULL, NULL));
   return (users);
 }

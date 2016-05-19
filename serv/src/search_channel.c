@@ -1,11 +1,11 @@
 /*
-** search.c for search in /Users/noboud_n/Documents/Share/PSU_2015_myirc/serv/src/
+** search_channel.c for search_channel in /Users/noboud_n/Documents/Share/PSU_2015_myirc/serv/src/
 **
 ** Made by Nyrandone Noboud-Inpeng
 ** Login   <noboud_n@epitech.eu>
 **
-** Started on  Thu May 19 18:13:57 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 18:52:38 2016 Nyrandone Noboud-Inpeng
+** Started on  Thu May 19 21:29:16 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 21:29:22 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
