@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:22:26 2016 Nyrandone Noboud-Inpeng
-** Last update Tue May 17 09:49:09 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 17:22:13 2016 guillaume wilmot
 */
 
 #include <stdio.h>
@@ -32,8 +32,8 @@ int		server(char *command, t_socket *socket)
       fprintf(stderr, "Error: cannot set the ip.\n");
       return (-2);
     }
-printf("ip after = %s\n", ip);
-port = strtok(NULL, "");
+  printf("ip after = %s\n", ip);
+  port = strtok(NULL, "");
   if (init_socket(socket, port == NULL ? 6667 : atoi(port), "TCP",
 		  inet_addr(ip)) == -1)
       return (-1);
