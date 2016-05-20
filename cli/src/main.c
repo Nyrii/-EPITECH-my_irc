@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 11:36:21 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 01:43:41 2016 guillaume wilmot
+** Last update Thu May 19 19:15:06 2016 guillaume wilmot
 */
 
 #include <fcntl.h>
@@ -29,7 +29,9 @@ void		init_code(char **code)
   code[6] = "/msg";
   code[7] = "/send_file";
   code[8] = "/accept_file";
-  code[9] = NULL;
+  code[9] = "/names";
+  code[10] = "/quit";
+  code[11] = NULL;
 }
 
 void		init_ptrfunc(int (**func)(char *, t_socket *))
@@ -43,92 +45,20 @@ void		init_ptrfunc(int (**func)(char *, t_socket *))
   func[6] = &msg;
   func[7] = &send_file;
   func[8] = &accept_file;
-  func[9] = NULL;
+  func[9] = &names;
+  func[10] = &quit;
+  func[11] = NULL;
 }
 
 int		main()
 {
-  // char		*command;
-  // int		i;
-  // int		ret;
+  t_socket	*socket;
+  char		*code[12];
+  int		(*func[12])(char *, t_socket *);
 
-  // char		*code[10];
-  // int		(*func[10])(char *, t_socket *);
-  // fd_set	readf;
-  // t_socket	*socket;
-  // char		buffer[4096];
-
-  // init_code(code);
-  // init_ptrfunc(func);
-  // if ((socket = create_socket()) == NULL)
-  //   return (-1);
-  // while (1)
-  //   {
-  //     FD_ZERO(&readf);
-  //     if (socket->fd != -1)
-  // D_SET(socket->fd, &readf);
-  //     FD_SET(0, &readf);
-  //     if (select(socket->fd != -1 ? socket->fd + 1 : 1,
-  //  &readf, NULL, NULL, NULL) == -1)
-  // eturn (puterr_int("Error: select failed.\n", -1));
-  //     if (FD_ISSET(socket->fd, &readf))
-  //
-  //
-  //
-  //     else if (FD_ISSET(0, &readf))
-  //
-  //  read(0, buffer, 4096);
-  //  printf("waiting...\n");
-  //
-  //   }
-
-
-
-  // while ((buffer = get_next_line(0)))
-  //   {
-  //     ret = 9999;
-  //     i = -1;
-  //     if ((command = strtok(buffer, " ")) == NULL)
-  // uterr_int(ERR_SYNTAX, -1);
-  //     else
-  //
-  //  while (code[++i] != NULL)
-  //    {
-  //      if (!strcmp(code[i], command))
-  // {
-  //   if ((ret = func[i](strtok(buffer, ""), socket)) == -1)
-  //     return (socket->fd != -1 ? close_socket(socket) : -1);
-  // }
-  //    }
-  //  if (ret == 9999)
-  //    puterr_int(ERR_SYNTAX, -1);
-  //
-  //     buffer ? free(buffer) : 0;
-  //   }
-
-  /* t_list	*tmp; */
-  /* t_data	data; */
-  /* int		i; */
-
-  /* if (memset(&data, 0, PACKETSIZE) == NULL) */
-  /*   return (puterr_int(ERR_MEMSET, -1)); */
-
-  /* i = 0; */
-  /* if ((tmp = create_list(&data, NULL)) == NULL) */
-  /*   return (-1); */
-  /* while (i < BUFSIZE - 1) */
-  /*   { */
-  /*     if (push_back_list(tmp, &data) == NULL) */
-  /* 	return (-1); */
-  /*     ++i; */
-  /*   } */
-  /* while (tmp != NULL) */
-  /*   { */
-      // printf("tmp->isFree = %d\n", ((t_data *)(tmp->struc))->is_free);
-      // printf("tmp->message = %s\n", ((t_data *)(tmp->struc))->message);
-    /*   printf("\n"); */
-    /*   tmp = tmp->next; */
-    /* } */
-
-  return (0);
+  init_code(code);
+  init_ptrfunc(func);
+  if ((socket = create_socket()) == NULL)
+    return (-1);
+  return (wait_for_input(socket, code, func));
 }

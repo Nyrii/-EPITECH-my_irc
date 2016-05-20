@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 15:58:15 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 16:02:37 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -69,11 +69,11 @@ static int		checkAndProcess(fd_set *readf, t_list **channels,
       if (FD_ISSET(fd, readf))
 	{
 	  FD_CLR(fd, readf);
-	  pdata.command = get_cmd_buff(fd, &((t_udata *)(tmp->struc))->buff);
-	  replaceEndOfString(&pdata.command);
-	  pdata.fd = fd;
-	  if (pdata.command != NULL)
+	  if ((pdata.command = get_cmd_buff(fd,
+					    &((t_udata *)(tmp->struc))->buff)))
 	    {
+	      replaceEndOfString(&pdata.command);
+	      pdata.fd = fd;
 	      if (process(&pdata, channels, users) == -1)
 		return (-1);
 	      saveUsers(*users, 1);
