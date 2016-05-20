@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 18:44:58 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 21:31:57 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 20:45:22 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -21,10 +21,11 @@ t_list		*addNewUser(t_socket *serv, t_list *users)
   if ((data = malloc(sizeof(t_udata))) == NULL)
     return (puterr(ERR_MALLOC, NULL));
   if ((data->fd = serv->accept(serv, NULL)) == -1)
-    return (NULL);
+    return (puterr(ERR_ACCEPT, NULL));
   if (memset(&(data->buff), 0, sizeof(t_buff)) == NULL)
     return (puterr(ERR_MEMSET, NULL));
-  data->name = "Anonymous";
+  if ((data->name = strdup("Anonymous")) == NULL)
+    return (puterr(ERR_STRDUP, NULL));
   data->current_channel = NULL;
   if (users == NULL)
     users = create_list(data, NULL);

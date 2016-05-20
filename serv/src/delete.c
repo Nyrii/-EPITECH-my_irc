@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 13:54:04 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 17:00:06 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 21:00:33 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -27,6 +27,7 @@ void		deleteUserFromChannels(const int fd, t_list **channel)
 	tmp_users = tmp_users->delete_nth(tmp_users, index);
       if (tmp_users == NULL)
 	{
+	  free(((t_cdata *)((*channel)->struc))->name);
 	  free((*channel)->struc);
 	  *channel = (*channel)->delete_nth(*channel, i);
           tmp_channel = *channel ? tmp_channel : NULL;
@@ -46,6 +47,8 @@ void		deleteUserFromUsersList(const int fd, t_list **users)
     return ;
   if ((i = getIndexUserFromUsersList(*users, fd)) == -1)
     return ;
+  free(((t_udata *)(tmp->struc))->name);
+  free(((t_udata *)(tmp->struc))->current_channel);
   free(tmp->struc);
   tmp->struc = NULL;
   *users = (*users)->delete_nth(*users, i);

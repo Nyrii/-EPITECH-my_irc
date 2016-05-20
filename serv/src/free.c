@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 13:35:19 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 16:41:41 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 20:59:25 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -25,6 +25,7 @@ void		freeChannelsStructures(t_list *channels)
       tmp_cdata->destroy(tmp_cdata);
       if (tmp->struc != NULL)
 	{
+	  free(((t_cdata *)(tmp->struc))->name);
 	  free(tmp->struc);
 	  tmp->struc = NULL;
 	}
@@ -53,6 +54,8 @@ int		closeAndFree(t_socket *socket, t_list *users,
 	}
       tmp_free = tmp;
       tmp = tmp->next;
+      free(((t_udata *)(tmp_free->struc))->name);
+      free(((t_udata *)(tmp_free->struc))->current_channel);
       free(tmp_free->struc);
       tmp_free->struc = NULL;
     }
