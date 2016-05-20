@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 21:30:01 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 14:31:11 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 00:16:24 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -22,7 +22,7 @@ int		getIndexUserFromUsersList(t_list *users, const int fd)
   tmp = users;
   while (tmp != NULL)
     {
-      if (getUser(tmp, fd) != NULL)
+      if (tmp->struc && ((t_udata *)(tmp->struc))->fd == fd)
 	return (i);
       ++i;
       tmp = tmp->next;

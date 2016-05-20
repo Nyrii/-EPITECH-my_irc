@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Wed May 18 17:44:17 2016 guillaume wilmot
-** Last update Fri May 20 15:37:19 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 00:00:34 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -56,7 +56,9 @@ t_list		*pop_back_list(t_list *this)
   *this->last = tmp->prev;
   ret = *this->first;
   free(tmp);
-  return ((*ret->size)--, ret);
+  if (ret)
+    (*ret->size)--;
+  return (ret);
 }
 
 t_list		*pop_front_list(t_list *this)
@@ -76,5 +78,7 @@ t_list		*pop_front_list(t_list *this)
   *this->first = tmp->next;
   ret = *this->first;
   free(tmp);
-  return ((*ret->size)--, ret);
+  if (ret)
+    (*ret->size)--;
+  return (ret);
 }

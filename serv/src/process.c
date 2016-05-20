@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 21:02:26 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 23:55:13 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -30,8 +30,8 @@ static void		replaceEndOfString(char **string)
 static int		process(t_processdata *pdata,
 				t_list **channels, t_list **users)
 {
-  char			*code[10];
-  int			(*func[10])(const int, char *,
+  char			*code[11];
+  int			(*func[11])(const int, char *,
 				   t_list **, t_list **);
   int			i;
   char			*function_to_call;
@@ -44,7 +44,13 @@ static int		process(t_processdata *pdata,
   while (code[++i] != NULL)
     {
       if (!strcmp(code[i], function_to_call))
-	return (func[i](pdata->fd, strtok(NULL, ""), channels, users));
+	{
+	  if (func[i](pdata->fd, strtok(NULL, ""), channels, users) == -1)
+	    return (-1);
+          saveUsers(*users, 1);
+          saveChannels(*channels, 1);
+	  return (0);
+	}
     }
   return (0);
 }
@@ -53,14 +59,13 @@ static int		checkAndProcess(fd_set *readf, t_list **channels,
 					t_list **users)
 {
   t_list		*tmp;
+  t_list		*next;
   t_processdata		pdata;
   int			fd;
 
   tmp = *users;
   while (tmp != NULL)
     {
-      pdata.command = NULL;
-      pdata.fd = -1;
       fd = ((t_udata *)(tmp->struc))->fd;
       if (FD_ISSET(fd, readf))
 	{
@@ -69,11 +74,10 @@ static int		checkAndProcess(fd_set *readf, t_list **channels,
 	    {
 	      replaceEndOfString(&pdata.command);
 	      pdata.fd = fd;
+	      next = tmp->next;
 	      if (process(&pdata, channels, users) == -1)
 		return (-1);
-	      saveUsers(*users, 1);
-	      saveChannels(*channels, 1);
-	      tmp = *users ? tmp : NULL;
+	      tmp = *users ? next : NULL;
 	    }
 	}
       if (tmp)

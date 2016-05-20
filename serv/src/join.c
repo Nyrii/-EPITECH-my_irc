@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:43:49 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 21:13:51 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 22:04:35 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
@@ -114,7 +114,7 @@ int		join(const int fd, char *command,
     return (puterr_int(ERR_MEMSET, -1));
   if (snprintf(buffer, 4096, ERR_NEEDMOREPARAMS,
 	       getUserName(*users, fd), "JOIN") == -1)
-    return (puterr_int("Error: snprintf failed.\n", -1));
+    return (puterr_int(ERR_SNPRINTF, -1));
   if (command == NULL)
     return (answerClient(fd, buffer, -2));
   if (command && command[0] != '#')
@@ -122,7 +122,7 @@ int		join(const int fd, char *command,
       if (memset(buffer, 0, 4096) == NULL)
 	return (puterr_int(ERR_MEMSET, -1));
       if (snprintf(buffer, 4096, ERR_NOSUCHCHANNEL, command) == -1)
-	return (puterr_int("Error: snprintf failed.\n", -1));
+	return (puterr_int(ERR_SNPRINTF, -1));
       return (answerClient(fd, buffer, -2));
     }
   if (editChannels(fd, command, channel, *users) == -1)

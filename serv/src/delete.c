@@ -5,12 +5,13 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 13:54:04 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 21:00:33 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 00:14:37 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
 #include "serv.h"
 
+#include <stdio.h>
 void		deleteUserFromChannels(const int fd, t_list **channel)
 {
   int		index;
@@ -23,14 +24,15 @@ void		deleteUserFromChannels(const int fd, t_list **channel)
   while (tmp_channel != NULL)
     {
       tmp_users = ((t_cdata *)(tmp_channel->struc))->users;
-      if ((index = getIndexUserFromChannel(*channel, fd)) != -1)
+      if ((index = getIndexUserFromChannel(tmp_channel, fd)) != -1)
 	tmp_users = tmp_users->delete_nth(tmp_users, index);
       if (tmp_users == NULL)
 	{
-	  free(((t_cdata *)((*channel)->struc))->name);
-	  free((*channel)->struc);
+	  free(((t_cdata *)((tmp_channel)->struc))->name);
+	  free((tmp_channel)->struc);
+	  (tmp_channel)->struc = NULL;
 	  *channel = (*channel)->delete_nth(*channel, i);
-          tmp_channel = *channel ? tmp_channel : NULL;
+          tmp_channel = *channel;
 	}
       ++i;
       if (tmp_channel)
