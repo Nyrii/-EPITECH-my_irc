@@ -5,27 +5,36 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 13:54:04 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 15:46:58 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 17:00:06 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
 #include "serv.h"
 
-#include <stdio.h>
 void		deleteUserFromChannels(const int fd, t_list **channel)
 {
   int		index;
   t_list	*tmp_users;
   t_list	*tmp_channel;
+  int		i;
 
+  i = 0;
   tmp_channel = *channel;
   while (tmp_channel != NULL)
     {
       tmp_users = ((t_cdata *)(tmp_channel->struc))->users;
       if ((index = getIndexUserFromChannel(*channel, fd)) != -1)
-	*channel = tmp_users->delete_nth(tmp_users, index);
-      tmp_channel = tmp_channel->next;
-  }
+	tmp_users = tmp_users->delete_nth(tmp_users, index);
+      if (tmp_users == NULL)
+	{
+	  free((*channel)->struc);
+	  *channel = (*channel)->delete_nth(*channel, i);
+          tmp_channel = *channel ? tmp_channel : NULL;
+	}
+      ++i;
+      if (tmp_channel)
+	tmp_channel = tmp_channel->next;
+    }
 }
 
 void		deleteUserFromUsersList(const int fd, t_list **users)

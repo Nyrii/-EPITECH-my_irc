@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 13:35:19 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 15:56:43 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 16:41:41 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -31,6 +31,7 @@ void		freeChannelsStructures(t_list *channels)
       tmp = tmp->next;
     }
 }
+
 int		closeAndFree(t_socket *socket, t_list *users,
 			     t_list *channels, int ret_value)
 {

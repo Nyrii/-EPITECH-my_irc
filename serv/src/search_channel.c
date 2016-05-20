@@ -5,13 +5,14 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 21:29:16 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 21:29:22 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 17:54:52 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
 #include <string.h>
 #include "serv.h"
 
+#include <stdio.h>
 t_list		*searchChannelByName(t_list *channel, const char *name)
 {
   t_list	*tmp;

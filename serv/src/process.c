@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 16:02:37 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 18:45:32 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -44,11 +44,7 @@ static int		process(t_processdata *pdata,
   while (code[++i] != NULL)
     {
       if (!strcmp(code[i], function_to_call))
-	{
-	  if ((func[i](pdata->fd, strtok(NULL, ""),
-		       channels, users)) == -1)
-	    return (-1);
-	}
+	return (func[i](pdata->fd, strtok(NULL, ""), channels, users));
     }
   return (0);
 }
@@ -68,10 +64,13 @@ static int		checkAndProcess(fd_set *readf, t_list **channels,
       fd = ((t_udata *)(tmp->struc))->fd;
       if (FD_ISSET(fd, readf))
 	{
-	  FD_CLR(fd, readf);
+	  if (*channels)
+	    printf("OMG2 = %s\n", ((t_cdata *)((*channels)->struc))->name);
 	  if ((pdata.command = get_cmd_buff(fd,
 					    &((t_udata *)(tmp->struc))->buff)))
 	    {
+	      if (*channels)
+		printf("OMG3 = %s\n", ((t_cdata *)((*channels)->struc))->name);
 	      replaceEndOfString(&pdata.command);
 	      pdata.fd = fd;
 	      if (process(&pdata, channels, users) == -1)
@@ -136,5 +135,7 @@ int			core(t_socket *socket, t_list *channels, t_list *users)
 	}
       if (checkAndProcess(&readf, &channels, &users) == -1)
 	return (closeAndFree(socket, users, channels, -1));
+      if (channels)
+	printf("OMG = %s\n", ((t_cdata *)((channels)->struc))->name);
     }
 }
