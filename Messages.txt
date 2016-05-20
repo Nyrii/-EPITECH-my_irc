@@ -4,14 +4,14 @@ ERR_NEEDMOREPARAMS "461 <command> :Not enough parameters\r\n"
 
 
 SERVER:
-ERR_NOSUCHSERVER "402 <server name> :No such server"
+ERR_NOSUCHSERVER "402 <server name> :No such server\r\n"
 
 
 
 NICKNAME :
 ERR_NICKNAMEINUSE "433 <nick> :Nickname is already in use\r\n"
 ERR_ERRONEUSNICKNAME "432 <nick> :Erroneus nickname\r\n"
-RPL_NONE "300 Command okay\r\n"
+RPL_NICKOK (voir macro)
 
 
 
@@ -29,7 +29,7 @@ ERR_NOSUCHCHANNEL "403 <channel name> :No such channel\r\n"
 
 JOIN:
 ERR_USERONCHANNEL "443 <user> <channel> :is already on channel\r\n"
-// ELLE EST OU LA REPONSE SI JAMAIS IL A JOIN UN CHANNEL PUTAIN
+RPL_TOPIC (voir macro) -> Channel, Topic
 007 Channel created // TMP
 008 Channel could not be created // TMP
 
@@ -44,18 +44,27 @@ RPL_NOUSERS "395 :Nobody logged in\r\n"
 
 RPL_ENDOFUSERS "394 :End of users\r\n"
 
+NAMES:
+RPL_TOPIC 332 channel :topic
+RPL_NAMREPLY 353 channel : names ! (all of them)
+RPL_ENDOFNAMES 366 channel ":End of /NAMES list\r\n"
 
-MSG (for all):
-// Quel message si le message a ete transmis ? si le message n'a pas pu etre transmis ?
+MSG (for the currentchannel):
+ERR_NOSUCHNICK (macro en dessous)
+Au client : MSG login :msg
+Pas de code si transmis (server)
+
 
 PRIVMSG:
 ERR_NOSUCHNICK "401 <nickname> :No such nick/channel\r\n"
 ERR_NONICKNAMEGIVEN "431 :No nickname given\r\n" // left the argument
-// Quel message si le message a ete transmis ?
+Au client : PRIVMSG login :msg
+Pas de code si transmis (server)
 
 MSG (to a channel):
 ERR_NOSUCHCHANNEL "403 <channel name> :No such channel\r\n"
-// Quel message si le message a ete transmis ?
+Au client : PRIVMSG login :msg
+Pas de code si transmis(server)
 
 SENDFILE:
 // ?? n'existe pas

@@ -5,12 +5,12 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:42:27 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 03:00:04 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 17:57:33 2016 Nyrandone Noboud-Inpeng
 */
 
 #include "serv.h"
 
-int		accept_file(int fd, char *command,
+int		accept_file(const int fd, char *command,
 			   t_list **channel, t_list *users)
 {
   (void)fd;

@@ -5,7 +5,7 @@
 ## Login   <wilmot_g@epitech.net>
 ##
 ## Started on  Mon May 16 23:28:34 2016 guillaume wilmot
-## Last update Thu May 19 18:40:50 2016 guillaume wilmot
+## Last update Fri May 20 10:13:52 2016 guillaume wilmot
 ##
 
 SRCCOM	= circular_buffer.c	\
@@ -18,7 +18,9 @@ SRCCOM	= circular_buffer.c	\
 	  sockets.c
 
 SRCSER	= acceptfile.c		\
+	  init.c		\
 	  join.c		\
+	  join_messages.c	\
 	  list.c		\
 	  main.c		\
 	  management.c		\
@@ -26,6 +28,8 @@ SRCSER	= acceptfile.c		\
 	  nick.c		\
 	  part.c		\
 	  process.c		\
+	  search_channel.c	\
+	  search_user.c		\
 	  sendfile.c		\
 	  server_sockets.c	\
 	  signal.c		\

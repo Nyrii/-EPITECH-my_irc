@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May  2 11:18:44 2016 guillaume wilmot
-** Last update Tue May 17 11:18:24 2016 Nyrandone Noboud-Inpeng
+** Last update Thu May 19 23:05:44 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef ERRORS_H_
@@ -28,8 +28,14 @@
 # define ERR_STAT		"Error: stat failed\n"
 # define ERR_SENDFILE		"Error: sendfile failed\n"
 # define ERR_MEMSET		"Error: memset failed\n"
+# define ERR_SELECT		"Error: select failed.\n"
+# define ERR_SNPRINTF		"Error: snprintf failed.\n"
+# define ERR_PUSHBACKUSER	"Error: push back of users failed.\n"
+# define ERR_LISTNULL		"Error: list of users NULL.\n"
 # define ERR_FD			"Error: aborted an action. (fd not set)\n"
 # define ERR_SYNTAX		"Error: syntax error.\n"
+# define ERR_UNKNOWNUSER	"Error: user not found\n"
+# define ERR_INTERNALJOIN	"Error: internal error on JOIN\n"
 
 int		puterr_int(const char *, int);
 void		*puterr(const char *, void *);
