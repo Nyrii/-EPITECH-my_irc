@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 16:08:38 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 21:37:44 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 13:41:20 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef REPLIES_H_
@@ -18,7 +18,7 @@
 # define ERR_ERRONEUSNICKNAME(X, Y) "432 "X" "Y" :Erroneus nickname\r\n"
 # define ERR_NOSUCHNICK(X) "401 "X" :No such nick/channel\r\n"
 # define ERR_NONICKNAMEGIVEN "431 :No nickname given\r\n"
-# define ERR_NOSUCHCHANNEL(X) "403 "X" :No such channel\r\n"
+# define ERR_NOSUCHCHANNEL "403 %s :No such channel\r\n"
 # define ERR_USERONCHANNEL "443 %s %s :is already on channel\r\n"
 # define RPL_NICKOK(X, Y) X"NICK "Y"\r\n"
 # define RPL_JOINOK ":%s JOIN :%s\r\n"

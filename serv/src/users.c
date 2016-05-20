@@ -5,13 +5,13 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 19:13:22 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 17:57:50 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 14:57:41 2016 Nyrandone Noboud-Inpeng
 */
 
 #include "serv.h"
 
 int		users(const int fd, char *command,
-		      t_list **channel, t_list *users)
+		      t_list **channel, t_list **users)
 {
   (void)fd;
   (void)command;

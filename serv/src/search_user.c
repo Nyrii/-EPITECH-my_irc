@@ -5,11 +5,49 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 21:30:01 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 21:30:36 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 14:31:11 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
 #include "serv.h"
+
+int		getIndexUserFromUsersList(t_list *users, const int fd)
+{
+  t_list	*tmp;
+  int		i;
+
+  i = 0;
+  if (users == NULL)
+    return (-1);
+  tmp = users;
+  while (tmp != NULL)
+    {
+      if (getUser(tmp, fd) != NULL)
+	return (i);
+      ++i;
+      tmp = tmp->next;
+    }
+  return (-1);
+}
+
+int		getIndexUserFromChannel(t_list *channels, const int fd)
+{
+  t_list	*tmp;
+  int		i;
+
+  i = 0;
+  if (channels == NULL)
+    return (-1);
+  tmp = ((t_cdata *)(channels->struc))->users;
+  while (tmp != NULL)
+    {
+      if (getUser(tmp, fd) != NULL)
+	return (i);
+      ++i;
+      tmp = tmp->next;
+    }
+  return (-1);
+}
 
 t_list		*getUser(t_list *users, const int fd)
 {

@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 23:15:11 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 15:58:15 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -28,11 +28,11 @@ static void		replaceEndOfString(char **string)
 }
 
 static int		process(t_processdata *pdata,
-				t_list **channels, t_list *users)
+				t_list **channels, t_list **users)
 {
-  char			*code[9];
-  int			(*func[9])(const int, char *,
-				   t_list **, t_list *);
+  char			*code[10];
+  int			(*func[10])(const int, char *,
+				   t_list **, t_list **);
   int			i;
   char			*function_to_call;
 
@@ -54,30 +54,41 @@ static int		process(t_processdata *pdata,
 }
 
 static int		checkAndProcess(fd_set *readf, t_list **channels,
-					t_list *users)
+					t_list **users)
 {
   t_list		*tmp;
   t_processdata		pdata;
   int			fd;
 
-  tmp = users;
+  tmp = *users;
   while (tmp != NULL)
     {
+      pdata.command = NULL;
+      pdata.fd = -1;
       fd = ((t_udata *)(tmp->struc))->fd;
       if (FD_ISSET(fd, readf))
 	{
+	  FD_CLR(fd, readf);
 	  pdata.command = get_cmd_buff(fd, &((t_udata *)(tmp->struc))->buff);
 	  replaceEndOfString(&pdata.command);
 	  pdata.fd = fd;
-	  if (process(&pdata, channels, users) == -1)
-	    return (-1);
+	  if (pdata.command != NULL)
+	    {
+	      if (process(&pdata, channels, users) == -1)
+		return (-1);
+	      saveUsers(*users, 1);
+	      saveChannels(*channels, 1);
+	      tmp = *users ? tmp : NULL;
+	    }
 	}
-      tmp = tmp->next;
+      if (tmp)
+	tmp = tmp->next;
     }
   return (0);
 }
 
-static int		setSelectFd(t_socket *socket, t_list *users, fd_set *readf)
+static int		setSelectFd(t_socket *socket, t_list *users,
+				    fd_set *readf)
 {
   t_list		*tmp;
   int			higher_fd;
@@ -113,8 +124,6 @@ int			core(t_socket *socket, t_list *channels, t_list *users)
     {
       tv.tv_sec = 5;
       tv.tv_usec = 0;
-      users = saveUsers(NULL);
-      channels = saveChannels(NULL);
       FD_ZERO(&readf);
       higher_fd = setSelectFd(socket, users, &readf);
       if (select(higher_fd + 1, &readf, NULL, NULL, &tv) == -1)
@@ -123,9 +132,9 @@ int			core(t_socket *socket, t_list *channels, t_list *users)
 	{
 	  if ((users = addNewUser(socket, users)) == NULL)
 	    return (closeAndFree(socket, users, channels, -1));
-	  saveUsers(users);
+	  saveUsers(users, 1);
 	}
-      if (checkAndProcess(&readf, &channels, users) == -1)
+      if (checkAndProcess(&readf, &channels, &users) == -1)
 	return (closeAndFree(socket, users, channels, -1));
     }
 }

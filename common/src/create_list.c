@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May 16 23:49:10 2016 guillaume wilmot
-** Last update Thu May 19 22:51:19 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 15:45:57 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <unistd.h>
@@ -60,7 +60,6 @@ void		destroy_list(t_list *this)
       i = 1;
       tmp = this;
       this = this->next;
-      free(tmp->struc);
       free(tmp);
     }
 }
@@ -82,7 +81,7 @@ t_list		*delete_nth_list(t_list *this, unsigned int n)
       return (NULL);
   tmp->prev ? tmp->prev->next = tmp->next : 0;
   tmp->next ? tmp->next->prev = tmp->prev : 0;
-  free(tmp->struc);
+  // free(tmp->struc);
   free(tmp);
   return ((*this->size)--, *this->first);
 }

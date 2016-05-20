@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Wed May 18 17:44:17 2016 guillaume wilmot
-** Last update Wed May 18 20:12:29 2016 guillaume wilmot
+** Last update Fri May 20 15:37:19 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -46,11 +46,15 @@ t_list		*pop_back_list(t_list *this)
 
   if (!this || !(tmp = *this->last))
     return (NULL);
+  if (*this->size == 1)
+    {
+      this->destroy(this);
+      return (NULL);
+    }
   tmp->next ? tmp->next->prev = tmp->prev : 0;
   tmp->prev ? tmp->prev->next = tmp->next : 0;
   *this->last = tmp->prev;
   ret = *this->first;
-  free(tmp->struc);
   free(tmp);
   return ((*ret->size)--, ret);
 }
@@ -62,11 +66,15 @@ t_list		*pop_front_list(t_list *this)
 
   if (!this || !(tmp = *this->first))
     return (NULL);
+  if (*this->size == 1)
+    {
+      this->destroy(this);
+      return (NULL);
+    }
   tmp->next ? tmp->next->prev = tmp->prev : 0;
   tmp->prev ? tmp->prev->next = tmp->next : 0;
   *this->first = tmp->next;
   ret = *this->first;
-  free(tmp->struc);
   free(tmp);
   return ((*ret->size)--, ret);
 }

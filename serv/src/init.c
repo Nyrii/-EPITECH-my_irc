@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 14:50:18 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 17:58:06 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 14:56:23 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -21,11 +21,12 @@ void		init_code(char **code)
   code[5] = "MSG";
   code[6] = "SENDFILE";
   code[7] = "ACCEPTFILE";
-  code[8] = NULL;
+  code[8] = "QUIT";
+  code[9] = NULL;
 }
 
 void		init_ptrfunc(int (**func)(const int, char *,
-					  t_list **, t_list *))
+					  t_list **, t_list **))
 {
   func[0] = &nick;
   func[1] = &list;
@@ -35,5 +36,6 @@ void		init_ptrfunc(int (**func)(const int, char *,
   func[5] = &msg;
   func[6] = &send_file;
   func[7] = &accept_file;
-  func[8] = NULL;
+  func[8] = &quit;
+  func[9] = NULL;
 }

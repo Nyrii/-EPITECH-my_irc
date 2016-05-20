@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 23:02:55 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 15:59:07 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -40,19 +40,30 @@ typedef struct		s_udata
 /*
 ** acceptfile.c
 */
-int		accept_file(const int, char *, t_list **, t_list *);
+int		accept_file(const int, char *, t_list **, t_list **);
+
+/*
+** delete.c
+*/
+void		deleteUserFromChannels(const int, t_list **);
+void		deleteUserFromUsersList(const int, t_list **);
+
+/*
+** free.c
+*/
+int		closeAndFree(t_socket *, t_list *, t_list *, int);
 
 /*
 ** init.c
 */
 void		init_code(char **);
 void		init_ptrfunc(int (**)(const int, char *,
-				      t_list **, t_list *));
+				      t_list **, t_list **));
 
 /*
 ** join.c
 */
-int		join(const int, char *, t_list **, t_list *);
+int		join(const int, char *, t_list **, t_list **);
 
 /*
 ** join_messages.c
@@ -63,12 +74,12 @@ int		alreadyInChannel(const int, t_list *);
 /*
 ** list.c
 */
-int		list(const int, char *, t_list **, t_list *);
+int		list(const int, char *, t_list **, t_list **);
 
 /*
 ** msg.c
 */
-int		msg(const int, char *, t_list **, t_list *);
+int		msg(const int, char *, t_list **, t_list **);
 
 /*
 ** management.c
@@ -80,17 +91,22 @@ t_list		*addNewUser(t_socket *, t_list *);
 /*
 ** nick.c
 */
-int		nick(const int, char *, t_list **, t_list *);
+int		nick(const int, char *, t_list **, t_list **);
 
 /*
 ** part.c
 */
-int		part(const int, char *, t_list **, t_list *);
+int		part(const int, char *, t_list **, t_list **);
 
 /*
 ** process.c
 */
 int		core(t_socket *, t_list *, t_list *);
+
+/*
+** quit.c
+*/
+int		quit(const int fd, char *, t_list **, t_list **);
 
 /*
 ** search_channel.c
@@ -101,37 +117,38 @@ int		searchChannelByUserFd(t_list *, const int);
 /*
 ** search_user.c
 */
+int		getIndexUserFromUsersList(t_list *, const int);
+int		getIndexUserFromChannel(t_list *, const int);
 t_list		*getUser(t_list *, const int);
 char		*getUserName(t_list *, const int);
 
 /*
 ** sendfile.c
 */
-int		send_file(const int, char *, t_list **, t_list *);
+int		send_file(const int, char *, t_list **, t_list **);
 
 /*
 ** server.c
 */
-int		server(const int, char *, t_list **, t_list *);
+int		server(const int, char *, t_list **, t_list **);
 
 /*
 ** server_sockets.c
 */
 int		answerClient(int, const char *, int);
 t_socket	*initServerSocket(const int);
-int		closeAndFree(t_socket *, t_list *, t_list *, int);
 
 /*
 ** signal.c
 */
-t_socket	*saveSocket(t_socket *);
-t_list		*saveUsers(t_list *);
-t_list		*saveChannels(t_list *);
+t_socket	*saveSocket(t_socket *, const int);
+t_list		*saveUsers(t_list *, const int);
+t_list		*saveChannels(t_list *, const int);
 void		clean_socket();
 
 /*
 ** users.c
 */
-int		users(const int, char *, t_list **, t_list *);
+int		users(const int, char *, t_list **, t_list **);
 
 #endif /* SERV_H_ */

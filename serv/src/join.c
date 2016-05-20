@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:43:49 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 22:35:33 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 14:56:57 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
@@ -15,15 +15,12 @@
 #include "errors.h"
 #include "replies.h"
 
-t_list		*createFirstChannel(const int fd, char *command, t_list *users)
+t_list		*createFirstChannel(char *command, t_list *newUser)
 {
   t_udata	*udata;
   t_cdata	*cdata;
-  t_list	*newUser;
   t_list	*channel;
 
-  if ((newUser = getUser(users, fd)) == NULL)
-    return (puterr(ERR_UNKNOWNUSER, NULL));
   if ((cdata = malloc(sizeof(t_cdata))) == NULL)
     return (puterr(ERR_MALLOC, NULL));
   udata = ((t_udata *)newUser->struc);
@@ -35,14 +32,11 @@ t_list		*createFirstChannel(const int fd, char *command, t_list *users)
   return (channel);
 }
 
-int		addUserToChannel(const int fd, t_list *users,
+int		addUserToChannel(const int fd, t_list *newUser,
 				 t_list *current_channel)
 {
-  t_list	*newUser;
   t_udata	*udata;
 
-  if ((newUser = getUser(users, fd)) == NULL)
-    return (puterr_int(ERR_UNKNOWNUSER, -1));
   if ((udata = malloc(sizeof(t_udata))) == NULL)
     return (puterr_int(ERR_MALLOC, -1));
   ((t_udata *)(newUser->struc))->current_channel =
@@ -60,43 +54,67 @@ int		addUserToChannel(const int fd, t_list *users,
   return (joinSucceed(fd, current_channel));
 }
 
+int		addNewChannel(char *command, t_list *newUser, t_list **channel)
+{
+  t_cdata	*cdata;
+  t_udata	*udata;
+
+  if ((cdata = malloc(sizeof(t_cdata))) == NULL)
+    return (puterr_int(ERR_MALLOC, -1));
+  udata = ((t_udata *)newUser->struc);
+  if ((cdata->users = create_list(udata, NULL)) == NULL)
+    return (-1);
+  cdata->name = command;
+  if (((*channel)->push_back(*channel, cdata)) == NULL)
+    return (puterr_int(ERR_PUSHBACKCHANNEL, -1));
+  return (0);
+}
+
 int		editChannels(const int fd, char *command,
 			   t_list **channel, t_list *users)
 {
   t_list	*tmp;
+  t_list	*newUser;
 
+  if ((newUser = getUser(users, fd)) == NULL)
+    return (puterr_int(ERR_UNKNOWNUSER, -1));
   if (*channel == NULL)
     {
-      if ((*channel = createFirstChannel(fd, command, users)) == NULL)
+      if ((*channel = createFirstChannel(command, newUser)) == NULL)
 	return (-1);
       return (joinSucceed(fd, *channel));
     }
   else if ((tmp = searchChannelByName(*channel, command)) != NULL
 	   && searchChannelByUserFd(tmp, fd) == -1)
-    return (addUserToChannel(fd, users, tmp));
+    return (addUserToChannel(fd, newUser, tmp));
   else if (*channel != NULL
 	   && (tmp = searchChannelByName(*channel, command)) == NULL)
-    {
-      return (0);
-    }
+    return (addNewChannel(command, newUser, channel));
   return (alreadyInChannel(fd, searchChannelByName(*channel, command)));
 }
 
 int		join(const int fd, char *command,
-		     t_list **channel, t_list *users)
+		     t_list **channel, t_list **users)
 {
   char		buffer[4096];
 
   if (memset(buffer, 0, 4096) == NULL)
     return (puterr_int(ERR_MEMSET, -1));
   if (snprintf(buffer, 4096, ERR_NEEDMOREPARAMS,
-	       getUserName(users, fd), "JOIN") == -1)
+	       getUserName(*users, fd), "JOIN") == -1)
     return (puterr_int("Error: snprintf failed.\n", -1));
   if (command == NULL)
     return (answerClient(fd, buffer, -2));
-  if (editChannels(fd, command, channel, users) == -1)
+  if (command && command[0] != '#')
+    {
+      if (memset(buffer, 0, 4096) == NULL)
+	return (puterr_int(ERR_MEMSET, -1));
+      if (snprintf(buffer, 4096, ERR_NOSUCHCHANNEL, command) == -1)
+	return (puterr_int("Error: snprintf failed.\n", -1));
+      return (answerClient(fd, buffer, -2));
+    }
+  if (editChannels(fd, command, channel, *users) == -1)
     return (-1);
-  saveChannels(*channel);
 
   /**/
   t_list *tmp;
@@ -111,6 +129,7 @@ int		join(const int fd, char *command,
 	  printf("user name = %s\n", ((t_udata *)(userchannel->struc))->name);
 	  userchannel = userchannel->next;
 	}
+      printf("\n");
       tmp = tmp->next;
     }
   /**/
