@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 23:15:11 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 13:38:46 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -65,19 +65,20 @@ static int		checkAndProcess(fd_set *readf, t_list **channels,
     {
       fd = ((t_udata *)(tmp->struc))->fd;
       if (FD_ISSET(fd, readf))
-	{
-	  pdata.command = get_cmd_buff(fd, &((t_udata *)(tmp->struc))->buff);
-	  replaceEndOfString(&pdata.command);
-	  pdata.fd = fd;
-	  if (process(&pdata, channels, users) == -1)
-	    return (-1);
-	}
+	if ((pdata.command = get_cmd_buff(fd, &((t_udata *)(tmp->struc))->buff)))
+	  {
+	    replaceEndOfString(&pdata.command);
+	    pdata.fd = fd;
+	    if (process(&pdata, channels, users) == -1)
+	      return (-1);
+	  }
       tmp = tmp->next;
     }
   return (0);
 }
 
-static int		setSelectFd(t_socket *socket, t_list *users, fd_set *readf)
+static int		setSelectFd(t_socket *socket,
+				    t_list *users, fd_set *readf)
 {
   t_list		*tmp;
   int			higher_fd;
