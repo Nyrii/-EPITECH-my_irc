@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 00:19:53 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 01:38:46 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -83,12 +83,12 @@ int		already_in_channel(const int, t_list *);
 /*
 ** list.c
 */
-int		count_users_in_channel(t_list *);
 int		list(const int, char *, t_list **, t_list **);
 
 /*
 ** list_all.c
 */
+void		store_data_for_list(const char *, char **, int *, t_list *);
 int		list_all(const int, t_list **, t_list **);
 
 /*
@@ -132,6 +132,7 @@ int		quit(const int fd, char *, t_list **, t_list **);
 /*
 ** search_channel.c
 */
+int		count_users_in_channel(t_list *);
 int		get_index_channel_from_channels_list(t_list *, const char *);
 t_list		*search_channel_by_name(t_list *, const char *);
 int		search_channel_by_user_fd(t_list *, const int);

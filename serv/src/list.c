@@ -5,39 +5,100 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:44:25 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 00:50:03 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 01:55:23 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "serv.h"
 #include "replies.h"
 #include "errors.h"
 
-int		count_users_in_channel(t_list *channel)
+char		*lower(char *string)
 {
   int		i;
-  t_list	*users;
 
   i = 0;
-  if ((users = ((t_cdata *)(channel->struc))->users) == NULL)
-    return (0);
-  while (users != NULL)
+  while (string[i])
     {
+      string[i] = tolower(string[i]);
       ++i;
-      users = users->next;
     }
-  return (i);
+  return (string);
+}
+
+int		get_list_occurencies(char **answer, t_list *tmp,
+				     char *command)
+{
+  char		*name;
+  int		pass;
+  int		len;
+
+  pass = 0;
+  len = 0;
+  while (tmp != NULL)
+    {
+      name = ((t_cdata *)(tmp->struc))->name;
+      if (strstr(lower(name), lower(command)))
+	{
+	  if ((pass == 0 && !(*answer = malloc(50 + strlen(name))))
+	      || (pass != 0
+		  && !(*answer = realloc(*answer,
+					len + 50 + (strlen(name) * 2)))))
+	    return (puterr_int(ERR_MALLOC, -1));
+	  store_data_for_list(name, answer, &len, tmp);
+	  ++pass;
+	}
+      tmp = tmp->next;
+    }
+  return (0);
+}
+
+int		find_and_print_list(const int fd, t_list *channels,
+				    t_list *users, char *command)
+{
+  t_list	*tmp;
+  char		*answer;
+  int		ret_value;
+
+  answer = NULL;
+  tmp = channels;
+  if (tmp != NULL)
+    {
+      if ((ret_value = get_list_occurencies(&answer, tmp, command)) == 0
+	  && answer != NULL)
+	{
+	  if (store_answer(get_user(users, fd), answer, 0) == -1)
+	    return (-1);
+	  free(answer);
+	}
+      else if (ret_value == -1)
+	return (-1);
+    }
+  return (0);
 }
 
 int		find_and_list(const int fd, t_list **channels,
-			      t_list **users, const char *command)
+			      t_list **users, char *command)
 {
-  (void)fd;
-  (void)channels;
-  (void)users;
-  (void)command;
+  char		buffer[4096];
+
+  if (memset(buffer, 0, 4096) == NULL)
+    return (puterr_int(ERR_MEMSET, -1));
+  if (snprintf(buffer, 4096, RPL_LISTSTART) == -1)
+    return (puterr_int(ERR_SNPRINTF, -1));
+  if (store_answer(get_user(*users, fd), buffer, 0) == -1)
+    return (-1);
+  if (find_and_print_list(fd, *channels, *users, command) == -1)
+    return (-1);
+  if (memset(buffer, 0, 4096) == NULL)
+    return (puterr_int(ERR_MEMSET, -1));
+  if (snprintf(buffer, 4096, RPL_LISTEND) == -1)
+    return (puterr_int(ERR_SNPRINTF, -1));
+  if (store_answer(get_user(*users, fd), buffer, 0) == -1)
+    return (-1);
   return (0);
 }
 

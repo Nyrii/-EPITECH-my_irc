@@ -5,12 +5,28 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 21:29:16 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 00:51:23 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 01:38:32 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
 #include <strings.h>
 #include "serv.h"
+
+int		count_users_in_channel(t_list *channel)
+{
+  int		i;
+  t_list	*users;
+
+  i = 0;
+  if ((users = ((t_cdata *)(channel->struc))->users) == NULL)
+    return (0);
+  while (users != NULL)
+    {
+      ++i;
+      users = users->next;
+    }
+  return (i);
+}
 
 int		get_index_channel_from_channels_list(t_list *channel,
 						     const char *name)
