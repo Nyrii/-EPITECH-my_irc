@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 14:50:18 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 14:56:23 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 22:32:34 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -18,11 +18,12 @@ void		init_code(char **code)
   code[2] = "JOIN";
   code[3] = "PART";
   code[4] = "USERS";
-  code[5] = "MSG";
-  code[6] = "SENDFILE";
-  code[7] = "ACCEPTFILE";
-  code[8] = "QUIT";
-  code[9] = NULL;
+  code[5] = "NAMES";
+  code[6] = "MSG";
+  code[7] = "SENDFILE";
+  code[8] = "ACCEPTFILE";
+  code[9] = "QUIT";
+  code[10] = NULL;
 }
 
 void		init_ptrfunc(int (**func)(const int, char *,
@@ -33,9 +34,10 @@ void		init_ptrfunc(int (**func)(const int, char *,
   func[2] = &join;
   func[3] = &part;
   func[4] = &users;
-  func[5] = &msg;
-  func[6] = &send_file;
-  func[7] = &accept_file;
-  func[8] = &quit;
-  func[9] = NULL;
+  func[5] = &names;
+  func[6] = &msg;
+  func[7] = &send_file;
+  func[8] = &accept_file;
+  func[9] = &quit;
+  func[10] = NULL;
 }

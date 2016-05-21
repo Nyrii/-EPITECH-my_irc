@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 17:38:27 2016 guillaume wilmot
-** Last update Sat May 21 01:18:58 2016 guillaume wilmot
+** Last update Sat May 21 03:19:45 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -18,7 +18,7 @@
 int		wait_for_input(t_socket *socket, char **code,
 			       int (**func)(char *, t_socket *))
 {
-  t_buff	buff;
+  /* t_buff	buff; */
   fd_set	std;
   char		*cmd;
 
@@ -33,11 +33,11 @@ int		wait_for_input(t_socket *socket, char **code,
       if (select(socket->fd != -1 ? socket->fd + 1 : 1,
 		 &std, NULL, NULL, NULL) == -1)
 	return (puterr_int("Error: select failed.\n", -1));
-      if (FD_ISSET(socket->fd, &std) && get_cmd_buff(socket->fd, &buff) == -1)
-	return (-1);
-      /**/
-      cmd = NULL;
-      /**/
+      /* if (FD_ISSET(socket->fd, &std) && get_cmd_buff(socket->fd, &buff) == -1) */
+      /* 	return (-1); */
+      /* /\**\/ */
+      /* cmd = NULL; */
+      /* /\**\/ */
       cmd ? printf("%s\n", cmd) : 0;
       if (FD_ISSET(0, &std) && !(cmd = get_next_line(0)))
 	return (-1);

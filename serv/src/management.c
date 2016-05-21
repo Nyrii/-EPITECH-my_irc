@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 18:44:58 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 01:39:09 2016 guillaume wilmot
+** Last update Sat May 21 03:16:28 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -14,7 +14,7 @@
 #include "serv.h"
 #include "errors.h"
 
-t_list		*addNewUser(t_socket *serv, t_list *users)
+t_list		*add_new_user(t_socket *serv, t_list *users)
 {
   t_udata	*data;
 
@@ -24,6 +24,8 @@ t_list		*addNewUser(t_socket *serv, t_list *users)
       !create_buffer(&data->buffs))
     return (NULL);
   data->name = "Anonymous";
+  if ((data->name = strdup("Anonymous")) == NULL)
+    return (puterr(ERR_STRDUP, NULL));
   data->current_channel = NULL;
   if (users == NULL)
     users = create_list(data, NULL);

@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May 16 23:49:10 2016 guillaume wilmot
-** Last update Sat May 21 01:41:50 2016 guillaume wilmot
+** Last update Sat May 21 03:16:54 2016 guillaume wilmot
 */
 
 #include <unistd.h>
@@ -73,7 +73,7 @@ t_list		*delete_nth_list(t_list *this, unsigned int n)
     return (NULL);
   if (!n)
     return (pop_front_list(this));
-  if (n >= *this->size)
+  if (n >= *this->size - 1)
     return (pop_back_list(this));
   i = -1;
   while (tmp && ++i < n)
@@ -81,7 +81,6 @@ t_list		*delete_nth_list(t_list *this, unsigned int n)
       return (NULL);
   tmp->prev ? tmp->prev->next = tmp->next : 0;
   tmp->next ? tmp->next->prev = tmp->prev : 0;
-  // free(tmp->struc);
   free(tmp);
   return ((*this->size)--, *this->first);
 }

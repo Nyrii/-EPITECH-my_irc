@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 16:08:38 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 13:41:20 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 01:07:15 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef REPLIES_H_
@@ -16,7 +16,7 @@
 # define ERR_NOSUCHSERVER(X, Y) "402 "X" "Y" :No such server\r\n"
 # define ERR_NICKNAMEUSE(X, Y) "433 "X" "Y" :Nickname is already in use\r\n"
 # define ERR_ERRONEUSNICKNAME(X, Y) "432 "X" "Y" :Erroneus nickname\r\n"
-# define ERR_NOSUCHNICK(X) "401 "X" :No such nick/channel\r\n"
+# define ERR_NOSUCHNICK "401 %s :No such nick/channel\r\n"
 # define ERR_NONICKNAMEGIVEN "431 :No nickname given\r\n"
 # define ERR_NOSUCHCHANNEL "403 %s :No such channel\r\n"
 # define ERR_USERONCHANNEL "443 %s %s :is already on channel\r\n"
@@ -30,8 +30,8 @@
 # define RPL_NOUSERS "395 :Nobody logged in\r\n"
 # define RPL_ENDOFUSERS "394 :End of users\r\n"
 # define RPL_TOPIC(X, Y) "332 "X" :"Y"\r\n"
-# define RPL_NAMREPLAY(X) "353 "X" :"
-# define RPL_ENDOFNAMES(X) "366 "X" :End of /NAMES list\r\n"
+# define RPL_NAMREPLAY "353 %s :%s\r\n"
+# define RPL_ENDOFNAMES "366 %s :End of /NAMES list\r\n"
 # define RPL_SENDPRIVMSG(X, Y) "PRIVMSG "X" :"Y"\r\n"
 # define RPL_SENDMSG(X, Y) "MSG "X" :"Y"\r\n"
 

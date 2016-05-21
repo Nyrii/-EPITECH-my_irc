@@ -5,13 +5,15 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May  2 11:18:44 2016 guillaume wilmot
-** Last update Fri May 20 14:44:28 2016 Nyrandone Noboud-Inpeng
+** Last update Fri May 20 22:40:19 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef ERRORS_H_
 # define ERRORS_H_
 
 # define ERR_MALLOC		"Error: malloc failed\n"
+# define ERR_REALLOC		"Error: realloc failed\n"
+# define ERR_STRCAT		"Error: strcat failed\n"
 # define ERR_GETPROTOBYNAME	"Error: getprotobyname failed\n"
 # define ERR_SOCKET		"Error: socket failed\n"
 # define ERR_CLOSE		"Error: close failed\n"
@@ -26,8 +28,11 @@
 # define ERR_GETCWD		"Error: getcwd failed\n"
 # define ERR_OPEN		"Error: open failed\n"
 # define ERR_STAT		"Error: stat failed\n"
+# define ERR_STRDUP		"Error: strdup failed\n"
 # define ERR_SENDFILE		"Error: sendfile failed\n"
 # define ERR_MEMSET		"Error: memset failed\n"
+# define ERR_CHANNELNOTFOUND	"Error: channel not found\n"
+# define ERR_COMMUNICATE	"Error: could not send message to a client\n"
 # define ERR_CLOSEQUIT		"Error: close before leaving client failed.\n"
 # define ERR_SELECT		"Error: select failed.\n"
 # define ERR_SNPRINTF		"Error: snprintf failed.\n"

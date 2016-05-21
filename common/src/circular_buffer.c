@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:41:38 2016 guillaume wilmot
-** Last update Sat May 21 02:30:08 2016 guillaume wilmot
+** Last update Sat May 21 03:22:17 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -77,7 +77,8 @@ char		*get_next_cmd(t_buff *buff)
   return (NULL);
 }
 
-int		get_cmd_buff(int fd, t_buff *buff)
+/* Mustn't return a char * but a list of valid commands to execute later on */
+char		*get_cmd_buff(int fd, t_buff *buff)
 {
   char		tmp[buff->size];
   char		*cmd;
@@ -85,9 +86,8 @@ int		get_cmd_buff(int fd, t_buff *buff)
 
   if ((ret = read(fd, tmp, buff->size)) <= 0 ||
       write_to_buffer(tmp, buff, ret) == -1)
-    return (-1);
+    return (NULL); // -1
   while ((cmd = get_next_cmd(buff)))
-    printf("%s\n", cmd);
-  printf("buff->start %d buff->end %d\n", buff->start, buff->end);
-  return (0);
+    return (cmd);/* printf("%s\n", cmd); */
+  return (cmd);
 }

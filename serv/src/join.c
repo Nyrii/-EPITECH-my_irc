@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:43:49 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 18:29:17 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 02:44:40 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
@@ -15,7 +15,7 @@
 #include "errors.h"
 #include "replies.h"
 
-t_list		*createFirstChannel(char *command, t_list *newUser)
+t_list		*create_first_channel(char *command, t_list *new_user)
 {
   t_udata	*udata;
   t_cdata	*cdata;
@@ -23,23 +23,31 @@ t_list		*createFirstChannel(char *command, t_list *newUser)
 
   if ((cdata = malloc(sizeof(t_cdata))) == NULL)
     return (puterr(ERR_MALLOC, NULL));
-  udata = ((t_udata *)newUser->struc);
-  udata->current_channel = command;
+  udata = ((t_udata *)new_user->struc);
+  if (udata->current_channel != NULL)
+    free(udata->current_channel);
+  if ((udata->current_channel = strdup(command)) == NULL)
+    return (puterr(ERR_STRDUP, NULL));
   if ((cdata->users = create_list(udata, NULL)) == NULL)
     return (NULL);
-  cdata->name = command;
+  if ((cdata->name = strdup(command)) == NULL)
+    return (puterr(ERR_STRDUP, NULL));
   if ((channel = create_list(cdata, NULL)) == NULL)
     return (NULL);
   return (channel);
 }
 
-int		addUserToChannel(const int fd, t_list *newUser,
-				 t_list *current_channel)
+int		add_user_to_channel(const int fd, t_list *new_user,
+				    t_list *current_channel)
 {
   t_udata	*udata;
 
-  udata = ((t_udata *)newUser->struc);
-  udata->current_channel = ((t_cdata *)(current_channel->struc))->name;
+  udata = ((t_udata *)new_user->struc);
+  if (udata->current_channel != NULL)
+    free(udata->current_channel);
+  udata->current_channel = strdup(((t_cdata *)(current_channel->struc))->name);
+  if (udata->current_channel == NULL)
+    return (puterr_int(ERR_STRDUP, -1));
   if (!((t_cdata *)(current_channel->struc))->users)
     {
       ((t_cdata *)(current_channel->struc))->users = create_list(udata, NULL);
@@ -49,93 +57,72 @@ int		addUserToChannel(const int fd, t_list *newUser,
   else if (((t_cdata *)(current_channel->struc))->users->push_back
 	   (((t_cdata *)(current_channel->struc))->users, udata) == NULL)
     return (puterr_int("Error: push back of users failed.\n", -1));
-  return (joinSucceed(fd, current_channel));
+  return (join_succeed(fd, current_channel));
 }
 
-int		addNewChannel(const int fd, char *command,
-			      t_list *newUser, t_list **channel)
+int		add_new_channel(const int fd, char *command,
+				t_list *new_user, t_list **channel)
 {
   t_cdata	*cdata;
   t_udata	*udata;
 
   if ((cdata = malloc(sizeof(t_cdata))) == NULL)
     return (puterr_int(ERR_MALLOC, -1));
-  udata = ((t_udata *)newUser->struc);
-  udata->current_channel = command;
+  udata = ((t_udata *)new_user->struc);
+  if (udata->current_channel != NULL)
+    free(udata->current_channel);
+  if ((udata->current_channel = strdup(command)) == NULL)
+    return (puterr_int(ERR_STRDUP, -1));
   if ((cdata->users = create_list(udata, NULL)) == NULL)
     return (-1);
-  cdata->name = command;
+  if ((cdata->name = strdup(command)) == NULL)
+    return (puterr_int(ERR_STRDUP, -1));
   if (((*channel)->push_back(*channel, cdata)) == NULL)
     return (puterr_int(ERR_PUSHBACKCHANNEL, -1));
-  return (joinSucceed(fd, *(*channel)->last));
+  return (join_succeed(fd, *(*channel)->last));
 }
 
-int		editChannels(const int fd, char *command,
+int		edit_channels(const int fd, char *command,
 			   t_list **channel, t_list *users)
 {
-  // t_list	*tmp;
-  t_list	*newUser;
+  t_list	*tmp;
+  t_list	*new_user;
 
-  if ((newUser = getUser(users, fd)) == NULL)
+  if ((new_user = get_user(users, fd)) == NULL)
     return (puterr_int(ERR_UNKNOWNUSER, -1));
   if (*channel == NULL)
     {
-      printf("PREMIER PASSAGE\n");
-      if ((*channel = createFirstChannel(command, newUser)) == NULL)
+      if ((*channel = create_first_channel(command, new_user)) == NULL)
 	return (-1);
-      return (joinSucceed(fd, *channel));
+      return (join_succeed(fd, *channel));
     }
-  return (0);
-//   else if ((tmp = searchChannelByName(*channel, command)) != NULL
-// 	   && searchChannelByUserFd(tmp, fd) == -1)
-//     return (addUserToChannel(fd, newUser, tmp));
-//   else if (*channel != NULL
-// 	   && (tmp = searchChannelByName(*channel, command)) == NULL)
-//     return (addNewChannel(fd, command, newUser, channel));
-//   return (alreadyInChannel(fd, searchChannelByName(*channel, command)));
+  else if ((tmp = search_channel_by_name(*channel, command)) != NULL
+	   && search_channel_by_user_fd(tmp, fd) == -1)
+    return (add_user_to_channel(fd, new_user, tmp));
+  else if (*channel != NULL
+	   && (tmp = search_channel_by_name(*channel, command)) == NULL)
+    return (add_new_channel(fd, command, new_user, channel));
+  return (already_in_channel(fd, search_channel_by_name(*channel, command)));
 }
 
 int		join(const int fd, char *command,
 		     t_list **channel, t_list **users)
 {
   char		buffer[4096];
+  char		*arg;
+  int		ret_value;
 
-  if (memset(buffer, 0, 4096) == NULL)
-    return (puterr_int(ERR_MEMSET, -1));
-  if (snprintf(buffer, 4096, ERR_NEEDMOREPARAMS,
-	       getUserName(*users, fd), "JOIN") == -1)
-    return (puterr_int("Error: snprintf failed.\n", -1));
-  if (command == NULL)
-    return (answerClient(fd, buffer, -2));
-  if (command && command[0] != '#')
+  if ((ret_value = take_first_arg(fd, command, *users, &arg)) != 0)
+    return (ret_value);
+  if (arg && arg[0] != '#')
     {
       if (memset(buffer, 0, 4096) == NULL)
 	return (puterr_int(ERR_MEMSET, -1));
-      if (snprintf(buffer, 4096, ERR_NOSUCHCHANNEL, command) == -1)
-	return (puterr_int("Error: snprintf failed.\n", -1));
-      return (answerClient(fd, buffer, -2));
+      if (snprintf(buffer, 4096, ERR_NOSUCHCHANNEL, arg) == -1)
+	return (puterr_int(ERR_SNPRINTF, -1));
+      return (answer_client(fd, buffer, -2));
     }
-  if (editChannels(fd, command, channel, *users) == -1)
+  if (edit_channels(fd, arg, channel, *users) == -1)
     return (-1);
-
-  /**/
-  t_list *tmp;
-  t_list *userchannel;
-  tmp = *channel;
-  while (tmp)
-    {
-      userchannel = ((t_cdata *)((tmp)->struc))->users;
-      printf("LOL channel name = %s\n", ((t_cdata *)(tmp->struc))->name);
-      while (userchannel != NULL)
-	{
-	  printf("LOL user name = %s\n", ((t_udata *)(userchannel->struc))->name);
-	  userchannel = userchannel->next;
-	}
-      printf("\n");
-      tmp = tmp->next;
-    }
-  printf("REAL NAME = %s\n", ((t_cdata *)((*channel)->struc))->name);
-  printf("-----------------\n\n");
-  /**/
   return (0);
 }

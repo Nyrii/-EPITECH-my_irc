@@ -5,13 +5,13 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 13:54:04 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 17:00:06 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 02:25:54 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
 #include "serv.h"
 
-void		deleteUserFromChannels(const int fd, t_list **channel)
+void		delete_user_from_channels(const int fd, t_list **channel)
 {
   int		index;
   t_list	*tmp_users;
@@ -23,29 +23,32 @@ void		deleteUserFromChannels(const int fd, t_list **channel)
   while (tmp_channel != NULL)
     {
       tmp_users = ((t_cdata *)(tmp_channel->struc))->users;
-      if ((index = getIndexUserFromChannel(*channel, fd)) != -1)
-	tmp_users = tmp_users->delete_nth(tmp_users, index);
-      if (tmp_users == NULL)
+      if ((index = get_index_user_from_channel(tmp_channel, fd)) != -1)
 	{
-	  free((*channel)->struc);
-	  *channel = (*channel)->delete_nth(*channel, i);
-          tmp_channel = *channel ? tmp_channel : NULL;
+	  tmp_users = tmp_users->delete_nth(tmp_users, index);
+	  ((t_cdata *)(tmp_channel->struc))->users = tmp_users;
 	}
-      ++i;
-      if (tmp_channel)
-	tmp_channel = tmp_channel->next;
+      !tmp_users ? free(((t_cdata *)((tmp_channel)->struc))->name) : 0;
+      !tmp_users ? free((tmp_channel)->struc) : 0;
+      !tmp_users ? ((tmp_channel)->struc = NULL) : 0;
+      !tmp_users ? (*channel = (*channel)->delete_nth(*channel, i)) : 0;
+      !tmp_users ? (tmp_channel = *channel) : 0;
+      i = tmp_users == NULL ? 0 : i + 1;
+      tmp_channel = tmp_users == NULL ? tmp_channel : tmp_channel->next;
     }
 }
 
-void		deleteUserFromUsersList(const int fd, t_list **users)
+void		delete_user_from_users_list(const int fd, t_list **users)
 {
   int		i;
   t_list	*tmp;
 
-  if ((tmp = getUser(*users, fd)) == NULL)
+  if ((tmp = get_user(*users, fd)) == NULL)
     return ;
-  if ((i = getIndexUserFromUsersList(*users, fd)) == -1)
+  if ((i = get_index_user_from_users_list(*users, fd)) == -1)
     return ;
+  free(((t_udata *)(tmp->struc))->name);
+  free(((t_udata *)(tmp->struc))->current_channel);
   free(tmp->struc);
   tmp->struc = NULL;
   *users = (*users)->delete_nth(*users, i);

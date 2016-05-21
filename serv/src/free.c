@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 13:35:19 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 16:41:41 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 02:16:41 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -13,7 +13,7 @@
 #include "errors.h"
 #include "serv.h"
 
-void		freeChannelsStructures(t_list *channels)
+void		free_channels_structures(t_list *channels)
 {
   t_list	*tmp;
   t_list	*tmp_cdata;
@@ -25,6 +25,7 @@ void		freeChannelsStructures(t_list *channels)
       tmp_cdata->destroy(tmp_cdata);
       if (tmp->struc != NULL)
 	{
+	  free(((t_cdata *)(tmp->struc))->name);
 	  free(tmp->struc);
 	  tmp->struc = NULL;
 	}
@@ -32,7 +33,7 @@ void		freeChannelsStructures(t_list *channels)
     }
 }
 
-int		closeAndFree(t_socket *socket, t_list *users,
+int		close_and_free(t_socket *socket, t_list *users,
 			     t_list *channels, int ret_value)
 {
   t_list	*tmp;
@@ -53,10 +54,12 @@ int		closeAndFree(t_socket *socket, t_list *users,
 	}
       tmp_free = tmp;
       tmp = tmp->next;
+      free(((t_udata *)(tmp_free->struc))->name);
+      free(((t_udata *)(tmp_free->struc))->current_channel);
       free(tmp_free->struc);
       tmp_free->struc = NULL;
     }
-  channels ? freeChannelsStructures(channels) : 0;
+  channels ? free_channels_structures(channels) : 0;
   users ? users->destroy(users) : 0;
   channels ? channels->destroy(channels) : 0;
   return (socket ? free(socket) : 0, ret_value);

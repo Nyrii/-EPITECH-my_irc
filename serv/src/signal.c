@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:12:34 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 16:00:19 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 02:27:02 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include "serv.h"
 
-t_socket		*saveSocket(t_socket *server, const int force)
+t_socket		*save_socket(t_socket *server, const int force)
 {
   static t_socket	*tmp = NULL;
 
@@ -22,7 +22,7 @@ t_socket		*saveSocket(t_socket *server, const int force)
   return (tmp);
 }
 
-t_list			*saveUsers(t_list *users, const int force)
+t_list			*save_users(t_list *users, const int force)
 {
   static t_list		*tmp = NULL;
 
@@ -31,7 +31,7 @@ t_list			*saveUsers(t_list *users, const int force)
   return (tmp);
 }
 
-t_list			*saveChannels(t_list *channels, const int force)
+t_list			*save_channels(t_list *channels, const int force)
 {
   static t_list		*tmp = NULL;
 
@@ -42,9 +42,9 @@ t_list			*saveChannels(t_list *channels, const int force)
 
 void			clean_socket()
 {
-  closeAndFree(saveSocket(NULL, 0),
-	       saveUsers(NULL, 0),
-	       saveChannels(NULL, 0),
+  close_and_free(save_socket(NULL, 0),
+	       save_users(NULL, 0),
+	       save_channels(NULL, 0),
 	       0);
   exit(0);
 }

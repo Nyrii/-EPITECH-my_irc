@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 21:16:56 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 21:42:01 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 02:46:19 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -15,13 +15,31 @@
 #include "errors.h"
 #include "replies.h"
 
-int		joinSucceed(const int fd, t_list *current_channel)
+int		take_first_arg(const int fd, char *command, t_list *users,
+			       char **first_arg)
+{
+  char		buffer[4096];
+
+  if ((*first_arg = strtok(command, " ")) == NULL)
+    {
+      if (memset(buffer, 0, 4096) == NULL)
+	return (puterr_int(ERR_MEMSET, -1));
+      if (snprintf(buffer, 4096, ERR_NEEDMOREPARAMS,
+		   get_user_name(users, fd), "JOIN") == -1)
+	return (puterr_int(ERR_SNPRINTF, -1));
+      if (command == NULL)
+	return (answer_client(fd, buffer, -2));
+    }
+  return (0);
+}
+
+int		join_succeed(const int fd, t_list *current_channel)
 {
   char		buffer[4096];
   t_list	*tmp;
   char		*username;
 
-  if ((username = getUserName(((t_cdata *)(current_channel->struc))->users,
+  if ((username = get_user_name(((t_cdata *)(current_channel->struc))->users,
 			      fd)) == NULL)
     return (puterr_int(ERR_INTERNALJOIN, -1));
   if (memset(buffer, 0, 4096) == NULL)
@@ -32,14 +50,14 @@ int		joinSucceed(const int fd, t_list *current_channel)
   tmp = ((t_cdata *)(current_channel->struc))->users;
   while (tmp != NULL)
     {
-      if (answerClient(((t_udata *)(tmp->struc))->fd, buffer, 0) == -1)
+      if (answer_client(((t_udata *)(tmp->struc))->fd, buffer, 0) == -1)
 	return (-1);
       tmp = tmp->next;
     }
   return (0);
 }
 
-int		alreadyInChannel(const int fd, t_list *current_channel)
+int		already_in_channel(const int fd, t_list *current_channel)
 {
   char		buffer[4096];
   char		*channel_name;
@@ -48,12 +66,12 @@ int		alreadyInChannel(const int fd, t_list *current_channel)
   if (current_channel == NULL)
     return (puterr_int(ERR_INTERNALJOIN, -1));
   channel_name = ((t_cdata *)(current_channel->struc))->name;
-  username = getUserName(((t_cdata *)(current_channel->struc))->users, fd);
+  username = get_user_name(((t_cdata *)(current_channel->struc))->users, fd);
   if (channel_name == NULL || username == NULL)
     return (puterr_int(ERR_INTERNALJOIN, -1));
   if (memset(buffer, 0, 4096) == NULL)
     return (puterr_int(ERR_MEMSET, -1));
   if (snprintf(buffer, 4096, ERR_USERONCHANNEL, username, channel_name) == -1)
     return (puterr_int(ERR_SNPRINTF, -1));
-  return (answerClient(fd, buffer, 0));
+  return (answer_client(fd, buffer, 0));
 }
