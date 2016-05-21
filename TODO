@@ -1,2 +1,10 @@
 Server:
-	- Tester tous les cas de join (notamment lorsque plusieurs clients tentent de rejoindre differents channels)
+	- PART
+	- MSG
+	- SENDFILE
+	- ACCEPTFILE
+	- USER
+
+	- NICK
+	- LIST
+	- USERS

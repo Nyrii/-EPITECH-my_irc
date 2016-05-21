@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May  2 11:18:44 2016 guillaume wilmot
-** Last update Fri May 20 22:40:19 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 14:02:07 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef ERRORS_H_
@@ -43,6 +43,7 @@
 # define ERR_SYNTAX		"Error: syntax error.\n"
 # define ERR_UNKNOWNUSER	"Error: user not found\n"
 # define ERR_INTERNALJOIN	"Error: internal error on JOIN\n"
+# define ERR_INTERNALPART	"Error: internal error on PART\n"
 
 int		puterr_int(const char *, int);
 void		*puterr(const char *, void *);

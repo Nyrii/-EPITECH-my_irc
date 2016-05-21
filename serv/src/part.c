@@ -5,17 +5,79 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:45:56 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 14:57:11 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 14:10:15 2016 Nyrandone Noboud-Inpeng
 */
 
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include "serv.h"
+#include "replies.h"
+#include "errors.h"
+
+int		part_succeed(const int fd, t_list *current_channel,
+			     const char *user_name, const char *channel_name)
+{
+  char		buffer[4096];
+  t_list	*users;
+
+  if (user_name == NULL)
+    return (puterr_int(ERR_INTERNALPART, -1));
+  if (current_channel)
+    users = ((t_cdata *)(current_channel->struc))->users;
+  else
+    users = NULL;
+  if (memset(buffer, 0, 4096) == NULL)
+    return (puterr_int(ERR_MEMSET, -1));
+  if (snprintf(buffer, 4096, RPL_PARTOK, user_name, channel_name) == -1)
+    return (puterr_int(ERR_SNPRINTF, -1));
+  while (users != NULL)
+    {
+      if (((t_udata *)(users->struc))->fd != -1)
+	{
+	  if (answer_client(((t_udata *)(users->struc))->fd, buffer, 0) == -1)
+	    return (-1);
+	}
+      users = users->next;
+    }
+  return (answer_client(fd, buffer, 0));
+}
+
+int		not_on_channel(const int fd, const char *channel_name)
+{
+  char		buffer[4096];
+
+  if (memset(buffer, 0, 4096) == NULL)
+    return (puterr_int(ERR_MEMSET, -1));
+  if (snprintf(buffer, 4096, ERR_NOTONCHANNEL, channel_name) == -1)
+    return (puterr_int(ERR_SNPRINTF, -1));
+  return (answer_client(fd, buffer, -2));
+}
 
 int		part(const int fd, char *command,
-		     t_list **channel, t_list **users)
+		     t_list **channels, t_list **users)
 {
-  (void)fd;
-  (void)command;
-  (void)channel;
-  (void)users;
-  return (0);
+  int		ret_value;
+  t_list	*channel;
+  int		index;
+  char		buffer[4096];
+
+  if ((ret_value = take_first_arg(fd, &command, *users, "PART")) != 0)
+    return (ret_value);
+  if ((channel = search_channel_by_name(*channels, command)) == NULL)
+    {
+      if (memset(buffer, 0, 4096) == NULL)
+	return (puterr_int(ERR_MEMSET, -1));
+      if (snprintf(buffer, 4096, ERR_NOSUCHCHANNEL, command) == -1)
+	return (puterr_int(ERR_SNPRINTF, -1));
+      return (answer_client(fd, buffer, -2));
+    }
+  if ((get_index_user_from_channel(channel, fd)) != -1 &&
+      (index = get_index_channel_from_channels_list(channel, command) != -1))
+    {
+      delete_user_from_channel(fd, index, channels, channel);
+      channel = search_channel_by_name(*channels, command);
+      return (part_succeed(fd, channel, get_user_name(*users, fd), command));
+    }
+  return (not_on_channel(fd, command));
 }
