@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 16:08:38 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 18:25:46 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 22:22:09 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef REPLIES_H_
@@ -14,8 +14,8 @@
 # define ERR_UNKNOWNCOMMAND "421 %s %s :Unknown command\r\n"
 # define ERR_NEEDMOREPARAMS "461 %s %s :Not enough parameters\r\n"
 # define ERR_NOSUCHSERVER(X, Y) "402 "X" "Y" :No such server\r\n"
-# define ERR_NICKNAMEUSE(X, Y) "433 "X" "Y" :Nickname is already in use\r\n"
-# define ERR_ERRONEUSNICKNAME(X, Y) "432 "X" "Y" :Erroneus nickname\r\n"
+# define ERR_NICKNAMEINUSE "433 %s :Nickname is already in use\r\n"
+# define ERR_ERRONEUSNICKNAME "432 %s :Erroneus nickname\r\n"
 # define ERR_NOSUCHNICK "401 %s :No such nick/channel\r\n"
 # define ERR_NONICKNAMEGIVEN "431 :No nickname given\r\n"
 # define ERR_NOSUCHCHANNEL "403 %s :No such channel\r\n"
@@ -23,7 +23,7 @@
 # define ERR_NOTONCHANNEL "442 %s :You're not on that channel\r\n"
 # define ERR_NOTEXTTOSEND "412 :No text to send\r\n"
 # define ERR_CANNOTSENDTOCHAN "404 %s :Cannot send to channel\r\n"
-# define RPL_NICKOK(X, Y) X"NICK "Y"\r\n"
+# define RPL_NICKOK "NICK %s\r\n"
 # define RPL_JOINOK ":%s JOIN :%s\r\n"
 # define RPL_PARTOK ":%s PART :%s\r\n"
 # define RPL_MSG "MSG "
