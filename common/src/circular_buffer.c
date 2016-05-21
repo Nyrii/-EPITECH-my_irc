@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:41:38 2016 guillaume wilmot
-** Last update Sat May 21 19:18:04 2016 guillaume wilmot
+** Last update Sat May 21 22:07:32 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -93,11 +93,8 @@ int		get_cmd_buff(int fd, t_buffs *buffs)
   char		*cmd;
   int		ret;
 
-  buffs->cmds ? free_content(buffs->cmds) : 0;
-  buffs->cmds ? buffs->cmds->destroy(buffs->cmds) : 0;
-  buffs->cmds = NULL;
   if ((ret = read(fd, tmp, buffs->in.size)) <= 0)
-    return (!(buffs->cmds = create_list(strdup("QUIT"), NULL)) ? -1 : -3);
+    return (!(buffs->cmds = create_list(strdup("QUIT"), NULL)) ? -1 : 0);
   if (write_to_buffer(tmp, &buffs->in, ret) == -1)
     return (-2);
   while ((cmd = get_next_cmd(&buffs->in)))
@@ -111,8 +108,7 @@ int		get_cmd_buff(int fd, t_buffs *buffs)
       else if (!(buffs->cmds = buffs->cmds->push_back(buffs->cmds, cmd)))
 	return (-1);
       if (!strcmp("QUIT", cmd) || !strncmp(cmd, "QUIT ", 5))
-	return (-3);
-      printf("CMD : %p %s\n", cmd, cmd);
+	return (0);
     }
   return (0);
 }

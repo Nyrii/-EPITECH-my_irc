@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 18:34:05 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 22:34:49 2016 guillaume wilmot
 */
 
 #ifndef SERV_H_
@@ -89,6 +89,14 @@ int		list(const int, char *, t_list **, t_list **);
 ** msg.c
 */
 int		msg(const int, char *, t_list **, t_list **);
+
+/*
+** manage_fd.c
+*/
+
+int		check_and_read(fd_set *, t_list **);
+int		check_and_write(fd_set *, t_list **);
+int		set_select_fd(t_socket *, t_list *, fd_set *, fd_set *);
 
 /*
 ** management.c
