@@ -5,34 +5,27 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:42:04 2016 guillaume wilmot
-** Last update Sat May 21 01:29:24 2016 guillaume wilmot
+** Last update Fri May 20 14:46:34 2016 guillaume wilmot
 */
 
 #ifndef CIRCULAR_BUFFER_H_
 # define CIRCULAR_BUFFER_H_
 
-# define BUFFSIZE_IN	512
-# define BUFFSIZE_OUT	16384
+# define PACKETSIZE 1024 /* A check, au moins 128 */
 
 typedef struct		s_buff
 {
-  char			*buff;
-  char			*cmd;
-  unsigned int		size;
-  unsigned int		idx;
+  char			buff[PACKETSIZE * 2 + 1];
+  char			cmd[PACKETSIZE + 1];
+  char			final[PACKETSIZE + 1];
   unsigned int		start;
-  unsigned int		end;
-  unsigned char		found;
+  unsigned int		idx;
+  int			end;
+  int			back;
+  char			check;
 }			t_buff;
 
-typedef struct		s_buffs
-{
-  t_buff		in;
-  t_buff		out;
-}			t_buffs;
-
-t_buffs			*create_buffer(t_buffs *buffs);
-int			get_cmd_buff(int, t_buff *);
+char			*get_cmd_buff(int, t_buff *);
 int			send_msg(int, char *);
 
 #endif /* !CIRCULAR_BUFFER_H_ */

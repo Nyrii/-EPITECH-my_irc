@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:41:38 2016 guillaume wilmot
-** Last update Fri May 20 15:02:06 2016 guillaume wilmot
+** Last update Sat May 21 02:30:08 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -13,75 +13,81 @@
 #include <unistd.h>
 #include <stdio.h>
 #include "circular_buffer.h"
+#include "errors.h"
 
-static int	get_line_buff(t_buff *buff)
+t_buffs		*create_buffer(t_buffs *buffs)
 {
-  while (buff->end && buff->idx < PACKETSIZE)
+  if (!memset(&buffs->in, 0, sizeof(t_buff)) ||
+      !memset(&buffs->out, 0, sizeof(t_buff)) ||
+      !(buffs->in.buff = malloc(BUFFSIZE_IN * sizeof(char))) ||
+      !(buffs->in.cmd = malloc(BUFFSIZE_IN * sizeof(char))) ||
+      !(buffs->out.buff = malloc(BUFFSIZE_OUT * sizeof(char))) ||
+      !(buffs->out.cmd = malloc(BUFFSIZE_OUT * sizeof(char))) ||
+      !memset(buffs->in.buff, 0, BUFFSIZE_IN) ||
+      !memset(buffs->in.cmd, 0, BUFFSIZE_IN) ||
+      !memset(buffs->out.buff, 0, BUFFSIZE_OUT) ||
+      !memset(buffs->out.cmd, 0, BUFFSIZE_OUT))
+    return (puterr(ERR_MALLOC, NULL));
+  buffs->in.size = BUFFSIZE_IN;
+  buffs->out.size = BUFFSIZE_OUT;
+  return (buffs);
+}
+
+int		write_to_buffer(char *str, t_buff *buff, int size)
+{
+  unsigned int	go;
+  int		i;
+
+  i = -1;
+  go = buff->start == buff->end ? 1 : 0;
+  while (++i < size && ((buff->start + i) % buff->size != buff->end || go))
+    buff->buff[(buff->start + i) % buff->size] = str[i];
+  if ((buff->start + i) % buff->size == buff->end && (!go || i) && i != size)
+    return (-1);
+  buff->end = (buff->end + i) % buff->size;
+  return (0);
+}
+
+char		*get_next_cmd(t_buff *buff)
+{
+  char		*cmd;
+  unsigned int	start;
+
+  start = buff->start;
+  while ((start + buff->idx) % buff->size != buff->end)
     {
-      buff->check = buff->check ? buff->check - 1 : buff->check;
-      buff->cmd[buff->idx++] = buff->buff[buff->start];
-      if (buff->buff[buff->start] == '\r')
-	buff->check = 2;
-      if (buff->buff[buff->start] == '\n' && buff->check == 1)
-	buff->check = 3;
-      buff->start = buff->start + 1 >= PACKETSIZE * 2 ? 0 : buff->start + 1;
-      buff->end--;
-      if (buff->check == 3)
+      buff->found = buff->found ? buff->found - 1 : buff->found;
+      buff->cmd[buff->idx] = buff->buff[buff->start];
+      buff->buff[buff->start] = 0;
+      buff->found =  buff->cmd[buff->idx] == '\r' ? buff->found : 2;
+      if (buff->cmd[buff->idx] == '\n' && buff->found)
+	buff->found = 3;
+      buff->idx = (buff->idx + 1) % buff->size;
+      buff->start = (buff->start + 1) % buff->size;
+      if (buff->found == 3)
 	{
-	  buff->check = 0;
-	  buff->cmd[buff->idx] = 0;
-	  return (0);
+	  if (!(cmd = strdup(buff->cmd)) ||
+	      !memset(buff->cmd, 0, buff->size))
+	    return (NULL);
+	  buff->idx = 0;
+	  buff->found = 0;
+	  return (cmd);
 	}
     }
-  return (-1);
+  return (NULL);
 }
 
-char		*reinit(t_buff *buff)
+int		get_cmd_buff(int fd, t_buff *buff)
 {
-  if (!memset(buff->final, 0, sizeof(buff->final)) ||
-      !strcat(buff->final, buff->cmd) ||
-      !memset(buff->cmd, 0, sizeof(buff->cmd)))
-    return (NULL);
-  buff->idx = 0;
-  buff->check = 0;
-  return (buff->final);
-}
-
-char		*get_cmd_buff(int fd, t_buff *buff)
-{
-  int		cmd;
-
-  cmd = get_line_buff(buff);
-  if (cmd == -1)
-    {
-      if (buff->idx >= PACKETSIZE)
-	return (buff->cmd);
-      if ((buff->end = read(fd, &buff->buff[buff->back],
-			    PACKETSIZE * 2 - buff->back > PACKETSIZE ?
-			    PACKETSIZE : PACKETSIZE * 2 - buff->back)) <= 0)
-	return (strncat(buff->cmd, "QUIT", 4), reinit(buff));
-      buff->back = buff->back + buff->end >= PACKETSIZE * 2 ?
-	buff->back + buff->end - PACKETSIZE * 2 : buff->back + buff->end;
-      if ((cmd = get_line_buff(buff)) == -1)
-	return (NULL);
-    }
-  return (reinit(buff));
-}
-
-int		send_msg(int fd, char *str)
-{
-  unsigned int	i;
-  unsigned int	len;
+  char		tmp[buff->size];
+  char		*cmd;
   int		ret;
 
-  i = 0;
-  len = strlen(str);
-  while (i < len)
-    {
-      if ((ret = write(fd, &str[i], PACKETSIZE / 10 > len - i ?
-		       len - i : PACKETSIZE / 10)) == -1)
-	return (-1);
-      i += ret;
-    }
+  if ((ret = read(fd, tmp, buff->size)) <= 0 ||
+      write_to_buffer(tmp, buff, ret) == -1)
+    return (-1);
+  while ((cmd = get_next_cmd(buff)))
+    printf("%s\n", cmd);
+  printf("buff->start %d buff->end %d\n", buff->start, buff->end);
   return (0);
 }

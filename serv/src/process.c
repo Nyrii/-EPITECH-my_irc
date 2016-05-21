@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 18:45:32 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 02:28:55 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -66,8 +66,7 @@ static int		checkAndProcess(fd_set *readf, t_list **channels,
 	{
 	  if (*channels)
 	    printf("OMG2 = %s\n", ((t_cdata *)((*channels)->struc))->name);
-	  if ((pdata.command = get_cmd_buff(fd,
-					    &((t_udata *)(tmp->struc))->buff)))
+	  if ((get_cmd_buff(fd, &((t_udata *)(tmp->struc))->buffs.in)) == 0)
 	    {
 	      if (*channels)
 		printf("OMG3 = %s\n", ((t_cdata *)((*channels)->struc))->name);
