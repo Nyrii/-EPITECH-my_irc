@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 21:29:16 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 13:43:15 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 00:13:40 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -34,6 +34,8 @@ t_list		*search_channel_by_name(t_list *channel, const char *name)
 {
   t_list	*tmp;
 
+  if (channel == NULL)
+    return (NULL);
   tmp = channel;
   while (tmp != NULL)
     {

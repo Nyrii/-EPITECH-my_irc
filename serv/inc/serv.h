@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 23:47:36 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 23:54:53 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -162,6 +162,11 @@ t_socket	*save_socket(t_socket *, const int);
 t_list		*save_users(t_list *, const int);
 t_list		*save_channels(t_list *, const int);
 void		clean_socket();
+
+/*
+** store_nbr.c
+*/
+void		store_nbr(char **, int *, int);
 
 /*
 ** users.c
