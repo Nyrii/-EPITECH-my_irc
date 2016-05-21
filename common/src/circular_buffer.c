@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:41:38 2016 guillaume wilmot
-** Last update Sat May 21 18:52:40 2016 guillaume wilmot
+** Last update Sat May 21 19:18:04 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -23,10 +23,7 @@ static void		replace_end_of_string(char *string)
     return ;
   i = strlen(string);
   if (i > 1 && string[i - 1] == '\n' && string[i - 2] == '\r')
-    {
-      string[i - 2] = '\0';
-      string[i - 1] = '\0';
-    }
+    string[i - 2] = '\0';
 }
 
 t_buffs		*create_buffer(t_buffs *buffs)
@@ -106,8 +103,12 @@ int		get_cmd_buff(int fd, t_buffs *buffs)
   while ((cmd = get_next_cmd(&buffs->in)))
     {
       replace_end_of_string(cmd);
-      if ((!buffs->cmds && !(buffs->cmds = create_list(cmd, NULL))) ||
-	  !(buffs->cmds = buffs->cmds->push_back(buffs->cmds, cmd)))
+      if (!buffs->cmds)
+	{
+	  if (!(buffs->cmds = create_list(cmd, NULL)))
+	    return (-1);
+	}
+      else if (!(buffs->cmds = buffs->cmds->push_back(buffs->cmds, cmd)))
 	return (-1);
       if (!strcmp("QUIT", cmd) || !strncmp(cmd, "QUIT ", 5))
 	return (-3);

@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Wed May 18 17:44:17 2016 guillaume wilmot
-** Last update Sat May 21 18:53:35 2016 guillaume wilmot
+** Last update Sat May 21 19:13:23 2016 guillaume wilmot
 */
 
 #include <stdio.h>
@@ -19,8 +19,7 @@ void		free_content(t_list *list)
   tmp = list;
   while (tmp)
     {
-      /* puts("Caca free"); */
-      /* free(tmp->struc); */
+      free(tmp->struc);
       tmp = tmp->next;
     }
 }
