@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 13:54:04 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 13:51:54 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 15:21:48 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -35,6 +35,7 @@ void		delete_user_from_channel(const int fd, const int index_channel,
     }
 }
 
+#include <stdio.h>
 void		delete_user_from_channels(const int fd, t_list **channel)
 {
   int		index;
@@ -57,8 +58,8 @@ void		delete_user_from_channels(const int fd, t_list **channel)
       !tmp_users ? ((tmp_channel)->struc = NULL) : 0;
       !tmp_users ? (*channel = (*channel)->delete_nth(*channel, i)) : 0;
       !tmp_users ? (tmp_channel = *channel) : 0;
-      i = tmp_users == NULL ? 0 : i + 1;
-      tmp_channel = tmp_users == NULL ? tmp_channel : tmp_channel->next;
+      i = !tmp_users ? 0 : i + 1;
+      tmp_channel = !tmp_users ? tmp_channel : tmp_channel->next;
     }
 }
 

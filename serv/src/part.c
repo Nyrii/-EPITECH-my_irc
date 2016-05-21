@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:45:56 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 14:10:15 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 16:21:02 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <string.h>
@@ -77,6 +77,8 @@ int		part(const int fd, char *command,
     {
       delete_user_from_channel(fd, index, channels, channel);
       channel = search_channel_by_name(*channels, command);
+      if (change_current_channel(fd, users, NULL) == -1)
+	return (-1);
       return (part_succeed(fd, channel, get_user_name(*users, fd), command));
     }
   return (not_on_channel(fd, command));

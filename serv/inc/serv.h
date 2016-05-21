@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 13:52:03 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 16:21:22 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -51,6 +51,11 @@ void		delete_user_from_channels(const int, t_list **);
 void		delete_user_from_users_list(const int, t_list **);
 
 /*
+** error_messages.c
+*/
+int		not_enough_params(const int, t_list *, const char *);
+
+/*
 ** free.c
 */
 int		close_and_free(t_socket *, t_list *, t_list *, int);
@@ -86,7 +91,9 @@ int		msg(const int, char *, t_list **, t_list **);
 /*
 ** management.c
 */
+int		change_current_channel(const int, t_list **, char *);
 int		take_first_arg(const int, char **, t_list *, char *);
+int		take_two_args(char **, char *);
 t_list		*add_new_user(t_socket *, t_list *);
 
 /*

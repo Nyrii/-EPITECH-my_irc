@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 18:44:58 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 13:21:38 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 16:27:30 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -14,6 +14,33 @@
 #include "serv.h"
 #include "errors.h"
 #include "replies.h"
+
+int		change_current_channel(const int fd,
+				       t_list **users, char *newChannel)
+{
+  t_list	*tmp;
+
+  tmp = *users;
+  while (tmp != NULL)
+    {
+      if (((t_udata *)(tmp->struc))->fd == fd)
+	{
+	  if ((tmp)->struc && ((t_udata *)((tmp)->struc))->name != NULL)
+	    free(((t_udata *)((tmp)->struc))->name);
+	  if (newChannel != NULL)
+	    {
+	      if ((((t_udata *)(tmp->struc))->current_channel
+		   = strdup(newChannel)) == NULL)
+		return (puterr_int(ERR_STRDUP, -1));
+	      return (0);
+	    }
+	  ((t_udata *)(tmp->struc))->current_channel = NULL;
+	  return (0);
+	}
+      tmp = tmp->next;
+    }
+  return (0);
+}
 
 int		take_first_arg(const int fd, char **arg,
 			       t_list *users, char *command)
@@ -30,6 +57,23 @@ int		take_first_arg(const int fd, char **arg,
       if (*arg == NULL)
 	return (answer_client(fd, buffer, -2));
     }
+  return (0);
+}
+
+int		take_two_args(char **args, char *cmd)
+{
+  int		i;
+
+  i = 0;
+  while (i < 2)
+    {
+      if ((args[i] = strtok(i == 0 ? cmd : NULL, i == 0 ? " " : "")) == NULL)
+	return (-1);
+      ++i;
+    }
+  args[i] = NULL;
+  if (i != 2)
+    return (-1);
   return (0);
 }
 
