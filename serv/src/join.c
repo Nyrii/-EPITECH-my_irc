@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:43:49 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 02:19:24 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 02:44:40 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
@@ -109,23 +109,20 @@ int		join(const int fd, char *command,
 		     t_list **channel, t_list **users)
 {
   char		buffer[4096];
+  char		*arg;
+  int		ret_value;
 
-  if (memset(buffer, 0, 4096) == NULL)
-    return (puterr_int(ERR_MEMSET, -1));
-  if (snprintf(buffer, 4096, ERR_NEEDMOREPARAMS,
-	       get_user_name(*users, fd), "JOIN") == -1)
-    return (puterr_int(ERR_SNPRINTF, -1));
-  if (command == NULL)
-    return (answer_client(fd, buffer, -2));
-  if (command && command[0] != '#')
+  if ((ret_value = take_first_arg(fd, command, *users, &arg)) != 0)
+    return (ret_value);
+  if (arg && arg[0] != '#')
     {
       if (memset(buffer, 0, 4096) == NULL)
 	return (puterr_int(ERR_MEMSET, -1));
-      if (snprintf(buffer, 4096, ERR_NOSUCHCHANNEL, command) == -1)
+      if (snprintf(buffer, 4096, ERR_NOSUCHCHANNEL, arg) == -1)
 	return (puterr_int(ERR_SNPRINTF, -1));
       return (answer_client(fd, buffer, -2));
     }
-  if (edit_channels(fd, command, channel, *users) == -1)
+  if (edit_channels(fd, arg, channel, *users) == -1)
     return (-1);
   return (0);
 }

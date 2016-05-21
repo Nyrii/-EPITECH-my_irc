@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May 16 23:49:10 2016 guillaume wilmot
-** Last update Wed May 18 19:40:45 2016 guillaume wilmot
+** Last update Sat May 21 03:13:11 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -46,7 +46,7 @@ t_list		*insert_at_list(t_list *this, unsigned int n, void *struc)
     return (NULL);
   if (!n)
     return (push_front_list(this, struc));
-  if (n >= *this->size)
+  if (n >= *this->size - 1)
     return (push_back_list(this, struc));
   if (!(elem = create_list(struc, this)))
     return (NULL);

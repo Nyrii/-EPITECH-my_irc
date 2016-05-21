@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 21:16:56 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 02:17:13 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 02:46:19 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -14,6 +14,24 @@
 #include "serv.h"
 #include "errors.h"
 #include "replies.h"
+
+int		take_first_arg(const int fd, char *command, t_list *users,
+			       char **first_arg)
+{
+  char		buffer[4096];
+
+  if ((*first_arg = strtok(command, " ")) == NULL)
+    {
+      if (memset(buffer, 0, 4096) == NULL)
+	return (puterr_int(ERR_MEMSET, -1));
+      if (snprintf(buffer, 4096, ERR_NEEDMOREPARAMS,
+		   get_user_name(users, fd), "JOIN") == -1)
+	return (puterr_int(ERR_SNPRINTF, -1));
+      if (command == NULL)
+	return (answer_client(fd, buffer, -2));
+    }
+  return (0);
+}
 
 int		join_succeed(const int fd, t_list *current_channel)
 {

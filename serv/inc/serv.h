@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 02:26:06 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 02:45:27 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -68,6 +68,7 @@ int		join(const int, char *, t_list **, t_list **);
 /*
 ** join_messages.c
 */
+int		take_first_arg(const int, char *, t_list *, char **);
 int		join_succeed(const int, t_list *);
 int		already_in_channel(const int, t_list *);
 
