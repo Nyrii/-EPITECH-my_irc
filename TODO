@@ -1,6 +1,4 @@
 Server:
-<<<<<<< HEAD
-	- PART
 	- MSG
 	- SENDFILE
 	- ACCEPTFILE
