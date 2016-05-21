@@ -5,13 +5,13 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 21:30:01 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 00:16:24 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 02:22:26 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
 #include "serv.h"
 
-int		getIndexUserFromUsersList(t_list *users, const int fd)
+int		get_index_user_from_users_list(t_list *users, const int fd)
 {
   t_list	*tmp;
   int		i;
@@ -30,7 +30,7 @@ int		getIndexUserFromUsersList(t_list *users, const int fd)
   return (-1);
 }
 
-int		getIndexUserFromChannel(t_list *channels, const int fd)
+int		get_index_user_from_channel(t_list *channels, const int fd)
 {
   t_list	*tmp;
   int		i;
@@ -41,7 +41,7 @@ int		getIndexUserFromChannel(t_list *channels, const int fd)
   tmp = ((t_cdata *)(channels->struc))->users;
   while (tmp != NULL)
     {
-      if (getUser(tmp, fd) != NULL)
+      if (tmp->struc && ((t_udata *)(tmp->struc))->fd == fd)
 	return (i);
       ++i;
       tmp = tmp->next;
@@ -49,7 +49,7 @@ int		getIndexUserFromChannel(t_list *channels, const int fd)
   return (-1);
 }
 
-t_list		*getUser(t_list *users, const int fd)
+t_list		*get_user(t_list *users, const int fd)
 {
   t_list	*tmp;
 
@@ -63,7 +63,7 @@ t_list		*getUser(t_list *users, const int fd)
   return (NULL);
 }
 
-char		*getUserName(t_list *users, const int fd)
+char		*get_user_name(t_list *users, const int fd)
 {
   t_list	*tmp;
 

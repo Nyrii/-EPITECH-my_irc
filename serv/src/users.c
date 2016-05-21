@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 19:13:22 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 14:57:41 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 02:23:06 2016 Nyrandone Noboud-Inpeng
 */
 
 #include "serv.h"
@@ -20,7 +20,7 @@ int		users(const int fd, char *command,
   return (0);
 }
 
-void		setUser(t_udata *user, int fd,
+void		set_user(t_udata *user, int fd,
 			char *name, char *current_channel)
 {
   user->fd = fd;

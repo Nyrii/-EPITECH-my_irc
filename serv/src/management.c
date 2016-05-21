@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 18:44:58 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 20:45:22 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 02:19:46 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -14,7 +14,7 @@
 #include "serv.h"
 #include "errors.h"
 
-t_list		*addNewUser(t_socket *serv, t_list *users)
+t_list		*add_new_user(t_socket *serv, t_list *users)
 {
   t_udata	*data;
 

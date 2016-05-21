@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 11:35:58 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 23:03:24 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 02:19:39 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -27,7 +27,7 @@ int			main(int argc, char **argv)
       return (-1);
     }
   signal(SIGINT, clean_socket);
-  if ((socket = initServerSocket(port)) == NULL)
+  if ((socket = init_server_socket(port)) == NULL)
     return (-1);
   core(socket, NULL, NULL);
   return (0);

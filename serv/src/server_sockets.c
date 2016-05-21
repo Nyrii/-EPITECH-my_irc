@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 18:02:07 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 21:56:54 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 02:26:40 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -14,14 +14,14 @@
 #include "serv.h"
 #include "errors.h"
 
-int		answerClient(int fd, const char *answer, int ret_value)
+int		answer_client(int fd, const char *answer, int ret_value)
 {
   if (write(fd, answer, strlen(answer)) == -1)
     return (puterr_int("Error: could not write to client(s).\n", -1));
   return (ret_value);
 }
 
-t_socket	*initServerSocket(const int port)
+t_socket	*init_server_socket(const int port)
 {
   t_socket	*socket;
   int		istrue;
@@ -34,6 +34,6 @@ t_socket	*initServerSocket(const int port)
       || socket->bind(socket) == -1
       || socket->listen(socket) == -1)
     return (NULL);
-  saveSocket(socket, 1);
+  save_socket(socket, 1);
   return (socket);
 }

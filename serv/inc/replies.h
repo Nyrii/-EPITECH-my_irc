@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 16:08:38 2016 Nyrandone Noboud-Inpeng
-** Last update Fri May 20 23:02:11 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 01:07:15 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef REPLIES_H_
@@ -31,7 +31,7 @@
 # define RPL_ENDOFUSERS "394 :End of users\r\n"
 # define RPL_TOPIC(X, Y) "332 "X" :"Y"\r\n"
 # define RPL_NAMREPLAY "353 %s :%s\r\n"
-# define RPL_ENDOFNAMES(X) "366 "X" :End of /NAMES list\r\n"
+# define RPL_ENDOFNAMES "366 %s :End of /NAMES list\r\n"
 # define RPL_SENDPRIVMSG(X, Y) "PRIVMSG "X" :"Y"\r\n"
 # define RPL_SENDMSG(X, Y) "MSG "X" :"Y"\r\n"
 
