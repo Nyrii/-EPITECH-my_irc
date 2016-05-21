@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 03:21:30 2016 guillaume wilmot
+** Last update Sat May 21 17:50:06 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -14,18 +14,6 @@
 #include "serv.h"
 #include "socket.h"
 #include "errors.h"
-
-static void		replace_end_of_string(char **string)
-{
-  int			i;
-
-  if (!(*string))
-    return ;
-  i = strlen(*string);
-  if (i > 1 && (*string)[i - 1] == '\n' && (*string)[i - 2] == '\r')
-    (*string)[i - 2] = '\0';
-  return ;
-}
 
 static int		process(t_processdata *pdata,
 				t_list **channels, t_list **users)
@@ -42,45 +30,63 @@ static int		process(t_processdata *pdata,
   if ((function_to_call = strtok(pdata->command, " ")) == NULL)
     return (puterr_int(ERR_SYNTAX, -2));
   while (code[++i] != NULL)
+    if (!strcmp(code[i], function_to_call))
+      {
+	if (func[i](pdata->fd, strtok(NULL, ""), channels, users) == -1)
+	  return (-1);
+	save_users(*users, 1);
+	save_channels(*channels, 1);
+	return (0);
+      }
+  return (puterr_int(ERR_SYNTAX, 0));
+}
+
+static int		process_all(t_list **channels, t_list **users)
+{
+  t_list		*tmp;
+  t_list		*tmp_cmd;
+  t_list		*next;
+  t_list		*next_cmd;
+  t_processdata		pdata;
+
+  tmp = *users;
+  while (tmp)
     {
-      if (!strcmp(code[i], function_to_call))
+      tmp_cmd = ((t_udata *)(tmp->struc))->buffs.cmds;
+      next = tmp->next;
+      while (tmp_cmd)
 	{
-	  if (func[i](pdata->fd, strtok(NULL, ""), channels, users) == -1)
+	  pdata.fd = ((t_udata *)(tmp->struc))->fd;
+	  pdata.command = tmp_cmd->struc;
+	  next_cmd = tmp_cmd->next;
+	  if (process(&pdata, channels, users) == -1)
 	    return (-1);
-          save_users(*users, 1);
-          save_channels(*channels, 1);
-	  return (0);
+	  tmp_cmd = *users ? next_cmd : NULL;
 	}
+      tmp = *users ? next : NULL;
     }
   return (0);
 }
 
-static int		check_and_process(fd_set *readf, t_list **channels,
-					  t_list **users)
+static int		check_and_read(fd_set *readf, t_list **users)
 {
   t_list		*tmp;
-  t_list		*next;
-  t_processdata		pdata;
-  int			fd;
+  int			ret;
 
   tmp = *users;
-  while (tmp != NULL)
+  while (tmp)
     {
-      fd = ((t_udata *)(tmp->struc))->fd;
-      if (FD_ISSET(fd, readf))
+      if (FD_ISSET(((t_udata *)(tmp->struc))->fd, readf))
 	{
-	  if ((pdata.command = get_cmd_buff(fd, &((t_udata *)(tmp->struc))->buffs.in))) // == 0
-	    {
-	      replace_end_of_string(&pdata.command);
-	      pdata.fd = fd;
-	      next = tmp->next;
-	      if (process(&pdata, channels, users) == -1)
-		return (-1);
-	      tmp = *users ? next : NULL;
-	    }
+	  if ((ret = get_cmd_buff(((t_udata *)(tmp->struc))->fd,
+				  &((t_udata *)(tmp->struc))->buffs) == -1))
+	    return (-1);
+	  else if (ret == -2)
+	    puts("handle overflow");
+	  else if (ret == -3)
+	    return (0);
 	}
-      if (tmp)
-	tmp = tmp->next;
+      tmp = tmp->next;
     }
   return (0);
 }
@@ -132,7 +138,9 @@ int			core(t_socket *socket, t_list *channels, t_list *users)
 	    return (close_and_free(socket, users, channels, -1));
 	  save_users(users, 1);
 	}
-      if (check_and_process(&readf, &channels, &users) == -1)
+      if (check_and_read(&readf, &users) == -1)
 	return (close_and_free(socket, users, channels, -1));
+      if (process_all(&channels, &users) == -1)
+	return (-1);
     }
 }

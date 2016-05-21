@@ -5,11 +5,25 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Wed May 18 17:44:17 2016 guillaume wilmot
-** Last update Sat May 21 00:00:34 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 18:45:17 2016 guillaume wilmot
 */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include "list.h"
+
+void		free_content(t_list *list)
+{
+  t_list	*tmp;
+
+  tmp = list;
+  while (tmp)
+    {
+      /* printf("free : %p %s\n", tmp->struc, (char *)tmp->struc); */
+      free(tmp->struc);
+      tmp = tmp->next;
+    }
+}
 
 t_list		*push_back_list(t_list *this, void *struc)
 {

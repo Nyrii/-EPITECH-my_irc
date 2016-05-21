@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 13:54:04 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 02:25:54 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 18:01:56 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -43,12 +43,14 @@ void		delete_user_from_users_list(const int fd, t_list **users)
   int		i;
   t_list	*tmp;
 
-  if ((tmp = get_user(*users, fd)) == NULL)
-    return ;
-  if ((i = get_index_user_from_users_list(*users, fd)) == -1)
+  if ((tmp = get_user(*users, fd)) == NULL ||
+      (i = get_index_user_from_users_list(*users, fd)) == -1)
     return ;
   free(((t_udata *)(tmp->struc))->name);
   free(((t_udata *)(tmp->struc))->current_channel);
+  free_content(((t_udata *)(tmp->struc))->buffs.cmds);
+  ((t_udata *)(tmp->struc))->buffs.cmds->destroy
+    (((t_udata *)(tmp->struc))->buffs.cmds);
   free(tmp->struc);
   tmp->struc = NULL;
   *users = (*users)->delete_nth(*users, i);

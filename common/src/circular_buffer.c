@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:41:38 2016 guillaume wilmot
-** Last update Sat May 21 03:22:17 2016 guillaume wilmot
+** Last update Sat May 21 18:36:38 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -15,10 +15,23 @@
 #include "circular_buffer.h"
 #include "errors.h"
 
+static void		replace_end_of_string(char *string)
+{
+  int			i;
+
+  if (!string)
+    return ;
+  i = strlen(string);
+  if (i > 1 && string[i - 1] == '\n' && string[i - 2] == '\r')
+    {
+      string[i - 2] = '\0';
+      string[i - 1] = '\0';
+    }
+}
+
 t_buffs		*create_buffer(t_buffs *buffs)
 {
-  if (!memset(&buffs->in, 0, sizeof(t_buff)) ||
-      !memset(&buffs->out, 0, sizeof(t_buff)) ||
+  if (!memset(buffs, 0, sizeof(t_buffs)) ||
       !(buffs->in.buff = malloc(BUFFSIZE_IN * sizeof(char))) ||
       !(buffs->in.cmd = malloc(BUFFSIZE_IN * sizeof(char))) ||
       !(buffs->out.buff = malloc(BUFFSIZE_OUT * sizeof(char))) ||
@@ -66,8 +79,11 @@ char		*get_next_cmd(t_buff *buff)
       buff->start = (buff->start + 1) % buff->size;
       if (buff->found == 3)
 	{
-	  if (!(cmd = strdup(buff->cmd)) ||
-	      !memset(buff->cmd, 0, buff->size))
+	  cmd = malloc(1024);
+	  memset(cmd, 0, 1024);
+	  strcat(cmd, buff->cmd);
+	    /* strdup(buff->cmd); */
+	  if (!memset(buff->cmd, 0, buff->size))
 	    return (NULL);
 	  buff->idx = 0;
 	  buff->found = 0;
@@ -77,17 +93,28 @@ char		*get_next_cmd(t_buff *buff)
   return (NULL);
 }
 
-/* Mustn't return a char * but a list of valid commands to execute later on */
-char		*get_cmd_buff(int fd, t_buff *buff)
+int		get_cmd_buff(int fd, t_buffs *buffs)
 {
-  char		tmp[buff->size];
+  char		tmp[buffs->in.size];
   char		*cmd;
   int		ret;
 
-  if ((ret = read(fd, tmp, buff->size)) <= 0 ||
-      write_to_buffer(tmp, buff, ret) == -1)
-    return (NULL); // -1
-  while ((cmd = get_next_cmd(buff)))
-    return (cmd);/* printf("%s\n", cmd); */
-  return (cmd);
+  buffs->cmds ? free_content(buffs->cmds) : 0;
+  buffs->cmds ? buffs->cmds->destroy(buffs->cmds) : 0;
+  buffs->cmds = NULL;
+  if ((ret = read(fd, tmp, buffs->in.size)) <= 0)
+    return (!(buffs->cmds = create_list(strdup("QUIT"), NULL)) ? -1 : -3);
+  if (write_to_buffer(tmp, &buffs->in, ret) == -1)
+    return (-2);
+  while ((cmd = get_next_cmd(&buffs->in)))
+    {
+      replace_end_of_string(cmd);
+      if ((!buffs->cmds && !(buffs->cmds = create_list(cmd, NULL))) ||
+	  !(buffs->cmds = buffs->cmds->push_back(buffs->cmds, cmd)))
+	return (-1);
+      if (!strcmp("QUIT", cmd) || !strncmp(cmd, "QUIT ", 5))
+	return (-3);
+      printf("CMD : %p %s\n", cmd, cmd);
+    }
+  return (0);
 }

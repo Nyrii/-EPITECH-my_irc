@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May 16 23:51:11 2016 guillaume wilmot
-** Last update Wed May 18 19:52:20 2016 guillaume wilmot
+** Last update Sat May 21 18:11:21 2016 guillaume wilmot
 */
 
 #ifndef LIST_H_
@@ -19,7 +19,6 @@ typedef struct		s_list
   struct s_list		*prev;
   void			*struc;
   unsigned int		*size;
-  unsigned int		id;
   struct s_list		*(*get_nth)(struct s_list *, unsigned int);
   struct s_list		*(*delete_nth)(struct s_list *, unsigned int);
   struct s_list		*(*insert_at)(struct s_list *, unsigned int, void *);
@@ -43,5 +42,6 @@ t_list			*pop_front_list(t_list *);
 int			make_circular_list(t_list *);
 int			get_size_list(t_list *);
 void			destroy_list(t_list *);
+void			free_content(t_list *);
 
 #endif /* !LIST_H_ */

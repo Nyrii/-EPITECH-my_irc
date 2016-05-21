@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May 16 23:49:10 2016 guillaume wilmot
-** Last update Sat May 21 03:16:54 2016 guillaume wilmot
+** Last update Sat May 21 18:11:13 2016 guillaume wilmot
 */
 
 #include <unistd.h>
@@ -15,7 +15,6 @@
 
 t_list		*create_list(void *struc, t_list *old)
 {
-  static int	i = 0;
   t_list	*list;
 
   if (!(list = malloc(sizeof(*list))) ||
@@ -39,7 +38,7 @@ t_list		*create_list(void *struc, t_list *old)
   list->get_nth = &get_nth_list;
   list->delete_nth = &delete_nth_list;
   list->get_size = &get_size_list;
-  return (list->id = i++, list);
+  return (list);
 }
 
 void		destroy_list(t_list *this)

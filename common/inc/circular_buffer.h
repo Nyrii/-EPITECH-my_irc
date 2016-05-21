@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:42:04 2016 guillaume wilmot
-** Last update Sat May 21 03:18:24 2016 guillaume wilmot
+** Last update Sat May 21 10:15:32 2016 guillaume wilmot
 */
 
 #ifndef CIRCULAR_BUFFER_H_
@@ -13,6 +13,8 @@
 
 # define BUFFSIZE_IN	512
 # define BUFFSIZE_OUT	16384
+
+# include "list.h"
 
 typedef struct		s_buff
 {
@@ -29,10 +31,11 @@ typedef struct		s_buffs
 {
   t_buff		in;
   t_buff		out;
+  t_list		*cmds;
 }			t_buffs;
 
 t_buffs			*create_buffer(t_buffs *buffs);
-char			*get_cmd_buff(int, t_buff *);
+int			get_cmd_buff(int, t_buffs *);
 int			send_msg(int, char *);
 
 #endif /* !CIRCULAR_BUFFER_H_ */
