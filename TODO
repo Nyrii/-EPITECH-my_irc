@@ -8,6 +8,8 @@ Server:
 	- Retravailler la logique post-accept (read all, execute all, write all)
 	- Envoyer UNKNOWNCOMMAND au client lorsque la command n'a pas ete trouvee
 	- Enlever le nickname "Anonymous" set de base et le mettre a NULL
+	- TEST :
+	  1 - JOIN #salut, 2 - JOIN #coucou, 1 - LIST, 2 - PART #coucou
 
 Buffer Circulaire:
        - Faire une liste avec les commandes valides.

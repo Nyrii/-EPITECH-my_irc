@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 23:54:53 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 00:19:53 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -83,7 +83,13 @@ int		already_in_channel(const int, t_list *);
 /*
 ** list.c
 */
+int		count_users_in_channel(t_list *);
 int		list(const int, char *, t_list **, t_list **);
+
+/*
+** list_all.c
+*/
+int		list_all(const int, t_list **, t_list **);
 
 /*
 ** msg.c

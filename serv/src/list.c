@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:44:25 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 00:09:46 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 00:17:25 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <string.h>
@@ -29,71 +29,6 @@ int		count_users_in_channel(t_list *channel)
       users = users->next;
     }
   return (i);
-}
-
-int		list_all(const int fd, t_list **channels, t_list **users)
-{
-  char		buffer[4096];
-
-  if (memset(buffer, 0, 4096) == NULL)
-    return (puterr_int(ERR_MEMSET, -1));
-  if (snprintf(buffer, 4096, RPL_LISTSTART) == -1)
-    return (puterr_int(ERR_SNPRINTF, -1));
-  if (store_answer(get_user(*users, fd), buffer, 0) == -1)
-    return (-1);
-
-  char		*answer;
-  char		*name;
-  t_list	*tmp;
-  int		len;
-  int		i;
-  int		pass;
-
-  answer = NULL;
-  tmp = *channels;
-  len = 0;
-  pass = 0;
-  if (tmp != NULL)
-    {
-      while (tmp != NULL)
-	{
-	  i = 0;
-	  pass = 1;
-	  name = ((t_cdata *)(tmp->struc))->name;
-	  if ((pass == 0 && !(answer = malloc(50 + strlen(name))))
-	      || (pass != 0 && !(answer = realloc(answer,
-						  len + 50 + (strlen(name) * 2)))))
-	    return (puterr_int(ERR_MALLOC, -1));
-	  while (RPL_LIST[i])
-	    answer[len++] = RPL_LIST[i++];
-	  i = 0;
-	  while (name[i])
-	    answer[len++] = name[i++];
-  	  answer[len++] = ' ';
-	  store_nbr(&answer, &len, count_users_in_channel(tmp));
-	  answer[len++] = ' ';
-	  answer[len++] = ':';
-	  i = 0;
-	  while (name[i])
-	    answer[len++] = name[i++];
-	  if (tmp->next)
-	    answer[len++] = '\n';
-	  tmp = tmp->next;
-	}
-      answer[len++] = '\r';
-      answer[len++] = '\n';
-      answer[len++] = '\0';
-      if (store_answer(get_user(*users, fd), answer, 0) == -1)
-	return (-1);
-    }
-
-  if (memset(buffer, 0, 4096) == NULL)
-    return (puterr_int(ERR_MEMSET, -1));
-  if (snprintf(buffer, 4096, RPL_LISTEND) == -1)
-    return (puterr_int(ERR_SNPRINTF, -1));
-  if (store_answer(get_user(*users, fd), buffer, 0) == -1)
-    return (-1);
-  return (0);
 }
 
 int		list(const int fd, char *command,
