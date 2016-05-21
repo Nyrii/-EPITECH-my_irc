@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:44:45 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 18:34:19 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 23:33:14 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -58,16 +58,16 @@ int		send_msg_to_channel(const int fd, char **args, t_list **users,
   char		*message;
 
   if (!(tchannel = search_channel_by_name(*channels, args[0])))
-    no_such_channel(fd, args[0]);
+    no_such_channel(get_user(*users, fd), args[0]);
   if (!tchannel->struc || !(user = ((t_cdata *)(tchannel->struc))->users))
     return (puterr_int(ERR_UNKNOWNUSER, -1));
   if (get_index_user_from_users_list(user, fd) == -1)
-    cannot_send_to_chan(fd, args[0]);
+    cannot_send_to_chan(get_user(*users, fd), args[0]);
   if ((message = get_message(get_user_name(*users, fd), args[1], 0)) == NULL)
     return (-1);
   while (user != NULL)
     {
-      if (answer_client(((t_udata *)(user->struc))->fd, message, 0) == -1)
+      if (store_answer(user, message, 0) == -1)
 	return (-1);
       user = user->next;
     }
@@ -88,12 +88,12 @@ int		send_msg_to_user(const int fd, char **args, t_list **users)
 	return (puterr_int(ERR_MEMSET, -1));
       if (snprintf(buffer, 4096, ERR_NOSUCHNICK, args[0]) == -1)
 		return (puterr_int(ERR_SNPRINTF, -1));
-      return (answer_client(fd, buffer, -2));
+      return (store_answer(get_user(*users, fd), buffer, -2));
     }
   if ((message = get_message(((t_udata *)(user->struc))->name,
 			     args[1], 1)) == NULL)
     return (-1);
-  if (answer_client(((t_udata *)(user->struc))->fd, message, 0) == -1)
+  if (store_answer(user, message, 0) == -1)
     return (-1);
   free(message);
   return (0);
@@ -108,9 +108,9 @@ int		msg(const int fd, char *command,
   args[1] = NULL;
   args[2] = NULL;
   if (take_two_args(args, command) == -1 && args[0])
-    return (not_enough_params(fd, *users, "MSG"));
+    return (not_enough_params(get_user(*users, fd), "MSG"));
   else if (!args[1])
-    return (answer_client(fd, ERR_NOTEXTTOSEND, -2));
+    return (store_answer(get_user(*users, fd), ERR_NOTEXTTOSEND, -2));
   if (args[0] && args[0][0] == '#')
     return (send_msg_to_channel(fd, args, users, channels));
   return (send_msg_to_user(fd, args, users));

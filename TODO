@@ -3,7 +3,6 @@ Server:
 	- ACCEPTFILE
 	- USER
 
-	- NICK
 	- LIST
 	- USERS
 	- Tester tous les cas de join (notamment lorsque plusieurs clients tentent de rejoindre differents channels)

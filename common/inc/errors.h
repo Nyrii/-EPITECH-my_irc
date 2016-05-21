@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May  2 11:18:44 2016 guillaume wilmot
-** Last update Sat May 21 18:11:09 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 23:27:27 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef ERRORS_H_
@@ -31,6 +31,7 @@
 # define ERR_STRDUP		"Error: strdup failed\n"
 # define ERR_SENDFILE		"Error: sendfile failed\n"
 # define ERR_MEMSET		"Error: memset failed\n"
+# define ERR_ANSWER		"Error: could not write to client(s).\n"
 # define ERR_CHANNELNOTFOUND	"Error: channel not found\n"
 # define ERR_COMMUNICATE	"Error: could not send message to a client\n"
 # define ERR_CLOSEQUIT		"Error: close before leaving client failed.\n"

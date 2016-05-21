@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 21:16:56 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 13:17:53 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 23:12:39 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -32,7 +32,7 @@ int		join_succeed(const int fd, t_list *current_channel)
   tmp = ((t_cdata *)(current_channel->struc))->users;
   while (tmp != NULL)
     {
-      if (answer_client(((t_udata *)(tmp->struc))->fd, buffer, 0) == -1)
+      if (store_answer(tmp, buffer, 0) == -1)
 	return (-1);
       tmp = tmp->next;
     }
@@ -44,6 +44,7 @@ int		already_in_channel(const int fd, t_list *current_channel)
   char		buffer[4096];
   char		*channel_name;
   char		*username;
+  int		r;
 
   if (current_channel == NULL)
     return (puterr_int(ERR_INTERNALJOIN, -1));
@@ -55,5 +56,7 @@ int		already_in_channel(const int fd, t_list *current_channel)
     return (puterr_int(ERR_MEMSET, -1));
   if (snprintf(buffer, 4096, ERR_USERONCHANNEL, username, channel_name) == -1)
     return (puterr_int(ERR_SNPRINTF, -1));
-  return (answer_client(fd, buffer, 0));
+  r = store_answer(get_user(((t_cdata *)(current_channel->struc))->users, fd),
+		    buffer, 0);
+  return (r);
 }

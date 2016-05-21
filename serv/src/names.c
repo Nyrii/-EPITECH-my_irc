@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 21:36:28 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 02:26:18 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 23:43:08 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
@@ -20,6 +20,7 @@ int		final_answer(const int fd, const int len,
 {
   char		*answer;
   char		buffer[4096];
+  t_list	*user;
 
   answer = NULL;
   if ((answer = malloc(50 + len)) == NULL)
@@ -29,7 +30,8 @@ int		final_answer(const int fd, const int len,
 	       RPL_NAMREPLAY, ((t_cdata *)(current_channel->struc))->name,
 	       len != 0 ? names_list : "\0") == -1)
     return (puterr_int(ERR_SNPRINTF, -1));
-  if (answer_client(fd, answer, 0) == -1)
+  user = get_user(save_users(NULL, 0), fd);
+  if (store_answer(user, answer, 0) == -1)
     return (puterr_int(ERR_COMMUNICATE, -1));
   free(names_list);
   free(answer);
@@ -38,7 +40,7 @@ int		final_answer(const int fd, const int len,
   if (snprintf(buffer, 4096, RPL_ENDOFNAMES,
 	       ((t_cdata *)(current_channel->struc))->name) == -1)
     return (puterr_int(ERR_SNPRINTF, -1));
-  return (answer_client(fd, buffer, 0));
+  return (store_answer(user, buffer, 0));
 }
 
 int		check_current_channel(t_list **current_channel,
@@ -46,14 +48,16 @@ int		check_current_channel(t_list **current_channel,
 				      const char *command)
 {
   char		buffer[4096];
+  t_list	*users;
 
+  users = save_users(NULL, 0);
   if ((*current_channel = search_channel_by_name(channels, command)) == NULL)
     {
       if (memset(buffer, 0, 4096) == NULL)
 	return (puterr_int(ERR_MEMSET, -1));
       if (snprintf(buffer, 4096, ERR_NOSUCHNICK, command) == -1)
 	return (puterr_int(ERR_SNPRINTF, -1));
-      return (answer_client(fd, buffer, -2));
+      return (store_answer(get_user(users, fd), buffer, -2));
     }
   return (0);
 }
@@ -103,7 +107,7 @@ int		names(const int fd, char *command,
 	      get_user_name(*users, fd), "NAMES") == -1)
     return (puterr_int(ERR_SNPRINTF, -1));
   if (command == NULL)
-    return (answer_client(fd, buffer, -2));
+    return (store_answer(get_user(*users, fd), buffer, -2));
   if ((ret_value = check_current_channel(&current_channel,
 					 *channel, fd, command)) != 0)
     return (ret_value);
