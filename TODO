@@ -1,4 +1,5 @@
 Server:
+<<<<<<< HEAD
 	- PART
 	- MSG
 	- SENDFILE
@@ -8,3 +9,8 @@ Server:
 	- NICK
 	- LIST
 	- USERS
+	- Tester tous les cas de join (notamment lorsque plusieurs clients tentent de rejoindre differents channels)
+	- Retravailler la logique post-accept (read all, execute all, write all)
+
+Buffer Circulaire:
+       - Faire une liste avec les commandes valides.
