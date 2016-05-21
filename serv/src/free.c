@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 13:35:19 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 02:16:41 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 16:28:36 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -41,10 +41,8 @@ int		close_and_free(t_socket *socket, t_list *users,
 
   tmp = users;
   if (socket && socket->fd != -1)
-    {
-      if (socket->close(socket) == -1)
-	return (-1);
-    }
+    if (socket->close(socket) == -1)
+      return (-1);
   while (tmp != NULL)
     {
       if (((t_udata *)(tmp->struc))->fd != -1)

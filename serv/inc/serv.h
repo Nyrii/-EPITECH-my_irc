@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 03:16:39 2016 guillaume wilmot
+** Last update Sat May 21 18:34:05 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -45,8 +45,17 @@ int		accept_file(const int, char *, t_list **, t_list **);
 /*
 ** delete.c
 */
+void		delete_user_from_channel(const int, const int,
+					 t_list **, t_list *);
 void		delete_user_from_channels(const int, t_list **);
 void		delete_user_from_users_list(const int, t_list **);
+
+/*
+** error_messages.c
+*/
+int		not_enough_params(const int, t_list *, const char *);
+int		no_such_channel(const int, const char *);
+int		cannot_send_to_chan(const int, const char *);
 
 /*
 ** free.c
@@ -68,7 +77,6 @@ int		join(const int, char *, t_list **, t_list **);
 /*
 ** join_messages.c
 */
-int		take_first_arg(const int, char *, t_list *, char **);
 int		join_succeed(const int, t_list *);
 int		already_in_channel(const int, t_list *);
 
@@ -85,8 +93,9 @@ int		msg(const int, char *, t_list **, t_list **);
 /*
 ** management.c
 */
-t_list		*get_user(t_list *, const int);
-char		*get_user_name(t_list *, const int);
+int		change_current_channel(const int, t_list **, char *);
+int		take_first_arg(const int, char **, t_list *, char *);
+int		take_two_args(char **, char *);
 t_list		*add_new_user(t_socket *, t_list *);
 
 /*
@@ -117,6 +126,7 @@ int		quit(const int fd, char *, t_list **, t_list **);
 /*
 ** search_channel.c
 */
+int		get_index_channel_from_channels_list(t_list *, const char *);
 t_list		*search_channel_by_name(t_list *, const char *);
 int		search_channel_by_user_fd(t_list *, const int);
 
@@ -127,6 +137,7 @@ int		get_index_user_from_users_list(t_list *, const int);
 int		get_index_user_from_channel(t_list *, const int);
 t_list		*get_user(t_list *, const int);
 char		*get_user_name(t_list *, const int);
+t_list		*get_user_by_name(t_list *, const char *);
 
 /*
 ** sendfile.c

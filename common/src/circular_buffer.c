@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:41:38 2016 guillaume wilmot
-** Last update Sat May 21 18:36:38 2016 guillaume wilmot
+** Last update Sat May 21 18:52:40 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -79,10 +79,7 @@ char		*get_next_cmd(t_buff *buff)
       buff->start = (buff->start + 1) % buff->size;
       if (buff->found == 3)
 	{
-	  cmd = malloc(1024);
-	  memset(cmd, 0, 1024);
-	  strcat(cmd, buff->cmd);
-	    /* strdup(buff->cmd); */
+	  cmd = strdup(buff->cmd);
 	  if (!memset(buff->cmd, 0, buff->size))
 	    return (NULL);
 	  buff->idx = 0;

@@ -5,10 +5,11 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 21:30:01 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 02:22:26 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 18:08:43 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
+#include <string.h>
 #include "serv.h"
 
 int		get_index_user_from_users_list(t_list *users, const int fd)
@@ -30,15 +31,15 @@ int		get_index_user_from_users_list(t_list *users, const int fd)
   return (-1);
 }
 
-int		get_index_user_from_channel(t_list *channels, const int fd)
+int		get_index_user_from_channel(t_list *channel, const int fd)
 {
   t_list	*tmp;
   int		i;
 
   i = 0;
-  if (channels == NULL)
+  if (channel == NULL)
     return (-1);
-  tmp = ((t_cdata *)(channels->struc))->users;
+  tmp = ((t_cdata *)(channel->struc))->users;
   while (tmp != NULL)
     {
       if (tmp->struc && ((t_udata *)(tmp->struc))->fd == fd)
@@ -72,6 +73,20 @@ char		*get_user_name(t_list *users, const int fd)
     {
       if (((t_udata *)(tmp->struc))->fd == fd)
 	return (((t_udata *)(tmp->struc))->name);
+      tmp = tmp->next;
+    }
+  return (NULL);
+}
+
+t_list		*get_user_by_name(t_list *users, const char *name)
+{
+  t_list	*tmp;
+
+  tmp = users;
+  while (tmp != NULL)
+    {
+      if (!strcmp(((t_udata *)(tmp->struc))->name, name))
+	return (tmp);
       tmp = tmp->next;
     }
   return (NULL);

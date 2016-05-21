@@ -5,11 +5,35 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 13:54:04 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 18:01:56 2016 guillaume wilmot
+** Last update Sat May 21 18:55:42 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
 #include "serv.h"
+
+void		delete_user_from_channel(const int fd, const int index_channel,
+					 t_list **channel,
+					 t_list *current_channel)
+{
+  int		index_user;
+  t_list	*tmp_users;
+  t_list	*tmp_channel;
+
+  tmp_channel = current_channel;
+  tmp_users = ((t_cdata *)(tmp_channel->struc))->users;
+  if ((index_user = get_index_user_from_channel(tmp_channel, fd)) != -1)
+    {
+      tmp_users = tmp_users->delete_nth(tmp_users, index_user);
+      ((t_cdata *)(tmp_channel->struc))->users = tmp_users;
+    }
+  if (!tmp_users)
+    {
+      free(((t_cdata *)((tmp_channel)->struc))->name);
+      free((tmp_channel)->struc);
+      ((tmp_channel)->struc = NULL);
+      (*channel = (*channel)->delete_nth(*channel, index_channel));
+    }
+}
 
 void		delete_user_from_channels(const int fd, t_list **channel)
 {
@@ -33,8 +57,8 @@ void		delete_user_from_channels(const int fd, t_list **channel)
       !tmp_users ? ((tmp_channel)->struc = NULL) : 0;
       !tmp_users ? (*channel = (*channel)->delete_nth(*channel, i)) : 0;
       !tmp_users ? (tmp_channel = *channel) : 0;
-      i = tmp_users == NULL ? 0 : i + 1;
-      tmp_channel = tmp_users == NULL ? tmp_channel : tmp_channel->next;
+      i = !tmp_users ? 0 : i + 1;
+      tmp_channel = !tmp_users ? tmp_channel : tmp_channel->next;
     }
 }
 
