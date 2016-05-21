@@ -12,6 +12,8 @@ NICKNAME :
 ERR_NICKNAMEINUSE "433 <nick> :Nickname is already in use\r\n"
 ERR_ERRONEUSNICKNAME "432 <nick> :Erroneus nickname\r\n"
 RPL_NICKOK (voir macro)
+<letter><letter, number or '-' | '[' | ']' | '\' | '`' | '^' | '{' | '}'>
+Pas de diff = pas de message
 
 
 
