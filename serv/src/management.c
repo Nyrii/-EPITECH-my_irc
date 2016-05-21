@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 18:44:58 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 16:27:30 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 19:28:49 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -25,8 +25,8 @@ int		change_current_channel(const int fd,
     {
       if (((t_udata *)(tmp->struc))->fd == fd)
 	{
-	  if ((tmp)->struc && ((t_udata *)((tmp)->struc))->name != NULL)
-	    free(((t_udata *)((tmp)->struc))->name);
+	  if (tmp->struc && ((t_udata *)(tmp->struc))->current_channel != NULL)
+	    free(((t_udata *)(tmp->struc))->current_channel);
 	  if (newChannel != NULL)
 	    {
 	      if ((((t_udata *)(tmp->struc))->current_channel
