@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 15:51:18 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 18:10:57 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -75,7 +75,7 @@ static int		check_and_process(fd_set *readf, t_list **channels,
 	      pdata.fd = fd;
 	      next = tmp->next;
 	      if (process(&pdata, channels, users) == -1)
-		return (puterr_int(ERR_PROCESS, -1));
+		return (-1);
 	      tmp = *users ? next : NULL;
 	    }
 	}

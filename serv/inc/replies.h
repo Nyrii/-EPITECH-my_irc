@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 16:08:38 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 15:45:49 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 18:25:46 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef REPLIES_H_
@@ -22,6 +22,7 @@
 # define ERR_USERONCHANNEL "443 %s %s :is already on channel\r\n"
 # define ERR_NOTONCHANNEL "442 %s :You're not on that channel\r\n"
 # define ERR_NOTEXTTOSEND "412 :No text to send\r\n"
+# define ERR_CANNOTSENDTOCHAN "404 %s :Cannot send to channel\r\n"
 # define RPL_NICKOK(X, Y) X"NICK "Y"\r\n"
 # define RPL_JOINOK ":%s JOIN :%s\r\n"
 # define RPL_PARTOK ":%s PART :%s\r\n"

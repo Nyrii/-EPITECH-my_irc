@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:44:45 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 16:31:40 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 18:34:19 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -39,7 +39,7 @@ char		*get_message(char *username, char *to_send, int is_private)
 {
   char		*message;
 
-  if (!to_send || !username)
+  if (!username || !to_send)
     return (puterr(ERR_INTERNALMSG, NULL));
   if ((message = strdup(!is_private ? RPL_MSG : RPL_PRIVMSG)) == NULL)
     return (puterr(ERR_STRDUP, NULL));
@@ -50,43 +50,52 @@ char		*get_message(char *username, char *to_send, int is_private)
   return (message);
 }
 
-int		send_msg_to_channel(const int fd, char **args,
+int		send_msg_to_channel(const int fd, char **args, t_list **users,
 				    t_list **channels)
 {
   t_list	*tchannel;
-  t_list	*users;
-  char		buffer[4096];
+  t_list	*user;
   char		*message;
 
-  if (!(target_channel = search_channel_by_name(*channels, args[0])))
-    {
-      if (memset(buffer, 0, 4096) == NULL)
-	return (puterr_int(ERR_MEMSET, -1));
-      if (snprintf(buffer, 4096, ERR_NOSUCHCHANNEL, args[0]) == -1)
-	return (puterr_int(ERR_SNPRINTF, -1));
-      return (answer_client(fd, buffer, -2));
-    }
-  if (!tchannel->struc || !(users = ((t_cdata *)(tchannel->struc))->users))
+  if (!(tchannel = search_channel_by_name(*channels, args[0])))
+    no_such_channel(fd, args[0]);
+  if (!tchannel->struc || !(user = ((t_cdata *)(tchannel->struc))->users))
     return (puterr_int(ERR_UNKNOWNUSER, -1));
-  if ((message = get_message(get_user_name(users, fd), args[1], 0)) == NULL)
+  if (get_index_user_from_users_list(user, fd) == -1)
+    cannot_send_to_chan(fd, args[0]);
+  if ((message = get_message(get_user_name(*users, fd), args[1], 0)) == NULL)
     return (-1);
-  while (users != NULL)
+  while (user != NULL)
     {
-      if (answer_client(((t_udata *)(users->struc))->fd, message, 0) == -1)
+      if (answer_client(((t_udata *)(user->struc))->fd, message, 0) == -1)
 	return (-1);
-      users = users->next;
+      user = user->next;
     }
   free(message);
   return (0);
 }
 
-int		send_msg_to_user(const int fd, char **args,
-				 t_list **channels, t_list **users)
+int		send_msg_to_user(const int fd, char **args, t_list **users)
 {
-  (void)fd;
-  (void)args;
-  (void)channels;
-  (void)users;
+
+  t_list	*user;
+  char		buffer[4096];
+  char		*message;
+
+  if (!(user = get_user_by_name(*users, args[0])))
+    {
+      if (memset(buffer, 0, 4096) == NULL)
+	return (puterr_int(ERR_MEMSET, -1));
+      if (snprintf(buffer, 4096, ERR_NOSUCHNICK, args[0]) == -1)
+		return (puterr_int(ERR_SNPRINTF, -1));
+      return (answer_client(fd, buffer, -2));
+    }
+  if ((message = get_message(((t_udata *)(user->struc))->name,
+			     args[1], 1)) == NULL)
+    return (-1);
+  if (answer_client(((t_udata *)(user->struc))->fd, message, 0) == -1)
+    return (-1);
+  free(message);
   return (0);
 }
 
@@ -103,6 +112,6 @@ int		msg(const int fd, char *command,
   else if (!args[1])
     return (answer_client(fd, ERR_NOTEXTTOSEND, -2));
   if (args[0] && args[0][0] == '#')
-    return (send_msg_to_channel(fd, args, channels));
-  return (send_msg_to_user(fd, args, channels, users));
+    return (send_msg_to_channel(fd, args, users, channels));
+  return (send_msg_to_user(fd, args, users));
 }
