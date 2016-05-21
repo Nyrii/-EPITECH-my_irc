@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:44:25 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 00:17:25 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 00:50:03 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <string.h>
@@ -31,11 +31,20 @@ int		count_users_in_channel(t_list *channel)
   return (i);
 }
 
+int		find_and_list(const int fd, t_list **channels,
+			      t_list **users, const char *command)
+{
+  (void)fd;
+  (void)channels;
+  (void)users;
+  (void)command;
+  return (0);
+}
+
 int		list(const int fd, char *command,
 		     t_list **channels, t_list **users)
 {
   if ((command = strtok(command, " ")) == NULL)
     return (list_all(fd, channels, users));
-  return (0);
-  // return (find_and_list(fd, channels, users, command));
+  return (find_and_list(fd, channels, users, command));
 }

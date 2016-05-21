@@ -5,11 +5,11 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 21:29:16 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 00:44:15 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 00:51:23 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
-#include <string.h>
+#include <strings.h>
 #include "serv.h"
 
 int		get_index_channel_from_channels_list(t_list *channel,
@@ -22,7 +22,7 @@ int		get_index_channel_from_channels_list(t_list *channel,
   tmp = channel;
   while (tmp != NULL)
     {
-      if (!strcmp(name, ((t_cdata *)(tmp->struc))->name))
+      if (!strcasecmp(name, ((t_cdata *)(tmp->struc))->name))
       	return (index);
       ++index;
       tmp = tmp->next;
@@ -39,7 +39,7 @@ t_list		*search_channel_by_name(t_list *channel, const char *name)
   tmp = channel;
   while (tmp != NULL)
     {
-      if (!strcmp(name, ((t_cdata *)(tmp->struc))->name))
+      if (!strcasecmp(name, ((t_cdata *)(tmp->struc))->name))
 	return (tmp);
       tmp = tmp->next;
     }

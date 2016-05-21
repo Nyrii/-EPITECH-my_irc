@@ -5,10 +5,10 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Sat May 21 23:51:13 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 23:55:40 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 00:48:54 2016 Nyrandone Noboud-Inpeng
 */
 
-int     inf(char **str, int *x, int nb)
+int	inf(char **str, int *x, int nb)
 {
   if (nb < 0)
     {
@@ -19,9 +19,9 @@ int     inf(char **str, int *x, int nb)
   return (nb);
 }
 
-void    store_nbr(char **str, int *x, int nb)
+void	store_nbr(char **str, int *x, int nb)
 {
-  int   i;
+  int	i;
 
   nb = inf(str, x, nb);
   i = 1;
