@@ -5,7 +5,7 @@
 ## Login   <wilmot_g@epitech.net>
 ##
 ## Started on  Mon May 16 23:28:34 2016 guillaume wilmot
-## Last update Sat May 21 22:19:26 2016 guillaume wilmot
+## Last update Sat May 21 23:20:51 2016 guillaume wilmot
 ##
 
 SRCCOM	= circular_buffer.c	\
@@ -15,6 +15,7 @@ SRCCOM	= circular_buffer.c	\
 	  get_next_line.c	\
 	  list.c		\
 	  pop_push.c		\
+	  replace_eol.c		\
 	  sockets.c
 
 SRCSER	= acceptfile.c		\

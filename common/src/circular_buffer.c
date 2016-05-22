@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:41:38 2016 guillaume wilmot
-** Last update Sat May 21 22:07:32 2016 guillaume wilmot
+** Last update Sun May 22 01:59:05 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -14,17 +14,6 @@
 #include <stdio.h>
 #include "circular_buffer.h"
 #include "errors.h"
-
-static void		replace_end_of_string(char *string)
-{
-  int			i;
-
-  if (!string)
-    return ;
-  i = strlen(string);
-  if (i > 1 && string[i - 1] == '\n' && string[i - 2] == '\r')
-    string[i - 2] = '\0';
-}
 
 t_buffs		*create_buffer(t_buffs *buffs)
 {
@@ -58,18 +47,16 @@ int		write_to_buffer(char *str, t_buff *buff, int size)
   return (0);
 }
 
-char		*get_next_cmd(t_buff *buff)
+static char	*get_next_cmd(t_buff *buff)
 {
   char		*cmd;
-  unsigned int	start;
 
-  start = buff->start;
-  while ((start + buff->idx) % buff->size != buff->end)
+  while ((buff->start_bis + buff->idx) % buff->size != buff->end)
     {
       buff->found = buff->found ? buff->found - 1 : buff->found;
       buff->cmd[buff->idx] = buff->buff[buff->start];
-      buff->buff[buff->start] = 0;
-      buff->found =  buff->cmd[buff->idx] == '\r' ? buff->found : 2;
+      buff->buff[buff->start] = '\0';
+      buff->found = buff->cmd[buff->idx] == '\r' ? 2 : buff->found;
       if (buff->cmd[buff->idx] == '\n' && buff->found)
 	buff->found = 3;
       buff->idx = (buff->idx + 1) % buff->size;
@@ -77,14 +64,31 @@ char		*get_next_cmd(t_buff *buff)
       if (buff->found == 3)
 	{
 	  cmd = strdup(buff->cmd);
-	  if (!memset(buff->cmd, 0, buff->size))
-	    return (NULL);
 	  buff->idx = 0;
 	  buff->found = 0;
+	  buff->start_bis = buff->start;
+	  if (!memset(buff->cmd, 0, buff->size))
+	    return (NULL);
 	  return (cmd);
 	}
     }
   return (NULL);
+}
+
+char		*get_buff_content(t_buff *buff)
+{
+  char		*dup;
+  char		*cmd;
+
+  if (!buff || (buff->start == buff->end) || !(dup = malloc(buff->size + 2)) ||
+      !memset(dup, 0, buff->size + 2))
+    return (NULL);
+  while ((cmd = get_next_cmd(buff)))
+    {
+      strcat(dup, cmd);
+      free(cmd);
+    }
+  return (dup);
 }
 
 int		get_cmd_buff(int fd, t_buffs *buffs)

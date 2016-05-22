@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 22:34:59 2016 guillaume wilmot
+** Last update Sun May 22 02:00:32 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -14,6 +14,7 @@
 #include "serv.h"
 #include "socket.h"
 #include "errors.h"
+#include "replies.h"
 
 static int		process(t_processdata *pdata,
 				t_list **channels, t_list **users)
@@ -23,10 +24,12 @@ static int		process(t_processdata *pdata,
 				   t_list **, t_list **);
   int			i;
   char			*function_to_call;
+  t_buff		*buff;
 
   i = -1;
   init_code(code);
   init_ptrfunc(func);
+  fprintf(stderr, "%s\n", pdata->command);
   if ((function_to_call = strtok(pdata->command, " ")) == NULL)
     return (puterr_int(ERR_SYNTAX, -2));
   while (code[++i] != NULL)
@@ -38,7 +41,10 @@ static int		process(t_processdata *pdata,
 	save_channels(*channels, 1);
 	return (0);
       }
-  return (puterr_int(ERR_SYNTAX, 0));
+  if (get_user(*users, pdata->fd) == NULL)
+    puterr_int(ERR_UNKNOWNUSER, -1);
+  buff = &((t_udata *)(get_user(*users, pdata->fd)->struc))->buffs.out;
+  return (write_to_buffer(ERR_UNKNOWNCOMMAND, buff, strlen(ERR_UNKNOWNCOMMAND)));
 }
 
 static int		process_all(t_list **channels, t_list **users)
@@ -80,6 +86,7 @@ int			core(t_socket *socket, t_list *channels, t_list *users)
       tv.tv_sec = 5;
       tv.tv_usec = 0;
       FD_ZERO(&readf);
+      FD_ZERO(&writef);
       higher_fd = set_select_fd(socket, users, &readf, &writef);
       if (select(higher_fd + 1, &readf, &writef, NULL, &tv) == -1)
 	return (puterr_int(ERR_SELECT, -1));
@@ -91,7 +98,7 @@ int			core(t_socket *socket, t_list *channels, t_list *users)
 	}
       if (check_and_read(&readf, &users) == -1 ||
 	  process_all(&channels, &users) == -1 ||
-	  check_and_write(&readf, &users) == -1)
+	  check_and_write(&writef, &users) == -1)
 	return (close_and_free(socket, users, channels, -1));
     }
 }
