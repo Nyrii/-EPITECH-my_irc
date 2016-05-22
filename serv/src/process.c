@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 02:00:32 2016 guillaume wilmot
+** Last update Sun May 22 16:15:35 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -29,9 +29,9 @@ static int		process(t_processdata *pdata,
   i = -1;
   init_code(code);
   init_ptrfunc(func);
-  fprintf(stderr, "%s\n", pdata->command);
   if ((function_to_call = strtok(pdata->command, " ")) == NULL)
-    return (puterr_int(ERR_SYNTAX, -2));
+    return (-2);
+  fprintf(stderr, "Received : %s\n", pdata->command);
   while (code[++i] != NULL)
     if (!strcmp(code[i], function_to_call))
       {

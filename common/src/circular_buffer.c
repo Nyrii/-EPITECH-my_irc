@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:41:38 2016 guillaume wilmot
-** Last update Sun May 22 01:59:05 2016 guillaume wilmot
+** Last update Sun May 22 16:27:48 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -32,16 +32,16 @@ t_buffs		*create_buffer(t_buffs *buffs)
   return (buffs);
 }
 
-int		write_to_buffer(char *str, t_buff *buff, int size)
+int		write_to_buffer(const char *str, t_buff *buff, int size)
 {
   unsigned int	go;
   int		i;
 
   i = -1;
   go = buff->start == buff->end ? 1 : 0;
-  while (++i < size && ((buff->start + i) % buff->size != buff->end || go))
-    buff->buff[(buff->start + i) % buff->size] = str[i];
-  if ((buff->start + i) % buff->size == buff->end && (!go || i) && i != size)
+  while (++i < size && ((buff->end + i) % buff->size != buff->start || go))
+    buff->buff[(buff->end + i) % buff->size] = str[i];
+  if ((buff->end + i) % buff->size == buff->start && (!go || i) && i != size)
     return (-1);
   buff->end = (buff->end + i) % buff->size;
   return (0);
@@ -80,13 +80,15 @@ char		*get_buff_content(t_buff *buff)
   char		*dup;
   char		*cmd;
 
-  if (!buff || (buff->start == buff->end) || !(dup = malloc(buff->size + 2)) ||
+  if (!buff || !(dup = malloc(buff->size + 2)) ||
       !memset(dup, 0, buff->size + 2))
     return (NULL);
-  while ((cmd = get_next_cmd(buff)))
+  cmd = get_next_cmd(buff);
+  while (cmd)
     {
       strcat(dup, cmd);
       free(cmd);
+      cmd = get_next_cmd(buff);
     }
   return (dup);
 }
