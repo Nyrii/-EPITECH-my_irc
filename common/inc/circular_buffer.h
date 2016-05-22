@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:42:04 2016 guillaume wilmot
-** Last update Sat May 21 10:15:32 2016 guillaume wilmot
+** Last update Sun May 22 16:00:11 2016 guillaume wilmot
 */
 
 #ifndef CIRCULAR_BUFFER_H_
@@ -23,6 +23,7 @@ typedef struct		s_buff
   unsigned int		size;
   unsigned int		idx;
   unsigned int		start;
+  unsigned int		start_bis;
   unsigned int		end;
   unsigned char		found;
 }			t_buff;
@@ -34,8 +35,11 @@ typedef struct		s_buffs
   t_list		*cmds;
 }			t_buffs;
 
-t_buffs			*create_buffer(t_buffs *buffs);
+t_buffs			*create_buffer(t_buffs *);
+char			*get_buff_content(t_buff *);
+int			write_to_buffer(const char *, t_buff *, int);
 int			get_cmd_buff(int, t_buffs *);
 int			send_msg(int, char *);
+void			replace_end_of_string(char *);
 
 #endif /* !CIRCULAR_BUFFER_H_ */

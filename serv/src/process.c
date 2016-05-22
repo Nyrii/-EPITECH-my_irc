@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 17:34:37 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 18:02:19 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -14,6 +14,7 @@
 #include "serv.h"
 #include "socket.h"
 #include "errors.h"
+#include "replies.h"
 
 static int		process(t_processdata *pdata,
 				t_list **channels, t_list **users)
@@ -23,6 +24,7 @@ static int		process(t_processdata *pdata,
   int			i;
   char			*function_to_call;
   t_udata		*user;
+  t_buff		*buff;
 
   i = -1;
   init_code(code);
@@ -40,7 +42,10 @@ static int		process(t_processdata *pdata,
 	save_channels(*channels, 1);
 	return (0);
       }
-  return (puterr_int(ERR_SYNTAX, 0));
+  if (get_user(*users, pdata->fd) == NULL)
+    puterr_int(ERR_UNKNOWNUSER, -1);
+  buff = &((t_udata *)(get_user(*users, pdata->fd)->struc))->buffs.out;
+  return (write_to_buffer(ERR_UNKNOWNCOMMAND, buff, strlen(ERR_UNKNOWNCOMMAND)));
 }
 
 static int		process_all(t_list **channels, t_list **users)
@@ -70,59 +75,10 @@ static int		process_all(t_list **channels, t_list **users)
   return (0);
 }
 
-static int		check_and_read(fd_set *readf, t_list **users)
-{
-  t_list		*tmp;
-  int			ret;
-
-  tmp = *users;
-  while (tmp)
-    {
-      if (FD_ISSET(((t_udata *)(tmp->struc))->fd, readf))
-	{
-	  if ((ret = get_cmd_buff(((t_udata *)(tmp->struc))->fd,
-				  &((t_udata *)(tmp->struc))->buffs) == -1))
-	    return (-1);
-	  else if (ret == -2)
-	    puts("handle overflow");
-	  else if (ret == -3)
-	    return (0);
-	}
-      tmp = tmp->next;
-    }
-  return (0);
-}
-
-static int		set_select_fd(t_socket *socket, t_list *users,
-				      fd_set *readf)
-{
-  t_list		*tmp;
-  int			higher_fd;
-  int			fd;
-
-  tmp = users;
-  higher_fd = 0;
-  if (socket->fd > higher_fd)
-    higher_fd = socket->fd;
-  if (socket && socket->fd != -1)
-    FD_SET(socket->fd, readf);
-  while (tmp != NULL)
-    {
-      if (((t_udata *)(tmp->struc))->fd != -1)
-	{
-	  fd = ((t_udata *)(tmp->struc))->fd;
-	  if (fd > higher_fd)
-	    higher_fd = fd;
-	  FD_SET(fd, readf);
-	}
-      tmp = tmp->next;
-    }
-  return (higher_fd);
-}
-
 int			core(t_socket *socket, t_list *channels, t_list *users)
 {
   fd_set		readf;
+  fd_set		writef;
   struct timeval	tv;
   int			higher_fd;
 
@@ -131,8 +87,9 @@ int			core(t_socket *socket, t_list *channels, t_list *users)
       tv.tv_sec = 5;
       tv.tv_usec = 0;
       FD_ZERO(&readf);
-      higher_fd = set_select_fd(socket, users, &readf);
-      if (select(higher_fd + 1, &readf, NULL, NULL, &tv) == -1)
+      FD_ZERO(&writef);
+      higher_fd = set_select_fd(socket, users, &readf, &writef);
+      if (select(higher_fd + 1, &readf, &writef, NULL, &tv) == -1)
 	return (puterr_int(ERR_SELECT, -1));
       if (FD_ISSET(socket->fd, &readf))
 	{
@@ -140,9 +97,9 @@ int			core(t_socket *socket, t_list *channels, t_list *users)
 	    return (close_and_free(socket, users, channels, -1));
 	  save_users(users, 1);
 	}
-      if (check_and_read(&readf, &users) == -1)
+      if (check_and_read(&readf, &users) == -1 ||
+	  process_all(&channels, &users) == -1 ||
+	  check_and_write(&writef, &users) == -1)
 	return (close_and_free(socket, users, channels, -1));
-      if (process_all(&channels, &users) == -1)
-	return (-1);
     }
 }

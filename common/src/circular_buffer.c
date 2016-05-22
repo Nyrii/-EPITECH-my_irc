@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:41:38 2016 guillaume wilmot
-** Last update Sat May 21 19:18:04 2016 guillaume wilmot
+** Last update Sun May 22 16:27:48 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -14,17 +14,6 @@
 #include <stdio.h>
 #include "circular_buffer.h"
 #include "errors.h"
-
-static void		replace_end_of_string(char *string)
-{
-  int			i;
-
-  if (!string)
-    return ;
-  i = strlen(string);
-  if (i > 1 && string[i - 1] == '\n' && string[i - 2] == '\r')
-    string[i - 2] = '\0';
-}
 
 t_buffs		*create_buffer(t_buffs *buffs)
 {
@@ -43,33 +32,31 @@ t_buffs		*create_buffer(t_buffs *buffs)
   return (buffs);
 }
 
-int		write_to_buffer(char *str, t_buff *buff, int size)
+int		write_to_buffer(const char *str, t_buff *buff, int size)
 {
   unsigned int	go;
   int		i;
 
   i = -1;
   go = buff->start == buff->end ? 1 : 0;
-  while (++i < size && ((buff->start + i) % buff->size != buff->end || go))
-    buff->buff[(buff->start + i) % buff->size] = str[i];
-  if ((buff->start + i) % buff->size == buff->end && (!go || i) && i != size)
+  while (++i < size && ((buff->end + i) % buff->size != buff->start || go))
+    buff->buff[(buff->end + i) % buff->size] = str[i];
+  if ((buff->end + i) % buff->size == buff->start && (!go || i) && i != size)
     return (-1);
   buff->end = (buff->end + i) % buff->size;
   return (0);
 }
 
-char		*get_next_cmd(t_buff *buff)
+static char	*get_next_cmd(t_buff *buff)
 {
   char		*cmd;
-  unsigned int	start;
 
-  start = buff->start;
-  while ((start + buff->idx) % buff->size != buff->end)
+  while ((buff->start_bis + buff->idx) % buff->size != buff->end)
     {
       buff->found = buff->found ? buff->found - 1 : buff->found;
       buff->cmd[buff->idx] = buff->buff[buff->start];
-      buff->buff[buff->start] = 0;
-      buff->found =  buff->cmd[buff->idx] == '\r' ? buff->found : 2;
+      buff->buff[buff->start] = '\0';
+      buff->found = buff->cmd[buff->idx] == '\r' ? 2 : buff->found;
       if (buff->cmd[buff->idx] == '\n' && buff->found)
 	buff->found = 3;
       buff->idx = (buff->idx + 1) % buff->size;
@@ -77,14 +64,33 @@ char		*get_next_cmd(t_buff *buff)
       if (buff->found == 3)
 	{
 	  cmd = strdup(buff->cmd);
-	  if (!memset(buff->cmd, 0, buff->size))
-	    return (NULL);
 	  buff->idx = 0;
 	  buff->found = 0;
+	  buff->start_bis = buff->start;
+	  if (!memset(buff->cmd, 0, buff->size))
+	    return (NULL);
 	  return (cmd);
 	}
     }
   return (NULL);
+}
+
+char		*get_buff_content(t_buff *buff)
+{
+  char		*dup;
+  char		*cmd;
+
+  if (!buff || !(dup = malloc(buff->size + 2)) ||
+      !memset(dup, 0, buff->size + 2))
+    return (NULL);
+  cmd = get_next_cmd(buff);
+  while (cmd)
+    {
+      strcat(dup, cmd);
+      free(cmd);
+      cmd = get_next_cmd(buff);
+    }
+  return (dup);
 }
 
 int		get_cmd_buff(int fd, t_buffs *buffs)
@@ -93,11 +99,8 @@ int		get_cmd_buff(int fd, t_buffs *buffs)
   char		*cmd;
   int		ret;
 
-  buffs->cmds ? free_content(buffs->cmds) : 0;
-  buffs->cmds ? buffs->cmds->destroy(buffs->cmds) : 0;
-  buffs->cmds = NULL;
   if ((ret = read(fd, tmp, buffs->in.size)) <= 0)
-    return (!(buffs->cmds = create_list(strdup("QUIT"), NULL)) ? -1 : -3);
+    return (!(buffs->cmds = create_list(strdup("QUIT"), NULL)) ? -1 : 0);
   if (write_to_buffer(tmp, &buffs->in, ret) == -1)
     return (-2);
   while ((cmd = get_next_cmd(&buffs->in)))
@@ -111,8 +114,7 @@ int		get_cmd_buff(int fd, t_buffs *buffs)
       else if (!(buffs->cmds = buffs->cmds->push_back(buffs->cmds, cmd)))
 	return (-1);
       if (!strcmp("QUIT", cmd) || !strncmp(cmd, "QUIT ", 5))
-	return (-3);
-      printf("CMD : %p %s\n", cmd, cmd);
+	return (0);
     }
   return (0);
 }
