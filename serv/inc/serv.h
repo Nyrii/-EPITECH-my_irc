@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 22:34:49 2016 guillaume wilmot
+** Last update Sun May 22 02:02:25 2016 guillaume wilmot
 */
 
 #ifndef SERV_H_
@@ -53,9 +53,9 @@ void		delete_user_from_users_list(const int, t_list **);
 /*
 ** error_messages.c
 */
-int		not_enough_params(const int, t_list *, const char *);
-int		no_such_channel(const int, const char *);
-int		cannot_send_to_chan(const int, const char *);
+int		not_enough_params(t_list *, const char *);
+int		no_such_channel(t_list *, const char *);
+int		cannot_send_to_chan(t_list *, const char *);
 
 /*
 ** free.c
@@ -84,6 +84,12 @@ int		already_in_channel(const int, t_list *);
 ** list.c
 */
 int		list(const int, char *, t_list **, t_list **);
+
+/*
+** list_all.c
+*/
+void		store_data_for_list(const char *, char **, int *, t_list *);
+int		list_all(const int, t_list **, t_list **);
 
 /*
 ** msg.c
@@ -134,6 +140,7 @@ int		quit(const int fd, char *, t_list **, t_list **);
 /*
 ** search_channel.c
 */
+int		count_users_in_channel(t_list *);
 int		get_index_channel_from_channels_list(t_list *, const char *);
 t_list		*search_channel_by_name(t_list *, const char *);
 int		search_channel_by_user_fd(t_list *, const int);
@@ -160,7 +167,7 @@ int		server(const int, char *, t_list **, t_list **);
 /*
 ** server_sockets.c
 */
-int		answer_client(int, const char *, int);
+int		store_answer(t_list *, const char *, int);
 t_socket	*init_server_socket(const int);
 
 /*
@@ -170,6 +177,11 @@ t_socket	*save_socket(t_socket *, const int);
 t_list		*save_users(t_list *, const int);
 t_list		*save_channels(t_list *, const int);
 void		clean_socket();
+
+/*
+** store_nbr.c
+*/
+void		store_nbr(char **, int *, int);
 
 /*
 ** users.c

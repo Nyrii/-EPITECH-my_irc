@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Sat May 21 14:43:25 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 18:33:41 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 23:28:48 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <string.h>
@@ -14,37 +14,42 @@
 #include "errors.h"
 #include "replies.h"
 
-int		not_enough_params(const int fd, t_list *users,
-				  const char *command)
+int		not_enough_params(t_list *user, const char *command)
 {
   char		buffer[4096];
 
+  if (user == NULL)
+    return (puterr_int(ERR_UNKNOWNUSER, -1));
   if (memset(buffer, 0, 4096) == NULL)
     return (puterr_int(ERR_MEMSET, -1));
   if (snprintf(buffer, 4096, ERR_NEEDMOREPARAMS,
-	       get_user_name(users, fd), command) == -1)
+	       ((t_udata *)(user->struc))->name, command) == -1)
     return (puterr_int(ERR_SNPRINTF, -1));
-  return (answer_client(fd, buffer, -2));
+  return (store_answer(user, buffer, -2));
 }
 
-int		no_such_channel(const int fd, const char *channel)
+int		no_such_channel(t_list *user, const char *channel)
 {
   char		buffer[4096];
 
+  if (user == NULL)
+    return (puterr_int(ERR_UNKNOWNUSER, -1));
   if (memset(buffer, 0, 4096) == NULL)
     return (puterr_int(ERR_MEMSET, -1));
   if (snprintf(buffer, 4096, ERR_NOSUCHCHANNEL, channel) == -1)
     return (puterr_int(ERR_SNPRINTF, -1));
-  return (answer_client(fd, buffer, -2));
+  return (store_answer(user, buffer, -2));
 }
 
-int		cannot_send_to_chan(const int fd, const char *channel)
+int		cannot_send_to_chan(t_list *user, const char *channel)
 {
   char		buffer[4096];
 
+  if (user == NULL)
+    return (puterr_int(ERR_UNKNOWNUSER, -1));
   if (memset(buffer, 0, 4096) == NULL)
     return (puterr_int(ERR_MEMSET, -1));
   if (snprintf(buffer, 4096, ERR_CANNOTSENDTOCHAN, channel) == -1)
     return (puterr_int(ERR_SNPRINTF, -1));
-  return (answer_client(fd, buffer, -2));
+  return (store_answer(user, buffer, -2));
 }

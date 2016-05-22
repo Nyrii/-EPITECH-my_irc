@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:43:49 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 13:20:56 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 23:10:45 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
@@ -119,7 +119,7 @@ int		join(const int fd, char *command,
 	return (puterr_int(ERR_MEMSET, -1));
       if (snprintf(buffer, 4096, ERR_NOSUCHCHANNEL, command) == -1)
 	return (puterr_int(ERR_SNPRINTF, -1));
-      return (answer_client(fd, buffer, -2));
+      return (store_answer(get_user(*users, fd), buffer, -2));
     }
   if (edit_channels(fd, command, channel, *users) == -1)
     return (-1);

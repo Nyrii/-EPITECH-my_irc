@@ -5,12 +5,28 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 21:29:16 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 13:43:15 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 01:38:32 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
-#include <string.h>
+#include <strings.h>
 #include "serv.h"
+
+int		count_users_in_channel(t_list *channel)
+{
+  int		i;
+  t_list	*users;
+
+  i = 0;
+  if ((users = ((t_cdata *)(channel->struc))->users) == NULL)
+    return (0);
+  while (users != NULL)
+    {
+      ++i;
+      users = users->next;
+    }
+  return (i);
+}
 
 int		get_index_channel_from_channels_list(t_list *channel,
 						     const char *name)
@@ -22,7 +38,7 @@ int		get_index_channel_from_channels_list(t_list *channel,
   tmp = channel;
   while (tmp != NULL)
     {
-      if (!strcmp(name, ((t_cdata *)(tmp->struc))->name))
+      if (!strcasecmp(name, ((t_cdata *)(tmp->struc))->name))
       	return (index);
       ++index;
       tmp = tmp->next;
@@ -34,10 +50,12 @@ t_list		*search_channel_by_name(t_list *channel, const char *name)
 {
   t_list	*tmp;
 
+  if (channel == NULL)
+    return (NULL);
   tmp = channel;
   while (tmp != NULL)
     {
-      if (!strcmp(name, ((t_cdata *)(tmp->struc))->name))
+      if (!strcasecmp(name, ((t_cdata *)(tmp->struc))->name))
 	return (tmp);
       tmp = tmp->next;
     }

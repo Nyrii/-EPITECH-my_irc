@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 16:08:38 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 22:22:09 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 21 22:51:37 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef REPLIES_H_
@@ -28,9 +28,9 @@
 # define RPL_PARTOK ":%s PART :%s\r\n"
 # define RPL_MSG "MSG "
 # define RPL_PRIVMSG "PRIVMSG "
-# define RPL_LISTSTART(X) "321 Channel : Users Name\r\n"
-# define RPL_LIST(X, Y, Z) "322 "X" "Y" :"Z"\r\n"
-# define RPL_LISTEND "323 :End of /LIST\r\n"
+# define RPL_LISTSTART "321 Channel : Users Name\r\n"
+# define RPL_LIST "322 "
+# define RPL_LISTEND "323 :End of channel list\r\n"
 # define RPL_USERSTART "392 :UserID Terminal Host\r\n"
 # define RPL_USERS(X, Y, Z) "393 : "X" "Y" "Z"\r\n"
 # define RPL_NOUSERS "395 :Nobody logged in\r\n"

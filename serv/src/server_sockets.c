@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 18:02:07 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 23:10:10 2016 guillaume wilmot
+** Last update Sun May 22 02:02:11 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -14,10 +14,12 @@
 #include "serv.h"
 #include "errors.h"
 
-int		answer_client(int fd, const char *answer, int ret_value)
+int		store_answer(t_list *user, const char *answer, int ret_value)
 {
-  if (write(fd, answer, strlen(answer)) == -1)
-    return (puterr_int("Error: could not write to client(s).\n", -1));
+  if (user == NULL)
+    return (puterr_int(ERR_UNKNOWNUSER, -1));
+  if (write(((t_udata *)(user->struc))->fd, answer, strlen(answer)) == -1)
+    return (puterr_int(ERR_ANSWER, -1));
   return (ret_value);
 }
 
