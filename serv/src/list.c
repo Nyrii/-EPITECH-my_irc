@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:44:25 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 01:55:23 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 15:00:46 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <string.h>
@@ -30,19 +30,19 @@ char		*lower(char *string)
 }
 
 int		get_list_occurencies(char **answer, t_list *tmp,
-				     char *command)
+				     char *command, int pass)
 {
   char		*name;
-  int		pass;
   int		len;
 
-  pass = 0;
   len = 0;
   while (tmp != NULL)
     {
-      name = ((t_cdata *)(tmp->struc))->name;
+      name = strdup(((t_cdata *)(tmp->struc))->name);
       if (strstr(lower(name), lower(command)))
 	{
+	  free(name);
+	  name = ((t_cdata *)(tmp->struc))->name;
 	  if ((pass == 0 && !(*answer = malloc(50 + strlen(name))))
 	      || (pass != 0
 		  && !(*answer = realloc(*answer,
@@ -51,6 +51,8 @@ int		get_list_occurencies(char **answer, t_list *tmp,
 	  store_data_for_list(name, answer, &len, tmp);
 	  ++pass;
 	}
+      else
+	free(name);
       tmp = tmp->next;
     }
   return (0);
@@ -67,7 +69,7 @@ int		find_and_print_list(const int fd, t_list *channels,
   tmp = channels;
   if (tmp != NULL)
     {
-      if ((ret_value = get_list_occurencies(&answer, tmp, command)) == 0
+      if ((ret_value = get_list_occurencies(&answer, tmp, command, 0)) == 0
 	  && answer != NULL)
 	{
 	  if (store_answer(get_user(users, fd), answer, 0) == -1)

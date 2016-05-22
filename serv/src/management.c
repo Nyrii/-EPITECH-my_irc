@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 18:44:58 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 23:13:49 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 17:55:23 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -60,19 +60,24 @@ int		take_first_arg(const int fd, char **arg,
   return (0);
 }
 
-int		take_two_args(char **args, char *cmd)
+int		take_args(char **args, char *cmd, const int limit)
 {
   int		i;
 
   i = 0;
-  while (i < 2)
+  while (i < limit)
     {
-      if ((args[i] = strtok(i == 0 ? cmd : NULL, i == 0 ? " " : "")) == NULL)
+      if (i == 0)
+	{
+	  if ((args[i] = strtok(cmd, " ")) == NULL)
+	    return (-1);
+	}
+      else if ((args[i] = strtok(NULL, " ")) == NULL)
 	return (-1);
       ++i;
     }
   args[i] = NULL;
-  if (i != 2)
+  if (i != limit)
     return (-1);
   return (0);
 }
@@ -86,9 +91,12 @@ t_list		*add_new_user(t_socket *serv, t_list *users)
   if ((data->fd = serv->accept(serv, NULL)) == -1 ||
       !create_buffer(&data->buffs))
     return (NULL);
-  data->name = "Anonymous";
-  if ((data->name = strdup("Anonymous")) == NULL)
-    return (puterr(ERR_STRDUP, NULL));
+  data->is_registered = 0;
+  data->uname = NULL;
+  data->rname = NULL;
+  data->host = NULL;
+  data->serv = NULL;
+  data->name = NULL;
   data->current_channel = NULL;
   if (users == NULL)
     users = create_list(data, NULL);

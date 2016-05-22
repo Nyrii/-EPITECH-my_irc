@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Sat May 21 14:43:25 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 23:28:48 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 17:06:35 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <string.h>
@@ -17,13 +17,15 @@
 int		not_enough_params(t_list *user, const char *command)
 {
   char		buffer[4096];
+  char		*name;
 
   if (user == NULL)
     return (puterr_int(ERR_UNKNOWNUSER, -1));
   if (memset(buffer, 0, 4096) == NULL)
     return (puterr_int(ERR_MEMSET, -1));
+  name = ((t_udata *)(user->struc))->name;
   if (snprintf(buffer, 4096, ERR_NEEDMOREPARAMS,
-	       ((t_udata *)(user->struc))->name, command) == -1)
+	       name == NULL ? "\0" : name, command) == -1)
     return (puterr_int(ERR_SNPRINTF, -1));
   return (store_answer(user, buffer, -2));
 }

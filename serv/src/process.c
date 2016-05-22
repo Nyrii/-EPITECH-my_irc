@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 18:51:16 2016 guillaume wilmot
+** Last update Sun May 22 17:34:37 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -18,18 +18,20 @@
 static int		process(t_processdata *pdata,
 				t_list **channels, t_list **users)
 {
-  char			*code[11];
-  int			(*func[11])(const int, char *,
-				   t_list **, t_list **);
+  char			*code[12];
+  int			(*func[12])(const int, char *, t_list **, t_list **);
   int			i;
   char			*function_to_call;
+  t_udata		*user;
 
   i = -1;
   init_code(code);
   init_ptrfunc(func);
+  user = (t_udata *)(get_user(*users, pdata->fd)->struc);
   if ((function_to_call = strtok(pdata->command, " ")) == NULL)
     return (puterr_int(ERR_SYNTAX, -2));
-  while (code[++i] != NULL)
+  while (user->is_registered == 0 || user->name == NULL ?
+	 ++i < 2 : code[++i] != NULL)
     if (!strcmp(code[i], function_to_call))
       {
 	if (func[i](pdata->fd, strtok(NULL, ""), channels, users) == -1)

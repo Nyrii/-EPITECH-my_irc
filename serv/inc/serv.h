@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 01:38:46 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 17:47:39 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -31,8 +31,13 @@ typedef struct		s_cdata
 
 typedef struct		s_udata
 {
+  int			is_registered;
   int			fd;
   char			*name;
+  char			*uname;
+  char			*host;
+  char			*serv;
+  char			*rname;
   char			*current_channel;
   t_buffs		buffs;
 }			t_udata;
@@ -101,7 +106,7 @@ int		msg(const int, char *, t_list **, t_list **);
 */
 int		change_current_channel(const int, t_list **, char *);
 int		take_first_arg(const int, char **, t_list *, char *);
-int		take_two_args(char **, char *);
+int		take_args(char **, char *, const int);
 t_list		*add_new_user(t_socket *, t_list *);
 
 /*
@@ -174,6 +179,11 @@ void		clean_socket();
 ** store_nbr.c
 */
 void		store_nbr(char **, int *, int);
+
+/*
+** user.c
+*/
+int		user(const int, char *, t_list **, t_list **);
 
 /*
 ** users.c

@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:45:44 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 23:36:32 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 17:37:51 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -92,8 +92,11 @@ int		nick(const int fd, char *command,
   tmp = *users;
   while (tmp != NULL)
     {
-      if (!strcasecmp(((t_udata *)(tmp->struc))->name, command))
-	return (already_in_use(user, command));
+      if (((t_udata *)(tmp->struc))->name)
+	{
+	  if (!strcasecmp(((t_udata *)(tmp->struc))->name, command))
+	    return (already_in_use(user, command));
+	}
       tmp = tmp->next;
     }
   return (change_nickname(user, command));

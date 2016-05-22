@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 13:35:19 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 16:28:36 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 17:56:28 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -33,8 +33,18 @@ void		free_channels_structures(t_list *channels)
     }
 }
 
+void		free_user_data(t_list *tmp_free)
+{
+  free(((t_udata *)(tmp_free->struc))->name);
+  free(((t_udata *)(tmp_free->struc))->uname);
+  free(((t_udata *)(tmp_free->struc))->rname);
+  free(((t_udata *)(tmp_free->struc))->host);
+  free(((t_udata *)(tmp_free->struc))->serv);
+  free(((t_udata *)(tmp_free->struc))->current_channel);
+}
+
 int		close_and_free(t_socket *socket, t_list *users,
-			     t_list *channels, int ret_value)
+			       t_list *channels, int ret_value)
 {
   t_list	*tmp;
   t_list	*tmp_free;
@@ -52,8 +62,7 @@ int		close_and_free(t_socket *socket, t_list *users,
 	}
       tmp_free = tmp;
       tmp = tmp->next;
-      free(((t_udata *)(tmp_free->struc))->name);
-      free(((t_udata *)(tmp_free->struc))->current_channel);
+      free_user_data(tmp_free);
       free(tmp_free->struc);
       tmp_free->struc = NULL;
     }
