@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 16:08:38 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 17:08:26 2016 guillaume wilmot
+** Last update Sun May 22 18:52:13 2016 guillaume wilmot
 */
 
 #ifndef REPLIES_H_
@@ -23,6 +23,7 @@
 # define ERR_NOTONCHANNEL "442 %s :You're not on that channel\r\n"
 # define ERR_NOTEXTTOSEND "412 :No text to send\r\n"
 # define ERR_CANNOTSENDTOCHAN "404 %s :Cannot send to channel\r\n"
+# define ERR_ALREADYREGISTERED "462 :You may not reregister\r\n"
 # define RPL_NICKOK "NICK %s\r\n"
 # define RPL_JOINOK ":%s JOIN :%s\r\n"
 # define RPL_PARTOK ":%s PART :%s\r\n"
@@ -31,10 +32,10 @@
 # define RPL_LISTSTART "321 Channel : Users Name\r\n"
 # define RPL_LIST "322 "
 # define RPL_LISTEND "323 :End of channel list\r\n"
-# define RPL_USERSTART "392 :UserID Terminal Host\r\n"
-# define RPL_USERS(X, Y, Z) "393 : "X" "Y" "Z"\r\n"
-# define RPL_NOUSERS "395 :Nobody logged in\r\n"
+# define RPL_USERSTART "392 :Users listing started\r\n"
+# define RPL_USERS "393 : %s\r\n"
 # define RPL_ENDOFUSERS "394 :End of users\r\n"
+# define RPL_NOUSERS "395 :Nobody logged in\r\n"
 # define RPL_TOPIC(X, Y) "332 "X" :"Y"\r\n"
 # define RPL_NAMREPLAY "353 %s :%s\r\n"
 # define RPL_ENDOFNAMES "366 %s :End of /NAMES list\r\n"

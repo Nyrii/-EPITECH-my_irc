@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 17:09:30 2016 guillaume wilmot
+** Last update Sun May 22 18:52:01 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -19,19 +19,23 @@
 static int		process(t_processdata *pdata,
 				t_list **channels, t_list **users)
 {
-  char			*code[11];
-  int			(*func[11])(const int, char *,
-				   t_list **, t_list **);
+  char			*code[12];
+  int			(*func[12])(const int, char *, t_list **, t_list **);
   int			i;
   char			*function_to_call;
+  t_udata		*user_data;
   t_buff		*buff;
 
   i = -1;
   init_code(code);
   init_ptrfunc(func);
+  if (get_user(*users, pdata->fd) == NULL
+      || (user_data = (t_udata *)(get_user(*users, pdata->fd)->struc)) == NULL)
+    return (puterr_int(ERR_UNKNOWNUSER, -1));
   if ((function_to_call = strtok(pdata->command, " ")) == NULL)
-    return (-2);
-  while (code[++i] != NULL)
+    return (puterr_int(ERR_SYNTAX, -2));
+  while (user_data->is_registered == 0 || user_data->name == NULL ?
+	 ++i < 3 : code[++i] != NULL)
     if (!strcmp(code[i], function_to_call))
       {
 	if (func[i](pdata->fd, strtok(NULL, ""), channels, users) == -1)
@@ -40,9 +44,7 @@ static int		process(t_processdata *pdata,
 	save_channels(*channels, 1);
 	return (0);
       }
-  if (get_user(*users, pdata->fd) == NULL)
-    puterr_int(ERR_UNKNOWNUSER, -1);
-  buff = &((t_udata *)(get_user(*users, pdata->fd)->struc))->buffs.out;
+  buff = &((t_udata *)(user_data))->buffs.out;
   return (write_to_buffer(ERR_UNKNOWNCMD, buff, strlen(ERR_UNKNOWNCMD)));
 }
 

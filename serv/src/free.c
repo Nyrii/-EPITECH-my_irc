@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 13:35:19 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 16:28:36 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 18:55:46 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -34,15 +34,17 @@ void		free_channels_structures(t_list *channels)
 }
 
 int		close_and_free(t_socket *socket, t_list *users,
-			     t_list *channels, int ret_value)
+			       t_list *channels, int ret_value)
 {
   t_list	*tmp;
   t_list	*tmp_free;
 
   tmp = users;
   if (socket && socket->fd != -1)
-    if (socket->close(socket) == -1)
-      return (-1);
+    {
+      if (socket->close(socket) == -1)
+	return (-1);
+    }
   while (tmp != NULL)
     {
       if (((t_udata *)(tmp->struc))->fd != -1)
@@ -52,13 +54,10 @@ int		close_and_free(t_socket *socket, t_list *users,
 	}
       tmp_free = tmp;
       tmp = tmp->next;
-      free(((t_udata *)(tmp_free->struc))->name);
-      free(((t_udata *)(tmp_free->struc))->current_channel);
-      free(tmp_free->struc);
-      tmp_free->struc = NULL;
+      delete_user_from_users_list(((t_udata *)(tmp_free->struc))->fd,
+				  &tmp_free);
     }
   channels ? free_channels_structures(channels) : 0;
-  users ? users->destroy(users) : 0;
   channels ? channels->destroy(channels) : 0;
   return (socket ? free(socket) : 0, ret_value);
 }

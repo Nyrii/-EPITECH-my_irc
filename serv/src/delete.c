@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 13:54:04 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 18:59:42 2016 guillaume wilmot
+** Last update Sun May 22 18:54:55 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -72,13 +72,18 @@ void		delete_user_from_users_list(const int fd, t_list **users)
     return ;
   free(((t_udata *)(tmp->struc))->name);
   free(((t_udata *)(tmp->struc))->current_channel);
+  free(((t_udata *)(tmp->struc))->uname);
+  free(((t_udata *)(tmp->struc))->rname);
+  free(((t_udata *)(tmp->struc))->host);
+  free(((t_udata *)(tmp->struc))->serv);
   free(((t_udata *)(tmp->struc))->buffs.in.cmd);
   free(((t_udata *)(tmp->struc))->buffs.out.cmd);
   free(((t_udata *)(tmp->struc))->buffs.in.buff);
   free(((t_udata *)(tmp->struc))->buffs.out.buff);
   free_content(((t_udata *)(tmp->struc))->buffs.cmds);
-  ((t_udata *)(tmp->struc))->buffs.cmds->destroy
-    (((t_udata *)(tmp->struc))->buffs.cmds);
+  if (((t_udata *)(tmp->struc))->buffs.cmds)
+    ((t_udata *)(tmp->struc))->buffs.cmds->destroy
+      (((t_udata *)(tmp->struc))->buffs.cmds);
   free(tmp->struc);
   tmp->struc = NULL;
   *users = (*users)->delete_nth(*users, i);
