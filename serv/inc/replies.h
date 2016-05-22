@@ -5,13 +5,13 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 16:08:38 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 22:51:37 2016 Nyrandone Noboud-Inpeng
+** Last update Sun May 22 17:08:26 2016 guillaume wilmot
 */
 
 #ifndef REPLIES_H_
 # define REPLIES_H_
 
-# define ERR_UNKNOWNCOMMAND "421 %s %s :Unknown command\r\n"
+# define ERR_UNKNOWNCMD "421 %s %s :Unknown command\r\n"
 # define ERR_NEEDMOREPARAMS "461 %s %s :Not enough parameters\r\n"
 # define ERR_NOSUCHSERVER(X, Y) "402 "X" "Y" :No such server\r\n"
 # define ERR_NICKNAMEINUSE "433 %s :Nickname is already in use\r\n"

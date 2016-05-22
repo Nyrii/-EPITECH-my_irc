@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Sat May 21 22:16:57 2016 guillaume wilmot
-** Last update Sun May 22 16:10:25 2016 guillaume wilmot
+** Last update Sun May 22 18:43:52 2016 guillaume wilmot
 */
 
 #include <string.h>
@@ -56,8 +56,6 @@ int			check_and_write(fd_set *writef, t_list **users)
 	{
 	  if ((ret = write(struc->fd, buff, strlen(buff)) == -1))
 	    return (puterr_int(ERR_ANSWER, -1));
-	  else
-	    printf("Wrote : %s\n", buff);
 	  free(buff);
 	}
       tmp = tmp->next;

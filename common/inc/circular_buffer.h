@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:42:04 2016 guillaume wilmot
-** Last update Sun May 22 16:00:11 2016 guillaume wilmot
+** Last update Sun May 22 18:29:43 2016 guillaume wilmot
 */
 
 #ifndef CIRCULAR_BUFFER_H_
@@ -18,13 +18,14 @@
 
 typedef struct		s_buff
 {
+  unsigned int		size;
   char			*buff;
   char			*cmd;
-  unsigned int		size;
   unsigned int		idx;
   unsigned int		start;
   unsigned int		start_bis;
   unsigned int		end;
+  unsigned int		overflow;
   unsigned char		found;
 }			t_buff;
 

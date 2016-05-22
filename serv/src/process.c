@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 16:15:35 2016 guillaume wilmot
+** Last update Sun May 22 17:09:30 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -31,7 +31,6 @@ static int		process(t_processdata *pdata,
   init_ptrfunc(func);
   if ((function_to_call = strtok(pdata->command, " ")) == NULL)
     return (-2);
-  fprintf(stderr, "Received : %s\n", pdata->command);
   while (code[++i] != NULL)
     if (!strcmp(code[i], function_to_call))
       {
@@ -44,7 +43,7 @@ static int		process(t_processdata *pdata,
   if (get_user(*users, pdata->fd) == NULL)
     puterr_int(ERR_UNKNOWNUSER, -1);
   buff = &((t_udata *)(get_user(*users, pdata->fd)->struc))->buffs.out;
-  return (write_to_buffer(ERR_UNKNOWNCOMMAND, buff, strlen(ERR_UNKNOWNCOMMAND)));
+  return (write_to_buffer(ERR_UNKNOWNCMD, buff, strlen(ERR_UNKNOWNCMD)));
 }
 
 static int		process_all(t_list **channels, t_list **users)
@@ -65,6 +64,7 @@ static int		process_all(t_list **channels, t_list **users)
 	  pdata.fd = ((t_udata *)(tmp->struc))->fd;
 	  pdata.command = tmp_cmd->struc;
 	  next_cmd = tmp_cmd->next;
+	  fprintf(stderr, "Received : %s\n", pdata.command);
 	  if (process(&pdata, channels, users) == -1)
 	    return (-1);
 	  tmp_cmd = *users ? next_cmd : NULL;

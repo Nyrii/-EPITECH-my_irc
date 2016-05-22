@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:41:38 2016 guillaume wilmot
-** Last update Sun May 22 16:27:48 2016 guillaume wilmot
+** Last update Sun May 22 18:46:30 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -37,13 +37,18 @@ int		write_to_buffer(const char *str, t_buff *buff, int size)
   unsigned int	go;
   int		i;
 
+  if (!size)
+    return (0);
   i = -1;
   go = buff->start == buff->end ? 1 : 0;
-  while (++i < size && ((buff->end + i) % buff->size != buff->start || go))
+  while (++i < size && ((buff->end + i) % buff->size != buff->start || go--) &&
+	 buff->overflow < buff->size)
     buff->buff[(buff->end + i) % buff->size] = str[i];
-  if ((buff->end + i) % buff->size == buff->start && (!go || i) && i != size)
+  if (((buff->end + i) % buff->size == buff->start && i != size) ||
+      buff->overflow >= buff->size)
     return (-1);
   buff->end = (buff->end + i) % buff->size;
+  buff->overflow += i;
   return (0);
 }
 
@@ -61,6 +66,7 @@ static char	*get_next_cmd(t_buff *buff)
 	buff->found = 3;
       buff->idx = (buff->idx + 1) % buff->size;
       buff->start = (buff->start + 1) % buff->size;
+      buff->overflow--;
       if (buff->found == 3)
 	{
 	  cmd = strdup(buff->cmd);
@@ -102,7 +108,13 @@ int		get_cmd_buff(int fd, t_buffs *buffs)
   if ((ret = read(fd, tmp, buffs->in.size)) <= 0)
     return (!(buffs->cmds = create_list(strdup("QUIT"), NULL)) ? -1 : 0);
   if (write_to_buffer(tmp, &buffs->in, ret) == -1)
-    return (-2);
+    {
+      if (!memset(buffs->in.buff, 0, buffs->in.size) ||
+	  !memset(buffs->in.cmd, 0, buffs->in.size) ||
+	  !memset(&buffs->in.idx, 0, 21))
+	return (-1);
+      return (-2);
+    }
   while ((cmd = get_next_cmd(&buffs->in)))
     {
       replace_end_of_string(cmd);
