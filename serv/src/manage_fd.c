@@ -5,13 +5,14 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Sat May 21 22:16:57 2016 guillaume wilmot
-** Last update Sun May 22 18:43:52 2016 guillaume wilmot
+** Last update Sun May 22 19:10:02 2016 guillaume wilmot
 */
 
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "replies.h"
 #include "errors.h"
 #include "serv.h"
 
@@ -33,7 +34,10 @@ int			check_and_read(fd_set *readf, t_list **users)
           if ((ret = get_cmd_buff(struc->fd, &struc->buffs)) == -1)
             return (-1);
           else if (ret == -2)
-            puts("handle overflow");
+	    {
+	      store_answer(tmp, RPL_OVERFLOW, 0);
+	      puterr("Error: Overflow\n", 0);
+	    }
         }
       tmp = tmp->next;
     }
