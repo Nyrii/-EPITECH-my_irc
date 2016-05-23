@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 16:08:38 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 12:20:25 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 13:12:20 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef REPLIES_H_
@@ -13,7 +13,6 @@
 
 # define ERR_UNKNOWNCMD "421 %s :Unknown command\r\n"
 # define ERR_NEEDMOREPARAMS "461 %s %s :Not enough parameters\r\n"
-# define ERR_NOSUCHSERVER(X, Y) "402 "X" "Y" :No such server\r\n"
 # define ERR_NICKNAMEINUSE "433 %s :Nickname is already in use\r\n"
 # define ERR_ERRONEUSNICKNAME "432 %s :Erroneus nickname\r\n"
 # define ERR_NOSUCHNICK "401 %s :No such nick/channel\r\n"
@@ -37,7 +36,6 @@
 # define RPL_USERS "393 : %s\r\n"
 # define RPL_ENDOFUSERS "394 :End of users\r\n"
 # define RPL_NOUSERS "395 :Nobody logged in\r\n"
-# define RPL_TOPIC(X, Y) "332 "X" :"Y"\r\n"
 # define RPL_NAMREPLAY "353 %s :%s\r\n"
 # define RPL_ENDOFNAMES "366 %s :End of /NAMES list\r\n"
 # define RPL_OVERFLOW "421 Message too long\r\n"
