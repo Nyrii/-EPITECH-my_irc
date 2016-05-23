@@ -5,7 +5,7 @@
 ## Login   <wilmot_g@epitech.net>
 ##
 ## Started on  Mon May 16 23:28:34 2016 guillaume wilmot
-## Last update Mon May 23 15:35:36 2016 guillaume wilmot
+## Last update Mon May 23 16:29:05 2016 Nyrandone Noboud-Inpeng
 ##
 
 SRCCOM	= circular_buffer.c	\
@@ -67,7 +67,7 @@ OBJC	+= $(addprefix $(OBJCOM), $(SRCCOM:.c=.o))
 
 RM	= rm -f
 
-CC	= cc
+CC	= cc -g
 
 NAMESER	= server
 NAMECLI = client
