@@ -5,12 +5,13 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 13:54:04 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 15:08:59 2016 Nyrandone Noboud-Inpeng
+** Last update Tue May 24 00:18:31 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
 #include "serv.h"
 
+#include <stdio.h>
 void		delete_user_from_channel(const int fd, const int index_channel,
 					 t_list **channel,
 					 t_list *current_channel)
@@ -29,9 +30,9 @@ void		delete_user_from_channel(const int fd, const int index_channel,
   if (!tmp_users)
     {
       free(((t_cdata *)((tmp_channel)->struc))->name);
-      free((tmp_channel)->struc);
-      ((tmp_channel)->struc = NULL);
-      (*channel = (*channel)->delete_nth(*channel, index_channel));
+      free(tmp_channel->struc);
+      tmp_channel->struc = NULL;
+      *channel = (*channel)->delete_nth(*channel, index_channel);
     }
 }
 

@@ -5,7 +5,7 @@
 ## Login   <wilmot_g@epitech.net>
 ##
 ## Started on  Mon May 16 23:28:34 2016 guillaume wilmot
-## Last update Mon May 23 16:43:17 2016 guillaume wilmot
+## Last update Tue May 24 01:58:05 2016 guillaume wilmot
 ##
 
 SRCCOM	= circular_buffer.c	\
@@ -18,8 +18,7 @@ SRCCOM	= circular_buffer.c	\
 	  replace_eol.c		\
 	  sockets.c
 
-SRCSER	= acceptfile.c		\
-	  delete.c		\
+SRCSER	= delete.c		\
 	  error_messages.c	\
 	  free.c		\
 	  init.c		\
@@ -39,7 +38,6 @@ SRCSER	= acceptfile.c		\
 	  quit.c		\
 	  search_channel.c	\
 	  search_user.c		\
-	  sendfile.c		\
 	  server_sockets.c	\
 	  signal.c		\
 	  store_nbr.c		\
@@ -68,7 +66,7 @@ OBJC	+= $(addprefix $(OBJCOM), $(SRCCOM:.c=.o))
 
 RM	= rm -f
 
-CC	= cc -g
+CC	= cc
 
 NAMESER	= server
 NAMECLI = client

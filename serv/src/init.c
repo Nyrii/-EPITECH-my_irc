@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 14:50:18 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 15:35:26 2016 guillaume wilmot
+** Last update Tue May 24 01:16:52 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -22,10 +22,8 @@ void		init_code(char **code)
   code[6] = "USERS";
   code[7] = "NAMES";
   code[8] = "PRIVMSG";
-  code[9] = "SENDFILE";
-  code[10] = "ACCEPTFILE";
-  code[11] = "PING";
-  code[12] = NULL;
+  code[9] = "PING";
+  code[10] = NULL;
 }
 
 void		init_ptrfunc(int (**func)(const int, char *,
@@ -40,8 +38,6 @@ void		init_ptrfunc(int (**func)(const int, char *,
   func[6] = &users;
   func[7] = &names;
   func[8] = &msg;
-  func[9] = &send_file;
-  func[10] = &accept_file;
-  func[11] = &ping;
-  func[12] = NULL;
+  func[9] = &ping;
+  func[10] = NULL;
 }

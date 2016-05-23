@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:43:49 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 23:10:45 2016 Nyrandone Noboud-Inpeng
+** Last update Tue May 24 00:53:57 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
@@ -15,11 +15,13 @@
 #include "errors.h"
 #include "replies.h"
 
-t_list		*create_first_channel(char *command, t_list *new_user)
+t_list		*create_first_channel(const int fd, char *command,
+				      t_list *new_user, int len)
 {
   t_udata	*udata;
   t_cdata	*cdata;
   t_list	*channel;
+  char		*names_list;
 
   if ((cdata = malloc(sizeof(t_cdata))) == NULL)
     return (puterr(ERR_MALLOC, NULL));
@@ -32,15 +34,21 @@ t_list		*create_first_channel(char *command, t_list *new_user)
     return (NULL);
   if ((cdata->name = strdup(command)) == NULL)
     return (puterr(ERR_STRDUP, NULL));
-  if ((channel = create_list(cdata, NULL)) == NULL)
+  if ((channel = create_list(cdata, NULL)) == NULL
+      || join_succeed(fd, channel) == -1
+      || (names_list =
+    	   get_all_names(&len, NULL, NULL,
+			 ((t_cdata *)(channel->struc))->users)) == NULL
+      || final_answer(fd, len, names_list, channel) == -1)
     return (NULL);
   return (channel);
 }
 
 int		add_user_to_channel(const int fd, t_list *new_user,
-				    t_list *current_channel)
+				    t_list *current_channel, int len)
 {
   t_udata	*udata;
+  char		*names_list;
 
   udata = ((t_udata *)new_user->struc);
   if (udata->current_channel != NULL)
@@ -57,7 +65,13 @@ int		add_user_to_channel(const int fd, t_list *new_user,
   else if (((t_cdata *)(current_channel->struc))->users->push_back
 	   (((t_cdata *)(current_channel->struc))->users, udata) == NULL)
     return (puterr_int("Error: push back of users failed.\n", -1));
-  return (join_succeed(fd, current_channel));
+  if (join_succeed(fd, current_channel) == -1
+      || (names_list =
+	  get_all_names(&len, NULL, NULL,
+			 ((t_cdata *)(current_channel->struc))->users)) == NULL
+      || final_answer(fd, len, names_list, current_channel) == -1)
+    return (-1);
+  return (0);
 }
 
 int		add_new_channel(const int fd, char *command,
@@ -65,21 +79,28 @@ int		add_new_channel(const int fd, char *command,
 {
   t_cdata	*cdata;
   t_udata	*udata;
+  char		*names_list;
+  int		len;
+  t_list	*last;
 
+  len = 0;
   if ((cdata = malloc(sizeof(t_cdata))) == NULL)
     return (puterr_int(ERR_MALLOC, -1));
   udata = ((t_udata *)new_user->struc);
-  if (udata->current_channel != NULL)
-    free(udata->current_channel);
-  if ((udata->current_channel = strdup(command)) == NULL)
-    return (puterr_int(ERR_STRDUP, -1));
-  if ((cdata->users = create_list(udata, NULL)) == NULL)
+  udata->current_channel != NULL ? free(udata->current_channel) : 0;
+  if ((udata->current_channel = strdup(command)) == NULL
+      || (cdata->users = create_list(udata, NULL)) == NULL
+      || (cdata->name = strdup(command)) == NULL
+      || ((*channel)->push_back(*channel, cdata)) == NULL)
+    return (puterr_int(ERR_INTERNALJOIN, -1));
+  last = *(*channel)->last;
+  if (join_succeed(fd, *(*channel)->last) == -1
+      || (names_list =
+       get_all_names(&len, NULL, NULL,
+                     ((t_cdata *)(last->struc))->users)) == NULL
+      || final_answer(fd, len, names_list, last) == -1)
     return (-1);
-  if ((cdata->name = strdup(command)) == NULL)
-    return (puterr_int(ERR_STRDUP, -1));
-  if (((*channel)->push_back(*channel, cdata)) == NULL)
-    return (puterr_int(ERR_PUSHBACKCHANNEL, -1));
-  return (join_succeed(fd, *(*channel)->last));
+  return (0);
 }
 
 int		edit_channels(const int fd, char *command,
@@ -92,13 +113,13 @@ int		edit_channels(const int fd, char *command,
     return (puterr_int(ERR_UNKNOWNUSER, -1));
   if (*channel == NULL)
     {
-      if ((*channel = create_first_channel(command, new_user)) == NULL)
+      if ((*channel = create_first_channel(fd, command, new_user, 0)) == NULL)
 	return (-1);
-      return (join_succeed(fd, *channel));
+      return (0);
     }
   else if ((tmp = search_channel_by_name(*channel, command)) != NULL
 	   && search_channel_by_user_fd(tmp, fd) == -1)
-    return (add_user_to_channel(fd, new_user, tmp));
+    return (add_user_to_channel(fd, new_user, tmp, 0));
   else if (*channel != NULL
 	   && (tmp = search_channel_by_name(*channel, command)) == NULL)
     return (add_new_channel(fd, command, new_user, channel));

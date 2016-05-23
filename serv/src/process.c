@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 22:29:02 2016 guillaume wilmot
+** Last update Tue May 24 01:57:45 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -19,8 +19,8 @@
 static int		process(t_processdata *pdata,
 				t_list **channels, t_list **users)
 {
-  char			*code[13];
-  int			(*func[13])(const int, char *, t_list **, t_list **);
+  char			*code[11];
+  int			(*func[11])(const int, char *, t_list **, t_list **);
   int			i;
   char			*function_to_call;
   t_udata		*user_data;
