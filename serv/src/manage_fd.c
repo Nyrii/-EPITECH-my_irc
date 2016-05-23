@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Sat May 21 22:16:57 2016 guillaume wilmot
-** Last update Sun May 22 19:10:02 2016 guillaume wilmot
+** Last update Mon May 23 12:01:58 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <string.h>

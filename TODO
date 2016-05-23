@@ -1,7 +1,6 @@
 Server:
 	- SENDFILE
 	- ACCEPTFILE
-	- Envoyer UNKNOWNCOMMAND au client lorsque la command n'a pas ete trouvee
+
 Client:
 	- Everything
-

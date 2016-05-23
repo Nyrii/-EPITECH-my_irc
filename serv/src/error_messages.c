@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Sat May 21 14:43:25 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 17:06:35 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 12:20:04 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <string.h>
@@ -13,6 +13,19 @@
 #include "serv.h"
 #include "errors.h"
 #include "replies.h"
+
+int		unknown_command(const char *command, t_list *user)
+{
+  char		buffer[4096];
+
+  if (user == NULL)
+    return (puterr_int(ERR_UNKNOWNUSER, -1));
+  if (memset(buffer, 0, 4096) == NULL)
+    return (puterr_int(ERR_MEMSET, -1));
+  if (snprintf(buffer, 4096, ERR_UNKNOWNCMD, command) == -1)
+    return (puterr_int(ERR_SNPRINTF, -1));
+  return (store_answer(user, buffer, -2));
+}
 
 int		not_enough_params(t_list *user, const char *command)
 {

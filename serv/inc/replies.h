@@ -5,13 +5,13 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 16:08:38 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 19:08:02 2016 guillaume wilmot
+** Last update Mon May 23 12:20:25 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef REPLIES_H_
 # define REPLIES_H_
 
-# define ERR_UNKNOWNCMD "421 %s %s :Unknown command\r\n"
+# define ERR_UNKNOWNCMD "421 %s :Unknown command\r\n"
 # define ERR_NEEDMOREPARAMS "461 %s %s :Not enough parameters\r\n"
 # define ERR_NOSUCHSERVER(X, Y) "402 "X" "Y" :No such server\r\n"
 # define ERR_NICKNAMEINUSE "433 %s :Nickname is already in use\r\n"
@@ -24,6 +24,7 @@
 # define ERR_NOTEXTTOSEND "412 :No text to send\r\n"
 # define ERR_CANNOTSENDTOCHAN "404 %s :Cannot send to channel\r\n"
 # define ERR_ALREADYREGISTERED "462 :You may not reregister\r\n"
+# define RPL_AUTHENTIFIED "001 Welcome to the best IRC ever !\r\n"
 # define RPL_NICKOK "NICK %s\r\n"
 # define RPL_JOINOK ":%s JOIN :%s\r\n"
 # define RPL_PARTOK ":%s PART :%s\r\n"

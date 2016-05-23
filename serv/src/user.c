@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Sun May 22 16:47:22 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 17:58:15 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 12:09:35 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
@@ -15,12 +15,14 @@
 #include "errors.h"
 #include "replies.h"
 
+#include <unistd.h>
 int		user(const int fd, char *command,
 		     UNUSED t_list **channels, t_list **users)
 {
   t_list	*user;
   char		*args[5];
   t_udata	*data;
+  // char		buffer[4096];
 
   if ((user = get_user(*users, fd)) == NULL
       || (data = (t_udata *)(user->struc)) == NULL)
@@ -35,5 +37,6 @@ int		user(const int fd, char *command,
       || !(data->rname = strdup(args[3])))
     return (puterr_int(ERR_STRDUP, -1));
   data->is_registered = 1;
+  store_answer(user, RPL_AUTHENTIFIED, 0);
   return (0);
 }
