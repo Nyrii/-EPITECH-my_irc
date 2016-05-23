@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:44:45 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 15:10:44 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 13:35:55 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -90,7 +90,7 @@ int		send_msg_to_user(const int fd, char **args, t_list **users)
 		return (puterr_int(ERR_SNPRINTF, -1));
       return (store_answer(get_user(*users, fd), buffer, -2));
     }
-  if ((message = get_message(((t_udata *)(user->struc))->name,
+  if ((message = get_message(((t_udata *)(get_user(*users, fd)->struc))->name,
 			     args[1], 1)) == NULL)
     return (-1);
   if (store_answer(user, message, 0) == -1)
@@ -107,7 +107,7 @@ int		msg(const int fd, char *command,
   args[0] = NULL;
   args[1] = NULL;
   args[2] = NULL;
-  if (take_args(args, command, 2) == -1 && args[0])
+  if (take_args(args, command, -1) == -1 && args[0])
     return (not_enough_params(get_user(*users, fd), "MSG"));
   else if (!args[1])
     return (store_answer(get_user(*users, fd), ERR_NOTEXTTOSEND, -2));

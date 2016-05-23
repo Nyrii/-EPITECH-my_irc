@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 18:44:58 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 17:55:23 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 13:40:27 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -65,6 +65,14 @@ int		take_args(char **args, char *cmd, const int limit)
   int		i;
 
   i = 0;
+  if (limit == -1)
+    {
+      if ((args[0] = strtok(cmd, " ")) == NULL
+	  || (args[1] = strtok(NULL, "")) == NULL)
+	return (-1);
+      args[2] = NULL;
+      return (0);
+    }
   while (i < limit)
     {
       if (i == 0)
@@ -77,9 +85,7 @@ int		take_args(char **args, char *cmd, const int limit)
       ++i;
     }
   args[i] = NULL;
-  if (i != limit)
-    return (-1);
-  return (0);
+  return (i != limit ? -1 : 0);
 }
 
 t_list		*add_new_user(t_socket *serv, t_list *users)
