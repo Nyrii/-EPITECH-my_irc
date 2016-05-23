@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 17:38:27 2016 guillaume wilmot
-** Last update Mon May 23 16:08:31 2016 guillaume wilmot
+** Last update Mon May 23 18:33:21 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -29,23 +29,32 @@ void			set_fds(fd_set *writef, fd_set *readf, int fd)
   readf ? FD_SET(0, readf) : 0;
 }
 
-int			check_and_read(int fd, fd_set *fs, t_buffs *buffs)
+char			*read_all(int fd, fd_set *fs, t_buffs *buffs)
 {
   if (FD_ISSET(fd, fs))
     get_cmd_buff(fd, buffs);
+  if (FD_ISSET(0, fs))
+    return (get_next_line(0));
+  return (NULL);
+}
+
+int			write_all()
+{
   return (0);
 }
 
-int			wait_for_input(t_socket *socket, char **code,
-			       int (**func)(char *, t_socket *))
+int			print_replies(t_buffs *buffs)
+{
+  (void)buffs;
+  return (0);
+}
+
+int			wait_for_input(t_socket *socket)
 {
   t_buffs		buffs;
   fd_set		fs[2];
   char			*cmd;
   struct timeval	tv;
-
-  (void)code;
-  (void)func;
 
   tv.tv_sec = 5;
   tv.tv_usec = 0;
@@ -55,12 +64,9 @@ int			wait_for_input(t_socket *socket, char **code,
       if (select(socket->fd != -1 ? socket->fd + 1 : 1,
 		 &fs[0], &fs[1], NULL, &tv) == -1)
 	return (puterr_int(ERR_SELECT, -1));
-      check_and_read(socket->fd, &fs[0], &buffs);
-      if (FD_ISSET(0, &fs[0]))
-	cmd = get_next_line(0);
-      if (cmd)
-	puts(cmd);
-      fflush(stdout);
-      cmd = NULL;
+      cmd = read_all(socket->fd, &fs[0], &buffs);
+      if (print_replies(&buffs) == -1 ||
+	  (cmd && parse_cmd(cmd, socket, &buffs) == -1))
+	return (-1);
     }
 }

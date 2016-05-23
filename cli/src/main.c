@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 11:36:21 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 19:15:06 2016 guillaume wilmot
+** Last update Mon May 23 16:43:04 2016 guillaume wilmot
 */
 
 #include <fcntl.h>
@@ -53,12 +53,8 @@ void		init_ptrfunc(int (**func)(char *, t_socket *))
 int		main()
 {
   t_socket	*socket;
-  char		*code[12];
-  int		(*func[12])(char *, t_socket *);
 
-  init_code(code);
-  init_ptrfunc(func);
   if ((socket = create_socket()) == NULL)
     return (-1);
-  return (wait_for_input(socket, code, func));
+  return (wait_for_input(socket));
 }

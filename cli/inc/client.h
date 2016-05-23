@@ -5,16 +5,14 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:24:52 2016 Nyrandone Noboud-Inpeng
-** Last update Thu May 19 18:40:36 2016 guillaume wilmot
+** Last update Mon May 23 16:46:02 2016 guillaume wilmot
 */
 
 #ifndef CLIENT_H_
 # define CLIENT_H_
 
+# include "circular_buffer.h"
 # include "socket.h"
-
-int		wait_for_input(t_socket *socket, char **code,
-                               int (**func)(char *, t_socket *));
 
 /*
 ** acceptfile.c
@@ -22,10 +20,14 @@ int		wait_for_input(t_socket *socket, char **code,
 int		accept_file(char *, t_socket *);
 
 /*
-** circularbuffer.c
+** client.c
 */
-// t_circular	*createFirstNode(char *);
-// int		circularInsert(t_circular *, char *);
+int		wait_for_input(t_socket *);
+
+/*
+** exec.c
+*/
+int		parse_cmd(char *, t_socket *, t_buffs *);
 
 /*
 ** get_next_line.c
@@ -41,6 +43,12 @@ int		join(char *, t_socket *);
 ** list.c
 */
 int		list(char *, t_socket *);
+
+/*
+** main.c
+*/
+void		init_code(char **);
+void		init_ptrfunc(int (**)(char *, t_socket *));
 
 /*
 ** msg.c

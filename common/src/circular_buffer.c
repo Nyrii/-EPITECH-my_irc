@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:41:38 2016 guillaume wilmot
-** Last update Mon May 23 10:58:47 2016 guillaume wilmot
+** Last update Mon May 23 16:26:26 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -67,7 +67,7 @@ static char	*get_next_cmd(t_buff *buff)
       buff->idx = (buff->idx + 1) % buff->size;
       buff->start = (buff->start + 1) % buff->size;
       buff->overflow--;
-      if (buff->found == 3)
+     if (buff->found == 3)
 	{
 	  cmd = strdup(buff->cmd);
 	  buff->idx = 0;
