@@ -5,11 +5,11 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 21:30:01 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 18:08:43 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 13:23:37 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
-#include <string.h>
+#include <strings.h>
 #include "serv.h"
 
 int		get_index_user_from_users_list(t_list *users, const int fd)
@@ -85,7 +85,7 @@ t_list		*get_user_by_name(t_list *users, const char *name)
   tmp = users;
   while (tmp != NULL)
     {
-      if (!strcmp(((t_udata *)(tmp->struc))->name, name))
+      if (!strcasecmp(((t_udata *)(tmp->struc))->name, name))
 	return (tmp);
       tmp = tmp->next;
     }
