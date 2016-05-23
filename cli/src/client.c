@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 17:38:27 2016 guillaume wilmot
-** Last update Sat May 21 03:19:45 2016 guillaume wilmot
+** Last update Mon May 23 12:03:27 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -18,7 +18,7 @@
 int		wait_for_input(t_socket *socket, char **code,
 			       int (**func)(char *, t_socket *))
 {
-  /* t_buff	buff; */
+  /* t_buffs	buffs; */
   fd_set	std;
   char		*cmd;
 
