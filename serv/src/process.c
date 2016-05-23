@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 14:08:38 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 14:11:22 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -64,7 +64,6 @@ static int		process_all(t_list **channels, t_list **users)
 	  pdata.fd = ((t_udata *)(tmp->struc))->fd;
 	  pdata.command = tmp_cmd->struc;
 	  next_cmd = tmp_cmd->next;
-	  fprintf(stderr, "Received : %s\n", pdata.command);
 	  if (process(&pdata, channels, users) == -1)
 	    return (-1);
 	  tmp_cmd = *users ? next_cmd : NULL;
