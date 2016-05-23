@@ -5,17 +5,19 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 18:16:13 2016 guillaume wilmot
-** Last update Thu May 19 18:16:14 2016 guillaume wilmot
+** Last update Mon May 23 22:08:07 2016 guillaume wilmot
 */
 
 #include <string.h>
 #include <unistd.h>
 #include "socket.h"
 #include "errors.h"
+#include "circular_buffer.h"
 
-int		names(char *command, t_socket *socket)
+int		names(t_socket *socket, t_buffs *buffs, char *cmd)
 {
-  (void)command;
+  (void)buffs;
+  (void)cmd;
   (void)socket;
   return (0);
 }

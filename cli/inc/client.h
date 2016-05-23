@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:24:52 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 16:46:02 2016 guillaume wilmot
+** Last update Mon May 23 22:10:21 2016 guillaume wilmot
 */
 
 #ifndef CLIENT_H_
@@ -17,7 +17,7 @@
 /*
 ** acceptfile.c
 */
-int		accept_file(char *, t_socket *);
+int		accept_file(t_socket *, t_buffs *, char *);
 
 /*
 ** client.c
@@ -28,6 +28,7 @@ int		wait_for_input(t_socket *);
 ** exec.c
 */
 int		parse_cmd(char *, t_socket *, t_buffs *);
+char		*replace(char *);
 
 /*
 ** get_next_line.c
@@ -37,57 +38,58 @@ char		*get_next_line(const int);
 /*
 ** join.c
 */
-int		join(char *, t_socket *);
+int		join(t_socket *, t_buffs *, char *);
 
 /*
 ** list.c
 */
-int		list(char *, t_socket *);
+int		list(t_socket *, t_buffs *, char *);
 
 /*
 ** main.c
 */
+void		init_code_bis(char **);
 void		init_code(char **);
-void		init_ptrfunc(int (**)(char *, t_socket *));
+void		init_ptrfunc(int (**)(t_socket *, t_buffs *, char *));
 
 /*
 ** msg.c
 */
-int		msg(char *, t_socket *);
+int		msg(t_socket *, t_buffs *, char *);
 
 /*
 ** nick.c
 */
-int		nick(char *, t_socket *);
+int		nick(t_socket *, t_buffs *, char *);
 
 /*
 ** part.c
 */
-int		part(char *, t_socket *);
+int		part(t_socket *, t_buffs *, char *);
 
 /*
 ** sendfile.c
 */
-int		send_file(char *, t_socket *);
+int		send_file(t_socket *, t_buffs *, char *);
 
 /*
 ** server.c
 */
-int		server(char *, t_socket *);
+int		server(t_socket *, t_buffs *, char *);
 
 /*
 ** users.c
 */
-int		users(char *, t_socket *);
+int		users(t_socket *, t_buffs *, char *);
 
 /*
 ** names.c
 */
-int		names(char *, t_socket *);
+int		names(t_socket *, t_buffs *, char *);
 
 /*
 ** quit.c
 */
-int		quit(char *, t_socket *);
+int		quit(t_socket *, t_buffs *, char *);
 
 #endif /* !CLIENT_H_ */

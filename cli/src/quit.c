@@ -5,17 +5,19 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 18:16:23 2016 guillaume wilmot
-** Last update Thu May 19 18:16:34 2016 guillaume wilmot
+** Last update Mon May 23 22:08:41 2016 guillaume wilmot
 */
 
 #include <string.h>
 #include <unistd.h>
+#include "circular_buffer.h"
 #include "socket.h"
 #include "errors.h"
 
-int		quit(char *command, t_socket *socket)
+int		quit(t_socket *socket, t_buffs *buffs, char *cmd)
 {
-  (void)command;
+  (void)buffs;
+  (void)cmd;
   (void)socket;
   return (0);
 }

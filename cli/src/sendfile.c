@@ -5,14 +5,17 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:24:02 2016 Nyrandone Noboud-Inpeng
-** Last update Wed May 18 20:10:27 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 22:08:02 2016 guillaume wilmot
 */
 
+#include "circular_buffer.h"
 #include "socket.h"
+#include "errors.h"
 
-int		send_file(char *command, t_socket *socket)
+int		send_file(t_socket *socket, t_buffs *buffs, char *cmd)
 {
-  (void)command;
+  (void)buffs;
+  (void)cmd;
   (void)socket;
   return (0);
 }

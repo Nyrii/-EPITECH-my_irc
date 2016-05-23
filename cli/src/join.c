@@ -5,14 +5,17 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:23:20 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 16 23:58:08 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 22:08:45 2016 guillaume wilmot
 */
 
+#include "circular_buffer.h"
 #include "socket.h"
+#include "errors.h"
 
-int		join(char *command, t_socket *socket)
+int		join(t_socket *socket, t_buffs *buffs, char *cmd)
 {
-  (void)command;
+  (void)buffs;
+  (void)cmd;
   (void)socket;
   return (0);
 }

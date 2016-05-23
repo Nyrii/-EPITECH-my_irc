@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 11:36:21 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 16:43:04 2016 guillaume wilmot
+** Last update Mon May 23 23:03:07 2016 guillaume wilmot
 */
 
 #include <fcntl.h>
@@ -17,6 +17,22 @@
 #include "client.h"
 #include "socket.h"
 #include "list.h"
+
+void		init_code_bis(char **code)
+{
+  code[0] = NULL;
+  code[1] = "NICK";
+  code[2] = "LIST";
+  code[3] = "JOIN";
+  code[4] = "PART";
+  code[5] = "USERS";
+  code[6] = "PRIVMSG";
+  code[7] = NULL;
+  code[8] = NULL;
+  code[9] = "NAMES";
+  code[10] = "QUIT";
+  code[11] = NULL;
+}
 
 void		init_code(char **code)
 {
@@ -34,18 +50,18 @@ void		init_code(char **code)
   code[11] = NULL;
 }
 
-void		init_ptrfunc(int (**func)(char *, t_socket *))
+void		init_ptrfunc(int (**func)(t_socket *, t_buffs *, char *))
 {
   func[0] = &server;
   func[1] = &nick;
-  func[2] = &list;
-  func[3] = &join;
-  func[4] = &part;
-  func[5] = &users;
-  func[6] = &msg;
+  func[2] = &nick;
+  func[3] = &nick;
+  func[4] = &nick;
+  func[5] = &nick;
+  func[6] = &nick;
   func[7] = &send_file;
   func[8] = &accept_file;
-  func[9] = &names;
+  func[9] = &nick;
   func[10] = &quit;
   func[11] = NULL;
 }
