@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 11:10:51 2016 guillaume wilmot
+** Last update Mon May 23 14:38:51 2016 guillaume wilmot
 */
 
 #include <stdlib.h>
@@ -19,12 +19,11 @@
 static int		process(t_processdata *pdata,
 				t_list **channels, t_list **users)
 {
-  char			*code[12];
-  int			(*func[12])(const int, char *, t_list **, t_list **);
+  char			*code[13];
+  int			(*func[13])(const int, char *, t_list **, t_list **);
   int			i;
   char			*function_to_call;
   t_udata		*user_data;
-  t_buff		*buff;
 
   i = -1;
   init_code(code);
@@ -44,8 +43,7 @@ static int		process(t_processdata *pdata,
 	save_channels(*channels, 1);
 	return (0);
       }
-  buff = &((t_udata *)(user_data))->buffs.out;
-  return (write_to_buffer(ERR_UNKNOWNCMD, buff, strlen(ERR_UNKNOWNCMD)));
+  return (unknown_command(function_to_call, get_user(*users, pdata->fd)));
 }
 
 static int		process_all(t_list **channels, t_list **users)

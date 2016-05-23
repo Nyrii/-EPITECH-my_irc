@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 18:01:27 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 14:52:06 2016 guillaume wilmot
 */
 
 #ifndef SERV_H_
@@ -58,6 +58,7 @@ void		delete_user_from_users_list(const int, t_list **);
 /*
 ** error_messages.c
 */
+int		unknown_command(const char *, t_list *);
 int		not_enough_params(t_list *, const char *);
 int		no_such_channel(t_list *, const char *);
 int		cannot_send_to_chan(t_list *, const char *);
@@ -131,6 +132,11 @@ int		nick(const int, char *, t_list **, t_list **);
 ** part.c
 */
 int		part(const int, char *, t_list **, t_list **);
+
+/*
+** ping.c
+*/
+int		ping(const int, char *, t_list **, t_list **);
 
 /*
 ** process.c
