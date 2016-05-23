@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 21:30:01 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 13:23:37 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 23:05:29 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -57,7 +57,7 @@ t_list		*get_user(t_list *users, const int fd)
   tmp = users;
   while (tmp != NULL)
     {
-      if (((t_udata *)(tmp->struc))->fd == fd)
+      if ((t_udata *)(tmp->struc) && ((t_udata *)(tmp->struc))->fd == fd)
 	return (tmp);
       tmp = tmp->next;
     }
@@ -71,7 +71,7 @@ char		*get_user_name(t_list *users, const int fd)
   tmp = users;
   while (tmp != NULL)
     {
-      if (((t_udata *)(tmp->struc))->fd == fd)
+      if ((t_udata *)(tmp->struc) && ((t_udata *)(tmp->struc))->fd == fd)
 	return (((t_udata *)(tmp->struc))->name);
       tmp = tmp->next;
     }
@@ -85,7 +85,8 @@ t_list		*get_user_by_name(t_list *users, const char *name)
   tmp = users;
   while (tmp != NULL)
     {
-      if (!strcasecmp(((t_udata *)(tmp->struc))->name, name))
+      if ((t_udata *)(tmp->struc)
+	  && !strcasecmp(((t_udata *)(tmp->struc))->name, name))
 	return (tmp);
       tmp = tmp->next;
     }

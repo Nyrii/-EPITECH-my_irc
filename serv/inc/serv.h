@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 14:52:06 2016 guillaume wilmot
+** Last update Mon May 23 22:35:20 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -121,6 +121,8 @@ t_list		*add_new_user(t_socket *, t_list *);
 /*
 ** names.c
 */
+int		final_answer(const int, const int, char *, t_list *);
+char		*get_all_names(int *, char *, char *, t_list *);
 int		names(const int, char *, t_list **, t_list **);
 
 /*

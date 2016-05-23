@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 18:10:24 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 21:08:29 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -16,6 +16,7 @@
 #include "errors.h"
 #include "replies.h"
 
+#include <sys/select.h>
 static int		process(t_processdata *pdata,
 				t_list **channels, t_list **users)
 {

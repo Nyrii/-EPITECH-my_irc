@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 16:08:38 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 19:16:46 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 22:28:29 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef REPLIES_H_
@@ -36,7 +36,7 @@
 # define RPL_USERS "393 :%s\r\n"
 # define RPL_ENDOFUSERS "394 :End of users\r\n"
 # define RPL_NOUSERS "395 :Nobody logged in\r\n"
-# define RPL_NAMREPLAY "353 %s :%s\r\n"
+# define RPL_NAMREPLAY "353 %s :@%s\r\n"
 # define RPL_ENDOFNAMES "366 %s :End of /NAMES list\r\n"
 # define RPL_OVERFLOW "421 Message too long\r\n"
 
