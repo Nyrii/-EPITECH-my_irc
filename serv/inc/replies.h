@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 16:08:38 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 13:12:20 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 15:13:25 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef REPLIES_H_
@@ -23,7 +23,7 @@
 # define ERR_NOTEXTTOSEND "412 :No text to send\r\n"
 # define ERR_CANNOTSENDTOCHAN "404 %s :Cannot send to channel\r\n"
 # define ERR_ALREADYREGISTERED "462 :You may not reregister\r\n"
-# define RPL_AUTHENTIFIED "001 Welcome to the best IRC ever !\r\n"
+# define RPL_AUTHENTIFIED "001 %s :Welcome to the best IRC ever !\r\n"
 # define RPL_NICKOK "NICK %s\r\n"
 # define RPL_JOINOK ":%s JOIN :%s\r\n"
 # define RPL_PARTOK ":%s PART :%s\r\n"

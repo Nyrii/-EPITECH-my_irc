@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 14:50:18 2016 Nyrandone Noboud-Inpeng
-** Last update Sun May 22 18:26:20 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 15:33:56 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -21,7 +21,7 @@ void		init_code(char **code)
   code[5] = "PART";
   code[6] = "USERS";
   code[7] = "NAMES";
-  code[8] = "MSG";
+  code[8] = "PRIVMSG";
   code[9] = "SENDFILE";
   code[10] = "ACCEPTFILE";
   code[11] = NULL;
