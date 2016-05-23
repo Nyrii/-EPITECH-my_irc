@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 21:36:28 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 23:43:08 2016 Nyrandone Noboud-Inpeng
+** Last update Tue May 24 01:05:03 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
@@ -27,7 +27,7 @@ int		final_answer(const int fd, const int len,
     return (puterr_int(ERR_MALLOC, -1));
   if (snprintf(answer,
 	       50 + len,
-	       RPL_NAMREPLAY, ((t_cdata *)(current_channel->struc))->name,
+	       RPL_NAMREPLY, ((t_cdata *)(current_channel->struc))->name,
 	       len != 0 ? names_list : "\0") == -1)
     return (puterr_int(ERR_SNPRINTF, -1));
   user = get_user(save_users(NULL, 0), fd);
@@ -75,11 +75,12 @@ char		*get_all_names(int *len, char *name,
 	  names_list[0] = '\0';
 	}
       else if ((names_list = realloc(names_list,
-				     *len + strlen(name) + 2)) == NULL)
+				     *len + strlen(name) + 4)) == NULL)
 	return (puterr(ERR_REALLOC, NULL));
       if (*len != 0)
 	{
 	  names_list[(*len)++] = ' ';
+	  names_list[(*len)++] = '@';
 	  names_list[(*len)++] = '\0';
 	}
       if ((names_list = strcat(names_list, name)) == NULL)

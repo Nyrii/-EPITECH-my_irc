@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:24:12 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 21:08:29 2016 Nyrandone Noboud-Inpeng
+** Last update Tue May 24 01:17:19 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -16,12 +16,11 @@
 #include "errors.h"
 #include "replies.h"
 
-#include <sys/select.h>
 static int		process(t_processdata *pdata,
 				t_list **channels, t_list **users)
 {
-  char			*code[13];
-  int			(*func[13])(const int, char *, t_list **, t_list **);
+  char			*code[11];
+  int			(*func[11])(const int, char *, t_list **, t_list **);
   int			i;
   char			*function_to_call;
   t_udata		*user_data;
@@ -64,7 +63,6 @@ static int		process_all(t_list **channels, t_list **users)
 	{
 	  pdata.fd = ((t_udata *)(tmp->struc))->fd;
 	  pdata.command = tmp_cmd->struc;
-	printf("%s\n", pdata.command);
 	  next_cmd = tmp_cmd->next;
 	  if (process(&pdata, channels, users) == -1)
 	    return (-1);

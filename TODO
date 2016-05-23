@@ -1,9 +1,3 @@
-Server:
-	- SENDFILE
-	- ACCEPTFILE
 	- Remove '-' from possible name ?
-	- Change /PRIVMSG pour accepter les channels
-	- Change le "Welcome to irc machin"
-
 Client:
 	- Everything

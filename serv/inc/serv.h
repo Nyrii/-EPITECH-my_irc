@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 22:35:20 2016 Nyrandone Noboud-Inpeng
+** Last update Tue May 24 01:17:41 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -41,11 +41,6 @@ typedef struct		s_udata
   char			*current_channel;
   t_buffs		buffs;
 }			t_udata;
-
-/*
-** acceptfile.c
-*/
-int		accept_file(const int, char *, t_list **, t_list **);
 
 /*
 ** delete.c
@@ -166,11 +161,6 @@ int		get_index_user_from_channel(t_list *, const int);
 t_list		*get_user(t_list *, const int);
 char		*get_user_name(t_list *, const int);
 t_list		*get_user_by_name(t_list *, const char *);
-
-/*
-** sendfile.c
-*/
-int		send_file(const int, char *, t_list **, t_list **);
 
 /*
 ** server.c
