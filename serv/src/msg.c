@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:44:45 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 18:35:35 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 18:45:17 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -25,7 +25,6 @@ void		store_message(char **message, char *username,
     (*message)[len++] = username[i++];
   i = 0;
   (*message)[len++] = ' ';
-  (*message)[len++] = ':';
   while (to_send[i])
     (*message)[len++] = to_send[i++];
   (*message)[len++] = '\r';
