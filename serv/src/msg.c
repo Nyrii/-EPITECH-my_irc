@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:44:45 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 16:36:17 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 18:27:04 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -77,8 +77,11 @@ int		send_msg_to_channel(const int fd, char **args, t_list **users,
     return (-1);
   while (user != NULL)
     {
-      if (store_answer(user, message, 0) == -1)
-	return (-1);
+      if (((t_udata *)(user->struc))->fd != fd)
+	{
+	  if (store_answer(user, message, 0) == -1)
+	    return (-1);
+	}
       user = user->next;
     }
   free(message);
