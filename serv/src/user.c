@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Sun May 22 16:47:22 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 12:09:35 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 14:40:20 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
@@ -15,14 +15,12 @@
 #include "errors.h"
 #include "replies.h"
 
-#include <unistd.h>
 int		user(const int fd, char *command,
 		     UNUSED t_list **channels, t_list **users)
 {
   t_list	*user;
   char		*args[5];
   t_udata	*data;
-  // char		buffer[4096];
 
   if ((user = get_user(*users, fd)) == NULL
       || (data = (t_udata *)(user->struc)) == NULL)

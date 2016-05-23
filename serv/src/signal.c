@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 02:12:34 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 21 02:27:02 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 14:43:24 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -43,8 +43,8 @@ t_list			*save_channels(t_list *channels, const int force)
 void			clean_socket()
 {
   close_and_free(save_socket(NULL, 0),
-	       save_users(NULL, 0),
-	       save_channels(NULL, 0),
-	       0);
+		 save_users(NULL, 0),
+		 save_channels(NULL, 0),
+		 0);
   exit(0);
 }
