@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:44:45 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 19:05:26 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 19:26:26 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -46,7 +46,6 @@ char		*get_message(char *username, char *receiver,
   if ((message = malloc(strlen(username) + 25)) == NULL)
     return (puterr(ERR_MALLOC, NULL));
   message[len++] = ':';
-  message[len++] = ' ';
   while (username[i])
     message[len++] = username[i++];
   i = 0;
