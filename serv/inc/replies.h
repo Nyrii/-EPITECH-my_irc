@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 16:08:38 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 15:13:25 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 16:28:31 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef REPLIES_H_
@@ -27,8 +27,8 @@
 # define RPL_NICKOK "NICK %s\r\n"
 # define RPL_JOINOK ":%s JOIN :%s\r\n"
 # define RPL_PARTOK ":%s PART :%s\r\n"
-# define RPL_MSG "MSG "
-# define RPL_PRIVMSG "PRIVMSG "
+# define RPL_MSG " MSG "
+# define RPL_PRIVMSG " PRIVMSG "
 # define RPL_LISTSTART "321 Channel : Users Name\r\n"
 # define RPL_LIST "322 "
 # define RPL_LISTEND "323 :End of channel list\r\n"

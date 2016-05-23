@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:44:45 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 13:35:55 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 16:36:17 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -16,13 +16,11 @@
 #include "replies.h"
 
 void		store_message(char **message, char *username,
-			      char *to_send)
+			      char *to_send, int len)
 {
   int		i;
-  int		len;
 
   i = 0;
-  len = strlen((*message));
   while (username[i])
     (*message)[len++] = username[i++];
   i = 0;
@@ -35,18 +33,29 @@ void		store_message(char **message, char *username,
   (*message)[len] = '\0';
 }
 
-char		*get_message(char *username, char *to_send, int is_private)
+char		*get_message(char *username, char *receiver,
+			     char *to_send, int is_private)
 {
   char		*message;
+  int		len;
+  int		i;
 
-  if (!username || !to_send)
+  i = 0;
+  len = 0;
+  if (!username || !to_send || !receiver)
     return (puterr(ERR_INTERNALMSG, NULL));
-  if ((message = strdup(!is_private ? RPL_MSG : RPL_PRIVMSG)) == NULL)
-    return (puterr(ERR_STRDUP, NULL));
+  if ((message = malloc(strlen(username) + 25)) == NULL)
+    return (puterr(ERR_MALLOC, NULL));
+  while (username[i])
+    message[len++] = username[i++];
+  i = 0;
+  while (!is_private ? RPL_MSG[i] : RPL_PRIVMSG[i])
+    message[len++] = !is_private ? RPL_MSG[i++] : RPL_PRIVMSG[i++];
   if ((message = realloc(message,
-			 20 + strlen(to_send) + strlen(username))) == NULL)
+			 strlen(username) + strlen(to_send)
+			 + strlen(receiver) + 25)) == NULL)
     return (puterr(ERR_REALLOC, NULL));
-  store_message(&message, username, to_send);
+  store_message(&message, receiver, to_send, len);
   return (message);
 }
 
@@ -58,12 +67,13 @@ int		send_msg_to_channel(const int fd, char **args, t_list **users,
   char		*message;
 
   if (!(tchannel = search_channel_by_name(*channels, args[0])))
-    no_such_channel(get_user(*users, fd), args[0]);
+    return (no_such_channel(get_user(*users, fd), args[0]));
   if (!tchannel->struc || !(user = ((t_cdata *)(tchannel->struc))->users))
     return (puterr_int(ERR_UNKNOWNUSER, -1));
   if (get_index_user_from_users_list(user, fd) == -1)
     cannot_send_to_chan(get_user(*users, fd), args[0]);
-  if ((message = get_message(get_user_name(*users, fd), args[1], 0)) == NULL)
+  if ((message = get_message(get_user_name(*users, fd),
+			     args[0], args[1], 0)) == NULL)
     return (-1);
   while (user != NULL)
     {
@@ -91,7 +101,7 @@ int		send_msg_to_user(const int fd, char **args, t_list **users)
       return (store_answer(get_user(*users, fd), buffer, -2));
     }
   if ((message = get_message(((t_udata *)(get_user(*users, fd)->struc))->name,
-			     args[1], 1)) == NULL)
+			     args[0], args[1], 1)) == NULL)
     return (-1);
   if (store_answer(user, message, 0) == -1)
     return (-1);
