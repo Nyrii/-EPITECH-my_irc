@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:44:45 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 18:45:17 2016 Nyrandone Noboud-Inpeng
+** Last update Mon May 23 19:05:26 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -50,8 +50,8 @@ char		*get_message(char *username, char *receiver,
   while (username[i])
     message[len++] = username[i++];
   i = 0;
-  while (!is_private ? RPL_MSG[i] : RPL_PRIVMSG[i])
-    message[len++] = !is_private ? RPL_MSG[i++] : RPL_PRIVMSG[i++];
+  while (!is_private ? RPL_PRIVMSG[i] : RPL_PRIVMSG[i])
+    message[len++] = !is_private ? RPL_PRIVMSG[i++] : RPL_PRIVMSG[i++];
   if ((message = realloc(message,
 			 strlen(username) + strlen(to_send)
 			 + strlen(receiver) + 25)) == NULL)
