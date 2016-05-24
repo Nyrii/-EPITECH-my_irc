@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May 23 16:27:27 2016 guillaume wilmot
-** Last update Tue May 24 01:55:44 2016 guillaume wilmot
+** Last update Tue May 24 03:32:56 2016 guillaume wilmot
 */
 
 #include <string.h>
@@ -16,11 +16,17 @@
 #include "circular_buffer.h"
 #include "socket.h"
 
-int		send_as_message(t_socket *socket, t_buffs *buffs, char *cmd)
+int		send_as_message(t_buffs *buffs, char *cmd, char *channel)
 {
-  (void)socket;
-  (void)cmd;
-  (void)buffs;
+  char		buff[4097];
+
+  if (!strcmp(channel, ""))
+    return (puterr_int("Error: No channel\n", 0));
+  if (!memset(buff, 0, sizeof(buff)))
+    return (puterr_int(ERR_MEMSET, -1));
+  if (snprintf(buff, 4096, "PRIVMSG %s %s\r\n", channel, cmd) == -1 ||
+      write_to_buffer(buff, &buffs->out, strlen(buff)) == -1)
+    return (puterr_int("Error: message too long", -2));
   return (0);
 }
 
@@ -30,6 +36,7 @@ char		*replace(char *fcmd)
   char		*bis[12];
   char		*cmd;
   char		*back;
+  char		*tmp;
   int		i;
 
   init_code(code);
@@ -42,18 +49,18 @@ char		*replace(char *fcmd)
   while (code[++i])
     if (!strcmp(code[i], cmd))
       {
-	free(back);
-	cmd = &fcmd[strlen(code[i])];
-	if (!(back = malloc(4097)) || !memset(back, 0, 4097) ||
-	    snprintf(back, 4096, "%s%s%s\r\n", bis[i], cmd ? " " : "",
-		     cmd ? cmd : "") == -1)
-	  return (NULL);
-	return (free(fcmd), back);
+	tmp = strtok(NULL, "");
+	if (!(cmd = malloc(4097)) || !memset(cmd, 0, 4097) ||
+	    snprintf(cmd, 4096, "%s%s%s\r\n", bis[i], tmp ? " " : "",
+		     tmp ? tmp : "") == -1)
+	  return (free(back), NULL);
+	return (free(back), free(fcmd), cmd);
       }
   return (free(back), fcmd);
 }
 
-int		parse_cmd(char *fcmd, t_socket *socket, t_buffs *buffs)
+int		parse_cmd(char *fcmd, t_socket *socket,
+			  t_buffs *buffs, char *channel)
 {
   char		*code[12];
   int		(*func[12])(t_socket *, t_buffs *, char *);
@@ -71,6 +78,7 @@ int		parse_cmd(char *fcmd, t_socket *socket, t_buffs *buffs)
   while (code[++i])
     if (!strcmp(code[i], cmd))
       return (free(back), func[i](socket, buffs, fcmd));
-  send_as_message(socket, buffs, fcmd);
+  if (socket->fd != -1)
+    send_as_message(buffs, fcmd, channel);
   return (free(back), 0);
 }

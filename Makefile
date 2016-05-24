@@ -5,7 +5,7 @@
 ## Login   <wilmot_g@epitech.net>
 ##
 ## Started on  Mon May 16 23:28:34 2016 guillaume wilmot
-## Last update Tue May 24 01:58:05 2016 guillaume wilmot
+## Last update Tue May 24 02:17:10 2016 guillaume wilmot
 ##
 
 SRCCOM	= circular_buffer.c	\
@@ -47,17 +47,10 @@ SRCSER	= delete.c		\
 SRCCLI	= acceptfile.c		\
 	  client.c		\
 	  exec.c		\
-	  join.c		\
-	  list.c		\
+	  func.c		\
 	  main.c		\
-	  msg.c			\
-	  names.c		\
-	  nick.c		\
-	  part.c		\
 	  quit.c		\
-	  sendfile.c		\
-	  server.c		\
-	  users.c
+	  server.c
 
 OBJS	=  $(addprefix $(OBJSER), $(SRCSER:.c=.o))
 OBJC	=  $(addprefix $(OBJCLI), $(SRCCLI:.c=.o))

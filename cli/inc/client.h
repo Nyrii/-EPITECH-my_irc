@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:24:52 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 22:10:21 2016 guillaume wilmot
+** Last update Tue May 24 03:31:44 2016 guillaume wilmot
 */
 
 #ifndef CLIENT_H_
@@ -15,11 +15,6 @@
 # include "socket.h"
 
 /*
-** acceptfile.c
-*/
-int		accept_file(t_socket *, t_buffs *, char *);
-
-/*
 ** client.c
 */
 int		wait_for_input(t_socket *);
@@ -27,24 +22,13 @@ int		wait_for_input(t_socket *);
 /*
 ** exec.c
 */
-int		parse_cmd(char *, t_socket *, t_buffs *);
+int		parse_cmd(char *, t_socket *, t_buffs *, char *);
 char		*replace(char *);
 
 /*
 ** get_next_line.c
 */
 char		*get_next_line(const int);
-
-/*
-** join.c
-*/
-int		join(t_socket *, t_buffs *, char *);
-
-/*
-** list.c
-*/
-int		list(t_socket *, t_buffs *, char *);
-
 /*
 ** main.c
 */
@@ -53,39 +37,14 @@ void		init_code(char **);
 void		init_ptrfunc(int (**)(t_socket *, t_buffs *, char *));
 
 /*
-** msg.c
+** func.c
 */
-int		msg(t_socket *, t_buffs *, char *);
-
-/*
-** nick.c
-*/
-int		nick(t_socket *, t_buffs *, char *);
-
-/*
-** part.c
-*/
-int		part(t_socket *, t_buffs *, char *);
-
-/*
-** sendfile.c
-*/
-int		send_file(t_socket *, t_buffs *, char *);
+int		func_template(t_socket *, t_buffs *, char *);
 
 /*
 ** server.c
 */
 int		server(t_socket *, t_buffs *, char *);
-
-/*
-** users.c
-*/
-int		users(t_socket *, t_buffs *, char *);
-
-/*
-** names.c
-*/
-int		names(t_socket *, t_buffs *, char *);
 
 /*
 ** quit.c

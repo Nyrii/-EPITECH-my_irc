@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 17:38:27 2016 guillaume wilmot
-** Last update Tue May 24 01:50:31 2016 guillaume wilmot
+** Last update Tue May 24 03:46:33 2016 guillaume wilmot
 */
 
 #include <string.h>
@@ -33,7 +33,27 @@ void			set_fds(fd_set *writef, fd_set *readf,
   readf ? FD_SET(0, readf) : 0;
 }
 
-char			*read_all(int fd, fd_set *readf, t_buffs *buffs)
+void			change_channel(char *cmd, char *channel)
+{
+  char			buff[4097];
+  char			*tmp;
+  char			arg[10];
+
+  if (!memset(buff, 0, sizeof(buff)) || !memset(arg, 0, sizeof(arg)) ||
+      !(tmp = strtok(cmd, " ")) || tmp[0] != ':' ||
+      gethostname(buff, 4096) == -1 || strcmp(&tmp[1], buff) ||
+      !(tmp = strtok(NULL, " ")) || (strcmp(tmp, "JOIN") && strcmp(tmp, "PART"))
+      || !strncat(arg, tmp, 9) || !(tmp = strtok(NULL, " ")) ||
+      tmp[0] != ':' || !memset(channel, 0, 4097))
+    return ;
+  if (!strcmp(arg, "JOIN"))
+    strncat(channel, &tmp[1], 4096);
+  else
+    memset(channel, 0, 4097);
+}
+
+char			*read_all(int fd, fd_set *readf,
+				  t_buffs *buffs, char *channel)
 {
   t_list                *tmp_cmd;
   int			ret;
@@ -54,6 +74,7 @@ char			*read_all(int fd, fd_set *readf, t_buffs *buffs)
   while (tmp_cmd)
     {
       fprintf(stderr, "%s\n", (char *)tmp_cmd->struc);
+      change_channel((char *)tmp_cmd->struc, channel);
       tmp_cmd = tmp_cmd->next;
     }
   if (FD_ISSET(0, readf))
@@ -78,12 +99,13 @@ int			write_all(fd_set *writef, t_buffs *buffs, int fd)
 
 int			wait_for_input(t_socket *socket)
 {
+  char			channel[4097];
   t_buffs		buffs;
   fd_set		fs[2];
   char			*cmd;
   struct timeval	tv;
 
-  if (!create_buffer(&buffs))
+  if (!create_buffer(&buffs) || !memset(channel, 0, sizeof(channel)))
     return (-1);
   while (1)
     {
@@ -93,9 +115,10 @@ int			wait_for_input(t_socket *socket)
       if (select(socket->fd != -1 ? socket->fd + 1 : 1,
 		 &fs[0], &fs[1], NULL, &tv) == -1)
 	return (puterr_int(ERR_SELECT, -1));
-      if (!(cmd = read_all(socket->fd, &fs[0], &buffs)) ||
+      if (!(cmd = read_all(socket->fd, &fs[0], &buffs, channel)) ||
 	  write_all(&fs[1], &buffs, socket->fd) == -1 ||
-	  (cmd && strcmp(cmd, "") && parse_cmd(cmd, socket, &buffs) == -1))
+	  (cmd && strcmp(cmd, "") && parse_cmd(cmd, socket,
+					       &buffs, channel) == -1))
 	return (-1);
     }
 }

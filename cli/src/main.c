@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 11:36:21 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 23:03:07 2016 guillaume wilmot
+** Last update Tue May 24 02:18:17 2016 guillaume wilmot
 */
 
 #include <fcntl.h>
@@ -27,11 +27,10 @@ void		init_code_bis(char **code)
   code[4] = "PART";
   code[5] = "USERS";
   code[6] = "PRIVMSG";
-  code[7] = NULL;
+  code[7] = "NAMES";
   code[8] = NULL;
-  code[9] = "NAMES";
-  code[10] = "QUIT";
-  code[11] = NULL;
+  code[9] = "PONG";
+  code[10] = NULL;
 }
 
 void		init_code(char **code)
@@ -43,27 +42,25 @@ void		init_code(char **code)
   code[4] = "/part";
   code[5] = "/users";
   code[6] = "/msg";
-  code[7] = "/send_file";
-  code[8] = "/accept_file";
-  code[9] = "/names";
-  code[10] = "/quit";
-  code[11] = NULL;
+  code[7] = "/names";
+  code[8] = "/quit";
+  code[9] = "/pong";
+  code[10] = NULL;
 }
 
 void		init_ptrfunc(int (**func)(t_socket *, t_buffs *, char *))
 {
   func[0] = &server;
-  func[1] = &nick;
-  func[2] = &nick;
-  func[3] = &nick;
-  func[4] = &nick;
-  func[5] = &nick;
-  func[6] = &nick;
-  func[7] = &send_file;
-  func[8] = &accept_file;
-  func[9] = &nick;
-  func[10] = &quit;
-  func[11] = NULL;
+  func[1] = &func_template;
+  func[2] = &func_template;
+  func[3] = &func_template;
+  func[4] = &func_template;
+  func[5] = &func_template;
+  func[6] = &func_template;
+  func[7] = &func_template;
+  func[8] = &quit;
+  func[9] = &func_template;
+  func[10] = NULL;
 }
 
 int		main()
