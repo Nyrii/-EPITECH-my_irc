@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 17:38:27 2016 guillaume wilmot
-** Last update Tue May 24 03:46:33 2016 guillaume wilmot
+** Last update Tue May 24 13:38:55 2016 guillaume wilmot
 */
 
 #include <string.h>
@@ -33,16 +33,16 @@ void			set_fds(fd_set *writef, fd_set *readf,
   readf ? FD_SET(0, readf) : 0;
 }
 
-void			change_channel(char *cmd, char *channel)
+void			change_channel(char *cmd, char *channel, char *nick)
 {
-  char			buff[4097];
   char			*tmp;
   char			arg[10];
 
-  if (!memset(buff, 0, sizeof(buff)) || !memset(arg, 0, sizeof(arg)) ||
+  change_nick(strdup(cmd), nick);
+  if (!memset(arg, 0, sizeof(arg)) ||
       !(tmp = strtok(cmd, " ")) || tmp[0] != ':' ||
-      gethostname(buff, 4096) == -1 || strcmp(&tmp[1], buff) ||
-      !(tmp = strtok(NULL, " ")) || (strcmp(tmp, "JOIN") && strcmp(tmp, "PART"))
+      strcmp(&tmp[1], nick) || !(tmp = strtok(NULL, " ")) ||
+      (strcmp(tmp, "JOIN") && strcmp(tmp, "PART"))
       || !strncat(arg, tmp, 9) || !(tmp = strtok(NULL, " ")) ||
       tmp[0] != ':' || !memset(channel, 0, 4097))
     return ;
@@ -53,7 +53,7 @@ void			change_channel(char *cmd, char *channel)
 }
 
 char			*read_all(int fd, fd_set *readf,
-				  t_buffs *buffs, char *channel)
+				  t_buffs *buffs, char **chan_nick)
 {
   t_list                *tmp_cmd;
   int			ret;
@@ -74,7 +74,7 @@ char			*read_all(int fd, fd_set *readf,
   while (tmp_cmd)
     {
       fprintf(stderr, "%s\n", (char *)tmp_cmd->struc);
-      change_channel((char *)tmp_cmd->struc, channel);
+      change_channel((char *)tmp_cmd->struc, chan_nick[0], chan_nick[1]);
       tmp_cmd = tmp_cmd->next;
     }
   if (FD_ISSET(0, readf))
@@ -99,13 +99,15 @@ int			write_all(fd_set *writef, t_buffs *buffs, int fd)
 
 int			wait_for_input(t_socket *socket)
 {
-  char			channel[4097];
+  char			*in[2];
   t_buffs		buffs;
   fd_set		fs[2];
   char			*cmd;
   struct timeval	tv;
 
-  if (!create_buffer(&buffs) || !memset(channel, 0, sizeof(channel)))
+  if (!create_buffer(&buffs) || !(in[0] = malloc(4097)) ||
+      !(in[1] = malloc(4097)) || !memset(in[0], 0, 4097) ||
+      !memset(in[1], 0, 4097) || gethostname(in[1], 4096) == -1)
     return (-1);
   while (1)
     {
@@ -115,10 +117,10 @@ int			wait_for_input(t_socket *socket)
       if (select(socket->fd != -1 ? socket->fd + 1 : 1,
 		 &fs[0], &fs[1], NULL, &tv) == -1)
 	return (puterr_int(ERR_SELECT, -1));
-      if (!(cmd = read_all(socket->fd, &fs[0], &buffs, channel)) ||
+      if (!(cmd = read_all(socket->fd, &fs[0], &buffs, in)) ||
 	  write_all(&fs[1], &buffs, socket->fd) == -1 ||
 	  (cmd && strcmp(cmd, "") && parse_cmd(cmd, socket,
-					       &buffs, channel) == -1))
-	return (-1);
+					       &buffs, in[0]) == -1))
+	return (free(in[0]), free(in[1]), -1);
     }
 }

@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May 23 16:27:27 2016 guillaume wilmot
-** Last update Tue May 24 03:32:56 2016 guillaume wilmot
+** Last update Tue May 24 13:46:44 2016 guillaume wilmot
 */
 
 #include <string.h>
@@ -75,10 +75,13 @@ int		parse_cmd(char *fcmd, t_socket *socket,
   if (!(cmd = strtok(back, " ")))
     return (0);
   i = -1;
-  while (code[++i])
-    if (!strcmp(code[i], cmd))
-      return (free(back), func[i](socket, buffs, fcmd));
-  if (socket->fd != -1)
+  if (cmd[0] == '/')
+    while (code[++i])
+      if (!strcmp(code[i], cmd))
+	return (free(back), func[i](socket, buffs, fcmd));
+  if (socket->fd != -1 && cmd[0] != '/')
     send_as_message(buffs, fcmd, channel);
+  else
+    fprintf(stderr, "No such command\n");
   return (free(back), 0);
 }

@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 23:24:52 2016 Nyrandone Noboud-Inpeng
-** Last update Tue May 24 03:31:44 2016 guillaume wilmot
+** Last update Tue May 24 12:46:56 2016 guillaume wilmot
 */
 
 #ifndef CLIENT_H_
@@ -18,6 +18,7 @@
 ** client.c
 */
 int		wait_for_input(t_socket *);
+void		change_nick(char *, char *);
 
 /*
 ** exec.c

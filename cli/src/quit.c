@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 18:16:23 2016 guillaume wilmot
-** Last update Mon May 23 22:08:41 2016 guillaume wilmot
+** Last update Tue May 24 13:19:04 2016 guillaume wilmot
 */
 
 #include <string.h>
@@ -19,5 +19,5 @@ int		quit(t_socket *socket, t_buffs *buffs, char *cmd)
   (void)buffs;
   (void)cmd;
   (void)socket;
-  return (0);
+  return (-1);
 }

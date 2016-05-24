@@ -1,8 +1,0 @@
-Server:
-	- SENDFILE
-	- ACCEPTFILE
-
-Client:
-	- Messages normaux
-	- corriger le replace
-	- tester
