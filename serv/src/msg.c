@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:44:45 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 19:26:26 2016 Nyrandone Noboud-Inpeng
+** Last update Tue May 24 19:25:23 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -124,6 +124,8 @@ int		msg(const int fd, char *command,
     return (not_enough_params(get_user(*users, fd), "MSG"));
   else if (!args[1])
     return (store_answer(get_user(*users, fd), ERR_NOTEXTTOSEND, -2));
+  else if (strlen(args[1]) >= 512)
+    return (cannot_send_to_chan(get_user(*users, fd), args[0]));
   if (args[0] && args[0][0] == '#')
     return (send_msg_to_channel(fd, args, users, channels));
   return (send_msg_to_user(fd, args, users));

@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:43:49 2016 Nyrandone Noboud-Inpeng
-** Last update Tue May 24 00:53:57 2016 Nyrandone Noboud-Inpeng
+** Last update Tue May 24 19:20:53 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
@@ -134,11 +134,12 @@ int		join(const int fd, char *command,
 
   if ((ret_value = take_first_arg(fd, &command, *users, "JOIN")) != 0)
     return (ret_value);
-  if (command && command[0] != '#')
+  if ((command && command[0] != '#') || strlen(command) > 50)
     {
       if (memset(buffer, 0, 4096) == NULL)
 	return (puterr_int(ERR_MEMSET, -1));
-      if (snprintf(buffer, 4096, ERR_NOSUCHCHANNEL, command) == -1)
+      if (snprintf(buffer, 4096, strlen(command) > 50 ?
+		   ERR_UNAVAILRESOURCE : ERR_NOSUCHCHANNEL, command) == -1)
 	return (puterr_int(ERR_SNPRINTF, -1));
       return (store_answer(get_user(*users, fd), buffer, -2));
     }

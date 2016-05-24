@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:45:44 2016 Nyrandone Noboud-Inpeng
-** Last update Mon May 23 14:30:30 2016 guillaume wilmot
+** Last update Tue May 24 19:14:24 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -48,6 +48,8 @@ int		check_new_name(t_list *user, const char *name)
   int		i;
 
   i = -1;
+  if (strlen(name) >= 10)
+    return (erroneus_nickname(user, name));
   while (name[++i])
     {
       if ((i == 0 && !isalpha(name[i]))
