@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Thu May 19 00:41:38 2016 guillaume wilmot
-** Last update Tue May 24 01:51:06 2016 guillaume wilmot
+** Last update Sat May 28 11:36:12 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -108,10 +108,10 @@ int		get_cmd_buff(int fd, t_buffs *buffs)
   if ((ret = read(fd, tmp, buffs->in.size)) <= 0)
     return (!(buffs->cmds = create_list(strdup("QUIT"), NULL)) ? -1 : -3);
   if (write_to_buffer(tmp, &buffs->in, ret) == -1)
-      return (!memset(buffs->in.buff, 0, buffs->in.size) ||
-	      !memset(buffs->in.cmd, 0, buffs->in.size) ||
-	      !memset(&buffs->in.idx, 0, 5 * sizeof(int)
-		      + sizeof(char)) ? -1 : -2);
+    return (!memset(buffs->in.buff, 0, buffs->in.size) ||
+	    !memset(buffs->in.cmd, 0, buffs->in.size) ||
+	    !memset(&buffs->in.idx, 0, 5 * sizeof(int)
+		    + sizeof(char)) ? -1 : -2);
   while ((cmd = get_next_cmd(&buffs->in)))
     {
       replace_end_of_string(cmd);

@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:45:44 2016 Nyrandone Noboud-Inpeng
-** Last update Tue May 24 19:14:24 2016 Nyrandone Noboud-Inpeng
+** Last update Sat May 28 11:33:53 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -72,15 +72,11 @@ int		change_nickname(t_list *user, const char *new_name)
     free(((t_udata *)(user->struc))->name);
   if ((((t_udata *)(user->struc))->name = strdup(new_name)) == NULL)
     return (puterr_int(ERR_STRDUP, -1));
-  if (((t_udata *)(user->struc))->is_registered == 1)
-    {
-      if (memset(buffer, 0, 4096) == NULL)
-	return (puterr_int(ERR_MEMSET, -1));
-      if (snprintf(buffer, 4096, RPL_NICKOK, new_name) == -1)
-	return (puterr_int(ERR_SNPRINTF, -1));
-      return (store_answer(user, buffer, -2));
-    }
-  return (0);
+  if (memset(buffer, 0, 4096) == NULL)
+    return (puterr_int(ERR_MEMSET, -1));
+  if (snprintf(buffer, 4096, RPL_NICKOK, new_name) == -1)
+    return (puterr_int(ERR_SNPRINTF, -1));
+  return (store_answer(user, buffer, 0));
 }
 
 int		nick(const int fd, char *command,
