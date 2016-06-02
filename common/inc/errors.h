@@ -5,7 +5,7 @@
 ** Login   <wilmot_g@epitech.net>
 **
 ** Started on  Mon May  2 11:18:44 2016 guillaume wilmot
-** Last update Sat May 21 23:27:27 2016 Nyrandone Noboud-Inpeng
+** Last update Thu Jun  2 09:25:09 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef ERRORS_H_
@@ -46,6 +46,7 @@
 # define ERR_INTERNALJOIN	"Error: internal error on JOIN\n"
 # define ERR_INTERNALPART	"Error: internal error on PART\n"
 # define ERR_INTERNALMSG	"Error: internal error on MSG\n"
+# define ERR_INTERNALNICK	"Error: internal error on NICK\n"
 
 int		puterr_int(const char *, int);
 void		*puterr(const char *, void *);

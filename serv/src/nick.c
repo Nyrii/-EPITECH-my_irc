@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:45:44 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 28 11:33:53 2016 Nyrandone Noboud-Inpeng
+** Last update Thu Jun  2 09:25:16 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -64,27 +64,43 @@ int		check_new_name(t_list *user, const char *name)
   return (0);
 }
 
-int		change_nickname(t_list *user, const char *new_name)
+int		change_nickname(t_list *user, t_list *tmp,
+				const char *new_name)
 {
   char		buffer[4096];
+  t_list	*users;
 
   if (((t_udata *)(user->struc))->name != NULL)
     free(((t_udata *)(user->struc))->name);
-  if ((((t_udata *)(user->struc))->name = strdup(new_name)) == NULL)
-    return (puterr_int(ERR_STRDUP, -1));
-  if (memset(buffer, 0, 4096) == NULL)
-    return (puterr_int(ERR_MEMSET, -1));
-  if (snprintf(buffer, 4096, RPL_NICKOK, new_name) == -1)
-    return (puterr_int(ERR_SNPRINTF, -1));
+  if ((((t_udata *)(user->struc))->name = strdup(new_name)) == NULL
+      || memset(buffer, 0, 4096) == NULL
+      || snprintf(buffer, 4096, RPL_NICKOK, new_name) == -1)
+    return (puterr_int(ERR_INTERNALNICK, -1));
+  while (tmp != NULL)
+    {
+      users = ((t_cdata *)(tmp->struc))->users;
+      while (users != NULL)
+	{
+	  if (get_index_user_from_channel(tmp,
+					  ((t_udata *)(user->struc))->fd) != -1
+	      && ((t_udata *)(users->struc))->fd !=
+	      ((t_udata *)(user->struc))->fd)
+	    if (store_answer(users, buffer, 0) == -1)
+	      return (-1);
+	  users = users->next;
+	}
+      tmp = tmp->next;
+    }
   return (store_answer(user, buffer, 0));
 }
 
 int		nick(const int fd, char *command,
-		     UNUSED t_list **channel, t_list **users)
+		     t_list **channel, t_list **users)
 {
   t_list	*user;
   t_list	*tmp;
   int		ret_value;
+  t_list	*tmp_channels;
 
   if (command == NULL)
     return (not_enough_params(get_user(*users, fd), "NICK"));
@@ -102,5 +118,6 @@ int		nick(const int fd, char *command,
 	}
       tmp = tmp->next;
     }
-  return (change_nickname(user, command));
+  tmp_channels = *channel;
+  return (change_nickname(user, tmp_channels, command));
 }
