@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Wed May 18 17:45:44 2016 Nyrandone Noboud-Inpeng
-** Last update Thu Jun  2 09:25:16 2016 Nyrandone Noboud-Inpeng
+** Last update Thu Jun  2 13:14:26 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdlib.h>
@@ -68,7 +68,6 @@ int		change_nickname(t_list *user, t_list *tmp,
 				const char *new_name)
 {
   char		buffer[4096];
-  t_list	*users;
 
   if (((t_udata *)(user->struc))->name != NULL)
     free(((t_udata *)(user->struc))->name);
@@ -76,21 +75,8 @@ int		change_nickname(t_list *user, t_list *tmp,
       || memset(buffer, 0, 4096) == NULL
       || snprintf(buffer, 4096, RPL_NICKOK, new_name) == -1)
     return (puterr_int(ERR_INTERNALNICK, -1));
-  while (tmp != NULL)
-    {
-      users = ((t_cdata *)(tmp->struc))->users;
-      while (users != NULL)
-	{
-	  if (get_index_user_from_channel(tmp,
-					  ((t_udata *)(user->struc))->fd) != -1
-	      && ((t_udata *)(users->struc))->fd !=
-	      ((t_udata *)(user->struc))->fd)
-	    if (store_answer(users, buffer, 0) == -1)
-	      return (-1);
-	  users = users->next;
-	}
-      tmp = tmp->next;
-    }
+  if (send_nick_to_all(user, tmp, new_name) == -1)
+    return (-1);
   return (store_answer(user, buffer, 0));
 }
 

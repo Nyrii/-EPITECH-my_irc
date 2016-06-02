@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Thu Jun  2 10:31:05 2016 Nyrandone Noboud-Inpeng
+** Last update Thu Jun  2 13:14:00 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -124,6 +124,11 @@ int		names(const int, char *, t_list **, t_list **);
 ** nick.c
 */
 int		nick(const int, char *, t_list **, t_list **);
+
+/*
+** nick_messages.c
+*/
+int		send_nick_to_all(t_list *, t_list *, const char *);
 
 /*
 ** part.c

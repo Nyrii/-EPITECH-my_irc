@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Thu May 19 16:08:38 2016 Nyrandone Noboud-Inpeng
-** Last update Sat May 28 11:35:11 2016 Nyrandone Noboud-Inpeng
+** Last update Thu Jun  2 12:22:38 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef REPLIES_H_
@@ -26,6 +26,7 @@
 # define ERR_UNAVAILRESOURCE "437 %s :Nick/chan is temporarily unavailable\r\n"
 # define RPL_AUTHENTIFIED "001 %s :Welcome to the best IRC ever !\r\n"
 # define RPL_NICKOK "NICK %s\r\n"
+# define RPL_NICKOKPROP ":User NICK %s\r\n"
 # define RPL_JOINOK ":%s JOIN :%s\r\n"
 # define RPL_PARTOK ":%s PART :%s\r\n"
 # define RPL_MSG " MSG "
