@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Fri May 20 21:36:28 2016 Nyrandone Noboud-Inpeng
-** Last update Tue May 24 12:58:20 2016 Nyrandone Noboud-Inpeng
+** Last update Thu Jun  2 10:35:26 2016 Nyrandone Noboud-Inpeng
 */
 
 #include <stdio.h>
@@ -80,7 +80,7 @@ char		*get_all_names(int *len, char *name,
       if (*len != 0)
 	{
 	  names_list[(*len)++] = ' ';
-	  names_list[(*len)++] = '\0';
+	  names_list[(*len)] = '\0';
 	}
       if ((names_list = strcat(names_list, name)) == NULL)
 	return (puterr(ERR_STRCAT, NULL));

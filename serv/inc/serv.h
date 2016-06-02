@@ -5,7 +5,7 @@
 ** Login   <noboud_n@epitech.eu>
 **
 ** Started on  Mon May 16 16:36:15 2016 Nyrandone Noboud-Inpeng
-** Last update Tue May 24 01:17:41 2016 Nyrandone Noboud-Inpeng
+** Last update Thu Jun  2 10:31:05 2016 Nyrandone Noboud-Inpeng
 */
 
 #ifndef SERV_H_
@@ -128,6 +128,7 @@ int		nick(const int, char *, t_list **, t_list **);
 /*
 ** part.c
 */
+int		part_succeed(const int, t_list *, const char *, const char *);
 int		part(const int, char *, t_list **, t_list **);
 
 /*
